@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">androidStudioPractice</string>
+    <string name="enterName">Enter your name below</string>
+    <string name="baseName">Name</string>
+</resources>
