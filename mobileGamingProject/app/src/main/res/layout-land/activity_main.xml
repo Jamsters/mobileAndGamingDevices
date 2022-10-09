@@ -30,7 +30,7 @@
         android:layout_marginBottom="32dp"
         android:textAlignment="center"
         android:textColor="#3F51B5"
-        android:textSize="60sp"
+        android:textSize="120sp"
         app:layout_constraintBottom_toTopOf="@+id/button_toast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
