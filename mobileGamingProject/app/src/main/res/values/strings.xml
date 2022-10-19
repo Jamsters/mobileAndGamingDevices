@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">androidStudioPractice</string>
-    <string name="enterName">Enter your name below</string>
-    <string name="baseName">Name</string>
-    <string name="toastMessage">Hello</string>
-    <string name="countUpButton">Count up!</string>
-</resources>
