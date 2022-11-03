@@ -15,13 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import w9039358.mobileGamingProject.R;
 
 public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
-    private Button switchButton;
+    private ImageButton startButton;
     View view;
 
     public static MainFragment newInstance() {
@@ -42,12 +43,13 @@ public class MainFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        switchButton = view.findViewById(R.id.button5);
-        switchButton.setOnClickListener(new View.OnClickListener() {
+        startButton = view.findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (savedInstanceState == null) {
                     Fragment fragment = new OtherFragment();
                     FragmentManager fragmentManager = getFragmentManager();
+                    //fragmentManager.beginTransaction().addToBackStack(fragment.getString());
 
                     fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                 }

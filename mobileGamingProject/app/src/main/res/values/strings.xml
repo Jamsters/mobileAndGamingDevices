@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MobileGamingProject</string>
+    <string name="app_name">Waiter Panic</string>
     <string name="startButton">Start</string>
     <string name="pauseButton">Pause</string>
     <string name="exitButton">Exit</string>
