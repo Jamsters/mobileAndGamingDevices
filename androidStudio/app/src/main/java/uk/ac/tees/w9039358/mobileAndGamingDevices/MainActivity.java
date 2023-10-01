@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("MainActibity", "Button pressed");
         Intent intent = new Intent(this, DisplayActivity.class);
         String name = editText.getText().toString();
-        if (name == null)
-            return;
+        /* null and empty text are different. "" doesn't work for some reason though, but using isEmpty does */
+        if (name == null || name.isEmpty()) return;
         intent.putExtra(KEY, name);
         startActivity(intent);
     }

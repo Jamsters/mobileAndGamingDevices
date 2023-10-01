@@ -30,7 +30,22 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
 
     public void onClick(View view) {
         Log.d("DisplayActivity", "Button pressed");
+
+        /*
+        TODO : I don't think this is the right way to do back either. Android studio docs say that this is a retired method and they use a new way to perform this.
+
+        onBackPressed();
+
+         */
+
+
+        /*
+        The old way which I used to do back navigation. Don't use this, let android studio handle back navigation through the backstack.
+        If you want to change it then either change this activities manfiest launch attributes or have the carried over intent be set to modify the activities launch.
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+
+         */
     }
 }
