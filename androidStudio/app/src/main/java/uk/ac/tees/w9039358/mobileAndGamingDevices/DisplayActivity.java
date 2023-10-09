@@ -32,12 +32,9 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         Log.d("DisplayActivity", "Button pressed");
 
         /*
-        TODO : I don't think this is the right way to do back either. Android studio docs say that this is a retired method and they use a new way to perform this.
-
-        onBackPressed();
-
+        TODO : I don't think this is the right way to do back either. Android studio docs say that this is a retired method and they use a new way to perform this
          */
-
+        onBackPressed();
 
         /*
         The old way which I used to do back navigation. Don't use this, let android studio handle back navigation through the backstack.
