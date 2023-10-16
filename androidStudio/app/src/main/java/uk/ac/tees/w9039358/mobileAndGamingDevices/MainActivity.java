@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    public static String KEY = "MY KEY";
-    EditText editText;
     Button button;
 
     @Override
@@ -20,9 +17,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText = findViewById(R.id.editTextText);
-
-        @param next button
         button = findViewById(R.id.button);
 
         /* Trying to change this code so I can have multiple on click listener functions in this class
@@ -35,10 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Log.d("MainActivity", "Button pressed");
         Intent intent = new Intent(this, DisplayActivity.class);
-        String name = editText.getText().toString();
-        /* null and empty text are different. "" doesn't work for some reason though, but using isEmpty does */
-        if (name == null || name.isEmpty()) return;
-        intent.putExtra(KEY, name);
         startActivity(intent);
     }
 

@@ -1,4 +1,17 @@
 <resources>
-    <string name="app_name">mobileAndGamingDevices</string>
-    <string name="game_name">Maze game</string>
+    <string name="AppName">mobileAndGamingDevices</string>
+    <string name="GameName">Maze game</string>
+    <string name="ButtonGoToMainMenu">Main menu</string>
+    <string name="ButtonGoToSplash">Splash</string>
+    <string name="ButtonGoToGame">Start Game</string>
+    <string name="ButtonGoToSettings">Settings</string>
+    <string name="ButtonExtra1">High scores</string>
+    <string name="ButtonExtra2">Saves</string>
+    <string name="ButtonPause">Pause</string>
+    <string name="ButtonResume">Resume</string>
+    <string name="ButtonQuit">Quit</string>
+    <string name="ButtonContinue">Continue</string>
+    <string name="WinMessage">You have won</string>
+    <string name="LoseMessage">YOu have lost</string>
+
 </resources>

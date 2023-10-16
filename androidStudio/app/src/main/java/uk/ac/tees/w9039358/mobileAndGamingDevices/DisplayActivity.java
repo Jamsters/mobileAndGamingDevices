@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class DisplayActivity extends AppCompatActivity implements View.OnClickListener {
-
-    TextView textView;
     Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +17,6 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_display);
 
         button = findViewById(R.id.button2);
-        textView = findViewById(R.id.textView);
-
-        String name = getIntent().getStringExtra(MainActivity.KEY);
-
-        textView.append(name);
 
         button.setOnClickListener(this);
     }

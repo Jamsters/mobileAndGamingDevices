@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="colourPrimary">#6200EE</color>
-    <color name="colourPrimaryDark">#3700B3</color>
-    <color name="colourAccent">#03DAC5</color>
-    <color name="screenBackground">#2196F3</color>
+    <color name="ColourBlack">#FF000000</color>
+    <color name="ColourWhite">#FFFFFFFF</color>
+    <color name="ColourPrimaryLight">#6200EE</color>
+    <color name="ColourSecondaryLight">#3700B3</color>
+    <color name="ColourAccentLight">#03DAC5</color>
+    <color name="ColourPrimaryDark">#6200EE</color>
+    <color name="ColourSecondaryDark">#3700B3</color>
+    <color name="ColourAccentDark">#03DAC5</color>
 </resources>
