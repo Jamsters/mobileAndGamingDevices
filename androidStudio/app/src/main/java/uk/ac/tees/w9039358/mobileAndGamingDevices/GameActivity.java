@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 public class GameActivity extends AppCompatActivity {
 
+    GameSurfaceView gameView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        gameView = new GameSurfaceView(this);
+        setContentView(gameView);
     }
 }
