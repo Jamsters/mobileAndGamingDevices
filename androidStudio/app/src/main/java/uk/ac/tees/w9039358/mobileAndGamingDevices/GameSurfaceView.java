@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,17 +37,21 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private int FrameLengthInMS = 100;
     private long LastFrameChangeTime = 0;
     private int CurrentFrame = 0;
-
     private Rect FrameToDraw = new Rect(0,0,FrameW,FrameH);
     private RectF WhereToDraw = new RectF(XPos,YPos,XPos+FrameW,FrameH);
+    private SensorManager SensorManager;
+
 
     public GameSurfaceView(Context context) {
         super (context);
-        SurfaceHolder = getHolder();
-        Bitmap = BitmapFactory.decodeResource(
-                getResources(),
-                R.drawable.run);
-        Bitmap = Bitmap.createScaledBitmap(Bitmap,FrameW*FrameCount,FrameH,false);
+
+        ImageAccess();
+
+        SensorManagement(context);
+
+
+
+
 
     }
 
@@ -136,9 +142,23 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
         FrameToDraw.right = FrameToDraw.left + FrameW;
     }
 
-
+    // Stuff for "image access", just a way to separate draw code from the constructor
     public void ImageAccess(){
-
+        SurfaceHolder = getHolder();
+        Bitmap = BitmapFactory.decodeResource(
+                getResources(),
+                R.drawable.run);
+        Bitmap = Bitmap.createScaledBitmap(Bitmap,FrameW*FrameCount,FrameH,false);
     }
-
+    // TODO: Maybe move this into its own class? Or into player class (its the only thing that uses the accelerometer)
+    public void SensorManagement(Context context){
+        SensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        if (SensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null) {
+            // check for update and precision
+        }
+        else {
+            // failure, should probably log and exit GameSurfaceView (game cant be played without it)
+            Log.d("GameSurfaceView", "Linear acceleration sensor not found");
+        }
+    }
 }

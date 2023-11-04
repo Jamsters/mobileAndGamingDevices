@@ -2,6 +2,8 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 public class GameActivity extends AppCompatActivity {
