@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -40,14 +42,14 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private Rect FrameToDraw = new Rect(0,0,FrameW,FrameH);
     private RectF WhereToDraw = new RectF(XPos,YPos,XPos+FrameW,FrameH);
     private SensorManager SensorManager;
+    private LinearAccelerometer LinAcc;
 
 
     public GameSurfaceView(Context context) {
         super (context);
 
         ImageAccess();
-
-        SensorManagement(context);
+        LinAcc = new LinearAccelerometer(context);
 
 
 
@@ -76,10 +78,12 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
         GameThread = new Thread(this);
         GameThread.start();
+        LinAcc.Resume();
     }
 
     public void Pause() {
         IsPlaying = false;
+        LinAcc.Pause();
         try {
             GameThread.join();
         } catch (InterruptedException e) {
@@ -149,16 +153,5 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
                 getResources(),
                 R.drawable.run);
         Bitmap = Bitmap.createScaledBitmap(Bitmap,FrameW*FrameCount,FrameH,false);
-    }
-    // TODO: Maybe move this into its own class? Or into player class (its the only thing that uses the accelerometer)
-    public void SensorManagement(Context context){
-        SensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        if (SensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null) {
-            // check for update and precision
-        }
-        else {
-            // failure, should probably log and exit GameSurfaceView (game cant be played without it)
-            Log.d("GameSurfaceView", "Linear acceleration sensor not found");
-        }
     }
 }
