@@ -13,6 +13,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameView = new GameSurfaceView(this);
+        // I'm not sure if the game is being started on a thread
+        // gameView.Resume();
         setContentView(gameView);
     }
 

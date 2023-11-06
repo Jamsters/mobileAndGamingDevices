@@ -27,8 +27,8 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private SurfaceHolder SurfaceHolder;
     private Bitmap Bitmap;
     private boolean IsMoving = true;
-    private float XPos = 10, YPos = 10;
-    private float Velocity = 250;
+    private float XPos = 500, YPos = 10;
+    private float Velocity = 0;
     /* The canvas is what we're drawing onto */
     private Canvas canvas;
 
@@ -47,14 +47,8 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
     public GameSurfaceView(Context context) {
         super (context);
-
-        ImageAccess();
         LinAcc = new LinearAccelerometer(context);
-        float X = LinAcc.getXAxis();
-        float Y = LinAcc.getYAxis();
-
-
-
+        ImageAccess();
 
 
     }
@@ -89,23 +83,55 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
         try {
             GameThread.join();
         } catch (InterruptedException e) {
-            Log.e("GameView", "Interrupted");
+            Log.e("GameSurfaceView", "Interrupted");
         }
     }
 
     public void Update() {
         if (IsMoving)
         {
-            XPos = XPos + Velocity / FPS;
-            if (XPos > getWidth())
+            int LinAccMultiplier = 20;
+
+            Velocity = Velocity + (LinAccMultiplier*LinAcc.GetXAxis());
+
+
+            XPos = XPos + Velocity; /// TimeThisFrame; // / FPS;
+            //XPos = XPos + ((LinAccMultiplier*LinAcc.GetXAxis()));
+            Velocity = 0;
+
+
+            // Logging getWidth()
+            //String s = "Width: " + Float.toString(getWidth());
+            //Log.d("GameSurfaceView", s);
+
+            // getWidth and getHeight are 0 at launch, it might be possible to change that and avoid this first if statement?
+            if (getWidth() != 0 && getHeight() != 0)
+            {
+                // X Bounds Right
+                if ((XPos+FrameW) > getWidth())
+                {
+                    //XPos = (getWidth()-FrameW);
+                }
+
+                // X Bounds Left
+                if ((XPos) < 0)
+                {
+                    //XPos = 0;
+                }
+            }
+
+
+            // This is to stop it from going out of bounds
+/*            if (XPos > getWidth())
             {
                 YPos += FrameH;
-                XPos = 10;
+                //XPos = 10;
             }
             if (YPos + FrameH > getHeight())
             {
                 YPos = 10;
             }
+*/
         }
     }
 

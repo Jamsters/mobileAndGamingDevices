@@ -1,5 +1,6 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
+import static android.hardware.SensorManager.SENSOR_DELAY_GAME;
 import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_HIGH;
 import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_LOW;
@@ -12,15 +13,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
-public class LinearAccelerometer {
+import java.text.Normalizer;
+
+public class LinearAccelerometer implements Utilities{
     private final SensorManager SenManager;
     private final Sensor Sen;
     private final SensorEventListener SenEventListener;
     private float XAxis;
-    private float YAxis;
-    private float ZAxis;
     private boolean isAccuracyPassable = false;
-    private int SensorUpdateDelay = SENSOR_DELAY_NORMAL;
+    private int SensorUpdateDelay = SENSOR_DELAY_GAME;
     private boolean isLinAccCreated = false;
     public LinearAccelerometer(Context context)
     {
@@ -42,11 +43,11 @@ public class LinearAccelerometer {
 
         if (Sen != null) {
             // success, sensor found, now register listener to check for updates and precision
-            Log.d("LinearAccelerometer", "Linear acceleration sensor found");
+            Log.i("LinearAccelerometer", "Linear acceleration sensor found");
 
 
             SenManager.registerListener(SenEventListener, Sen, SenManager.SENSOR_DELAY_NORMAL);
-            Log.d ("LinearAccelerometer", "Sen listener created and started");
+            Log.i ("LinearAccelerometer", "Sen listener created and started");
 
             isLinAccCreated = true;
 
@@ -54,7 +55,7 @@ public class LinearAccelerometer {
         }
         else {
             // failure, no sensor matching this type, should probably log and exit GameSurfaceView (game cant be played without it)
-            Log.d("LinearAccelerometer", "Linear acceleration sensor not found");
+            Log.e("LinearAccelerometer", "Linear acceleration sensor not found");
         }
     }
     private void AccuracyChanged(int accuracy) {
@@ -75,19 +76,21 @@ public class LinearAccelerometer {
     }
     private void SensorChanged(SensorEvent event)
     {
-        if (isAccuracyPassable = true)
+        if (isAccuracyPassable == true)
         {
             XAxis = event.values[0];
-            YAxis = event.values[1];
-            ZAxis = event.values[2];
-            String s = "X: " + Float.toString(XAxis) + " Y: " + Float.toString(YAxis) + " Z: " + Float.toString(ZAxis);
-            Log.d("LinearAccelerometer", s);
+
+            float min = 0.1f;
+            float max = 0.9f;
+            Utilities.clamp(XAxis,min,max);
+
+
+
+            String s = "X: " + Float.toString(XAxis);
+            Log.d("LinearAccelerometer", s);;
         }
         else
         {
-            XAxis = 0;
-            YAxis = 0;
-            ZAxis = 0;
         }
     }
     private void AccuracyPassable()
@@ -102,22 +105,23 @@ public class LinearAccelerometer {
         if (isLinAccCreated == true)
         {
             SenManager.registerListener(SenEventListener, Sen, SensorUpdateDelay);
-            Log.e("LinearAccelerometer", "Sen listener resumed (registered)");
+            Log.i("LinearAccelerometer", "Sen listener resumed (registered)");
         }
     }
     public void Pause(){
         if (isLinAccCreated == true)
         {
             SenManager.unregisterListener(SenEventListener);
-            Log.e("LinearAccelerometer", "Sen listener paused (unregistered)");
+            Log.i("LinearAccelerometer", "Sen listener paused (unregistered)");
         }
     }
 
-    public float getXAxis() {
-        return XAxis;
+    public float GetXAxis() {
+        float x = XAxis;
+        ResetXAxis();
+        return x;
+
     }
 
-    public float getYAxis() {
-        return YAxis;
-    }
+    public void ResetXAxis () { XAxis = 0; }
 }
