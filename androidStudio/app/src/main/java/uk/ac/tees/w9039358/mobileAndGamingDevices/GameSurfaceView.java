@@ -50,6 +50,8 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
         ImageAccess();
         LinAcc = new LinearAccelerometer(context);
+        float X = LinAcc.getXAxis();
+        float Y = LinAcc.getYAxis();
 
 
 
