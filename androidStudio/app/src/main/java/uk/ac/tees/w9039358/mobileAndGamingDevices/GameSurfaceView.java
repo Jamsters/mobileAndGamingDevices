@@ -11,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.icu.math.BigDecimal;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -22,13 +23,12 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
     private volatile boolean IsPlaying = false;
     private Thread GameThread;
-    private long TimeThisFrame;
     private long FPS;
     private SurfaceHolder SurfaceHolder;
     private Bitmap Bitmap;
     private boolean IsMoving = true;
     private float XPos = 500, YPos = 10;
-    private float Velocity = 0;
+    private float Velocity = 5;
     /* The canvas is what we're drawing onto */
     private Canvas canvas;
 
@@ -43,30 +43,77 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private RectF WhereToDraw = new RectF(XPos,YPos,XPos+FrameW,FrameH);
     private SensorManager SensorManager;
     private LinearAccelerometer LinAcc;
+    private long TickTime = 1000/50;
+
+    // How many ticks have happened
+    private float deltaTime = 0.000f;
+    // When logic was last used
+    private long LastLogicTime = System.currentTimeMillis();
+    // When vis was last used
+    private long LastVisTime = System.currentTimeMillis();
 
 
     public GameSurfaceView(Context context) {
         super (context);
         LinAcc = new LinearAccelerometer(context);
+
+        // Tick stuff here
+
         ImageAccess();
 
 
     }
 
+    // Game loop
     @Override
     public void run() {
         while (IsPlaying)
         {
-            long StartFrameTime = System.currentTimeMillis();
-            Update();
-            Draw();
-            TimeThisFrame = System.currentTimeMillis() - StartFrameTime;
-            if (TimeThisFrame >= 1)
+            // TODO : Make an input function and put stuff for the linacc here
+            //Input();
+            long TimeSinceLastLogic = System.currentTimeMillis() - LastLogicTime;
+
+            if (TimeSinceLastLogic >= TickTime)
             {
-                FPS = 1000 / TimeThisFrame;
+                Logic();
+
+                LastLogicTime = System.currentTimeMillis();
+
+                // Should I round this up?
+                deltaTime = TimeSinceLastLogic / TickTime;
             }
+            //deltaTime = TimeSinceLastLogic / TickTime;
+
+            Visualization();
+
+            long TimeSinceLastVis = System.currentTimeMillis() - LastVisTime;
+
+
+            // If larger than 1 millisecond? In other words, pretty much always?
+            if (TimeSinceLastVis >= 1)
+            {
+                FPS = 1000 / TimeSinceLastVis;
+                LastVisTime = System.currentTimeMillis();
+            }
+
+
+
+            Log.d("GameSurfaceView", (String)"DeltaTime: " + Float.toString(deltaTime));
+            Log.d("GameSurfaceView", (String)"FPS: " + Long.toString(FPS));;
+
+
         }
 
+    }
+
+    private void Logic() {
+        // Going to put stuff for updating everything here
+        Update();
+    }
+
+    private void Visualization() {
+        // Going to put stuff for drawing everything here
+        Draw();
     }
 
     public void Resume() {
@@ -74,11 +121,14 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
         GameThread = new Thread(this);
         GameThread.start();
+
+        //TODO: LimAcc.Resume might need reordering, it needs to be the first thing started?
         LinAcc.Resume();
     }
 
     public void Pause() {
         IsPlaying = false;
+        //TODO: LimAcc.Pause might need reordering, it needs to be the last thing stopped?
         LinAcc.Pause();
         try {
             GameThread.join();
@@ -90,15 +140,87 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     public void Update() {
         if (IsMoving)
         {
-            int LinAccMultiplier = 20;
+            //BigDecimal BD_FPS = BigDecimal.valueOf(FPS);
+            //BD_FPS.setScale(1,BigDecimal.ROUND_HALF_EVEN);
 
-            Velocity = Velocity + (LinAccMultiplier*LinAcc.GetXAxis());
+
+            // Init
+
+            float Acceleration = LinAcc.GetXAxisRunningTotal(); // / FPS;
+
+            float elapsedTicks = deltaTime + 1;
 
 
-            XPos = XPos + Velocity; /// TimeThisFrame; // / FPS;
+
+            Velocity = Velocity + Acceleration * elapsedTicks;
+            XPos = XPos + Velocity * elapsedTicks;
+
+            //Velocity = 0;
+
+
+            //BigDecimal bd1 = BigDecimal.valueOf(Acceleration);
+            //bd1.setScale(1,BigDecimal.ROUND_UP);
+
+            //float move = bd1.floatValue();
+
+            //XPos = XPos + move;
+
+            //Velocity = 0;
+
+            //Velocity = Velocity - move;
+
+
+
+            //int DeaccelerationMultiplier = AccelerationMultiplier;
+
+            // Acceleration
+
+
+
+
+
+
+            // Change XPos of sprite
+
+
+            // Deacceleration
+
+            // Deacceleration time calc
+            //double accSensorUpdateDelay = 0.02;
+            //double deaccTime = TimeThisFrame / accSensorUpdateDelay;
+            //BigDecimal BD1 = BigDecimal.valueOf(deaccTime).setScale(2,BigDecimal.ROUND_HALF_UP);
+            //Deacceleration = DeaccelerationMultiplier * BD1.floatValue();
+
+
+
+
+
+
+            // If velocity is greater than deacceleration value or less than negative deacceleration
+            // We know that we can change velocity by deacceleration value without giving acceleration in the opposite direction.
+            // Else we will just set velocity to 0
+/*            if (Velocity > Deacceleration)
+            {
+                Velocity = Velocity - Deacceleration;
+
+            }
+            else if (Velocity < -Deacceleration)
+            {
+                Velocity = Velocity + Deacceleration;
+            }
+            else
+            {
+                Velocity = 0;
+            }
+
+ */
+
+
+
             //XPos = XPos + ((LinAccMultiplier*LinAcc.GetXAxis()));
-            Velocity = 0;
 
+            // Applying deacceleration to velocity
+            //Velocity = Velocity - (DeaccelerationMultiplier*FPS);
 
             // Logging getWidth()
             //String s = "Width: " + Float.toString(getWidth());
@@ -110,13 +232,13 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
                 // X Bounds Right
                 if ((XPos+FrameW) > getWidth())
                 {
-                    //XPos = (getWidth()-FrameW);
+                    XPos = (getWidth()-FrameW);
                 }
 
                 // X Bounds Left
                 if ((XPos) < 0)
                 {
-                    //XPos = 0;
+                    XPos = 0;
                 }
             }
 
@@ -174,7 +296,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
         FrameToDraw.right = FrameToDraw.left + FrameW;
     }
 
-    // Stuff for "image access", just a way to separate draw code from the constructor
+    // Stuff for "image access", just a way to separate draw init code from the constructor
     public void ImageAccess(){
         SurfaceHolder = getHolder();
         Bitmap = BitmapFactory.decodeResource(
