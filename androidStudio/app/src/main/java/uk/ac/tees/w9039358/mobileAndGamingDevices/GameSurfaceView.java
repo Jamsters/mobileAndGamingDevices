@@ -46,7 +46,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private long TickTime = 1000/50;
 
     // How many ticks have happened
-    private float deltaTime = 0.000f;
+    private float DeltaTime = 0.0f;
     // When logic was last used
     private long LastLogicTime = System.currentTimeMillis();
     // When vis was last used
@@ -80,7 +80,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
                 LastLogicTime = System.currentTimeMillis();
 
                 // Should I round this up?
-                deltaTime = TimeSinceLastLogic / TickTime;
+                DeltaTime = TimeSinceLastLogic / TickTime;
             }
             //deltaTime = TimeSinceLastLogic / TickTime;
 
@@ -98,8 +98,8 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
 
 
-            Log.d("GameSurfaceView", (String)"DeltaTime: " + Float.toString(deltaTime));
-            Log.d("GameSurfaceView", (String)"FPS: " + Long.toString(FPS));;
+            Log.d("GameSurfaceView.DeltaTime", (String)"DeltaTime: " + Float.toString(DeltaTime));
+            Log.d("GameSurfaceView.FPS", (String)"FPS: " + Long.toString(FPS));;
 
 
         }
@@ -148,14 +148,18 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
             float Acceleration = LinAcc.GetXAxisRunningTotal(); // / FPS;
 
-            float elapsedTicks = deltaTime + 1;
+            float VelocityMultiplier = 10.0f;
+
+            float elapsedTicks = DeltaTime + 1.0f;
 
 
-
-            Velocity = Velocity + Acceleration * elapsedTicks;
+            // Don't need to * acceleration by elapsed ticks because it already keeps track of missed acceleration by holding it
+            Velocity = (Velocity + Acceleration /* elapsedTicks */) * VelocityMultiplier;
             XPos = XPos + Velocity * elapsedTicks;
 
-            //Velocity = 0;
+            Velocity = 0;
+
+            // TODO : Remember that the float we got is n
 
 
             //BigDecimal bd1 = BigDecimal.valueOf(Acceleration);
