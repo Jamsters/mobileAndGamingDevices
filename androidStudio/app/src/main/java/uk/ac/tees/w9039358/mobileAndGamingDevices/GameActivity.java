@@ -2,14 +2,12 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 
 public class GameActivity extends AppCompatActivity {
 
-    GameSurfaceView gameView;
+    GameController gameView;
     private int ScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +18,7 @@ public class GameActivity extends AppCompatActivity {
         this.setRequestedOrientation(ScreenOrientation);
 
 
-        gameView = new GameSurfaceView(this);
+        gameView = new GameController(this);
         // I'm not sure if the game is being started on a thread
         // gameView.Resume();
 

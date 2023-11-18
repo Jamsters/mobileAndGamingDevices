@@ -14,7 +14,7 @@ public class Visualization extends SurfaceView {
 
     private Canvas Canvas;
 
-
+    // TODO : Add visibility to the IsMoving boolean, OR delete it if it's not needed anymore which might be the case
     boolean IsMoving = true;
 
     // TODO : Turn this into a collection of sprites
@@ -23,6 +23,8 @@ public class Visualization extends SurfaceView {
 
     private SurfaceHolder SurfaceHolder;
     private Bitmap Bitmap;
+
+    private Vector2D ScreenSize = new Vector2D(ScreenWidthFromView(),ScreenHeightFromView());
 
     // Collection of drawables
 
@@ -35,12 +37,7 @@ public class Visualization extends SurfaceView {
         Bitmap = BitmapFactory.decodeResource(
                 getResources(),
                 R.drawable.run);
-        //Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.run);
         Bitmap = Bitmap.createScaledBitmap(Bitmap, ManRunning.FrameW* ManRunning.FrameCount, ManRunning.FrameH,false);
-        //Bitmap = BitmapFactory.decodeResource(getResources(),
-                //R.drawable.run);
-
-        //R.drawable.run);
 
     }
 
@@ -90,5 +87,17 @@ public class Visualization extends SurfaceView {
         }
         ManRunning.FrameToDraw.left = ManRunning.CurrentFrame * ManRunning.FrameW;
         ManRunning.FrameToDraw.right = ManRunning.FrameToDraw.left + ManRunning.FrameW;
+    }
+
+    public Vector2D GetScreenSize() {
+        return ScreenSize;
+    }
+
+    private int ScreenWidthFromView() {
+        return getWidth();
+    }
+
+    private int ScreenHeightFromView() {
+        return getHeight();
     }
 }

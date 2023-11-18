@@ -2,23 +2,12 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.icu.math.BigDecimal;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
-public class GameSurfaceView extends SurfaceView implements Runnable {
+public class GameController implements Runnable {
 
     /* Most variables will be declared private, will probably communicate through
     intents or broadcast receivers to get stuff from accelerometer or settings */
@@ -31,19 +20,10 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private boolean IsMoving = true;
     private float XPos = 500, YPos = 10;
     private float Velocity = 5;
-    /* The canvas is what we're drawing onto */
-    private Canvas canvas;
-
 
     /* Stuff for the run image at the moment. Change later */
     private int FrameW = 115, FrameH = 137;
-    private int FrameCount = 8;
-    private int FrameLengthInMS = 100;
 
-    private Rect FrameToDraw = new Rect(0,0,FrameW,FrameH);
-    private RectF WhereToDraw = new RectF(XPos,YPos,XPos+FrameW,FrameH);
-
-    private SensorManager SensorManager;
     private LinearAccelerometer LinAcc;
     private long TickTime = 1000/50;
 
@@ -63,8 +43,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private Context VisContext;
 
 
-    public GameSurfaceView(Context context) {
-        super (context);
+    public GameController(Context context) {
         VisContext = context;
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
@@ -124,8 +103,8 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
 
 
-            Log.d("GameSurfaceView.DeltaTime", (String)"DeltaTime: " + Float.toString(DeltaTime));
-            Log.d("GameSurfaceView.FPS", (String)"FPS: " + Long.toString(FPS));;
+            Log.d("GameController.DeltaTime", (String)"DeltaTime: " + Float.toString(DeltaTime));
+            Log.d("GameController.FPS", (String)"FPS: " + Long.toString(FPS));;
 
 
         }
@@ -159,7 +138,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
         try {
             GameThread.join();
         } catch (InterruptedException e) {
-            Log.e("GameSurfaceView", "Interrupted");
+            Log.e("GameController", "Interrupted");
         }
     }
 
@@ -254,15 +233,15 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
             // Logging getWidth()
             //String s = "Width: " + Float.toString(getWidth());
-            //Log.d("GameSurfaceView", s);
+            //Log.d("GameController", s);
 
             // getWidth and getHeight are 0 at launch, it might be possible to change that and avoid this first if statement?
-            if (getWidth() != 0 && getHeight() != 0)
+            if (Vis.GetScreenSize().GetX() != 0 && Vis.GetScreenSize().GetY() != 0)
             {
                 // X Bounds Right
-                if ((XPos+FrameW) > getWidth())
+                if ((XPos+FrameW) > Vis.GetScreenSize().GetY())
                 {
-                    XPos = (getWidth()-FrameW);
+                    XPos = (Vis.GetScreenSize().GetY()-FrameW);
                 }
 
                 // X Bounds Left
