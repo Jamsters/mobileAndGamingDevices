@@ -58,11 +58,14 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
     public Entity Player = new Player(200,200);
 
-    private Visualization Vis;
+    public Visualization Vis;
+
+    private Context VisContext;
 
 
     public GameSurfaceView(Context context) {
         super (context);
+        VisContext = context;
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
 
@@ -290,12 +293,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
     // Stuff for "image access", just a way to separate draw init code from the constructor
     public void ImageAccess(){
-        SurfaceHolder = getHolder();
-        Bitmap = BitmapFactory.decodeResource(
-                getResources(),
-                R.drawable.run);
-        Bitmap = Bitmap.createScaledBitmap(Bitmap,Player.FrameW*Player.FrameCount,Player.FrameH,false);
-        Vis = new Visualization(SurfaceHolder,Bitmap);
+        Vis = new Visualization(SurfaceHolder,Bitmap,VisContext);
     }
 
 

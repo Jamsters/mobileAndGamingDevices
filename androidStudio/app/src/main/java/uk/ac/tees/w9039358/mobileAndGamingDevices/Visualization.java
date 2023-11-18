@@ -1,14 +1,19 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
-public class Visualization{
+public class Visualization extends SurfaceView {
 
     private Canvas Canvas;
+
 
     boolean IsMoving = true;
 
@@ -22,11 +27,20 @@ public class Visualization{
     // Collection of drawables
 
 
-    Visualization(SurfaceHolder surfaceHolder, Bitmap bitmap)
+    Visualization(SurfaceHolder surfaceHolder, Bitmap bitmap, Context context)
     {
+        super(context);
         InitializeSprites();
-        SurfaceHolder = surfaceHolder;
-        Bitmap = Bitmap.createScaledBitmap(bitmap, ManRunning.FrameW* ManRunning.FrameCount, ManRunning.FrameH,false);
+        SurfaceHolder = getHolder();
+        Bitmap = BitmapFactory.decodeResource(
+                getResources(),
+                R.drawable.run);
+        //Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.run);
+        Bitmap = Bitmap.createScaledBitmap(Bitmap, ManRunning.FrameW* ManRunning.FrameCount, ManRunning.FrameH,false);
+        //Bitmap = BitmapFactory.decodeResource(getResources(),
+                //R.drawable.run);
+
+        //R.drawable.run);
 
     }
 

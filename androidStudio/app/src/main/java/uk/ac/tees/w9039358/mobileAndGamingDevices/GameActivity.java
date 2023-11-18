@@ -27,7 +27,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-        setContentView(gameView);
+        setContentView(gameView.Vis);
 
     }
 
