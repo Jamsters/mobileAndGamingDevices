@@ -10,6 +10,9 @@ import android.graphics.RectF;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.Collections;
+import java.util.Map;
+
 public class Visualization extends SurfaceView {
 
     private Canvas Canvas;
@@ -26,10 +29,12 @@ public class Visualization extends SurfaceView {
 
     private Vector2D ScreenSize = new Vector2D(ScreenWidthFromView(),ScreenHeightFromView());
 
+    private Map<String, Sprite> Sprites = Collections.emptySortedMap();
+
     // Collection of drawables
 
 
-    Visualization(SurfaceHolder surfaceHolder, Bitmap bitmap, Context context)
+    Visualization(Context context)
     {
         super(context);
         InitializeSprites();

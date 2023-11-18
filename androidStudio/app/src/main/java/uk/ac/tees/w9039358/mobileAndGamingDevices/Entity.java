@@ -11,24 +11,17 @@ public abstract class Entity {
     protected float XPos;
     public float YPos;
 
+    // TODO: Remove TempSprite later once Vis uses sprite name
+    private Sprite TempSprite = new Sprite(8,115,137,100);
+
+    private String SpriteName = "Player";
+
     //protected
 
 
     // TODO : Move these variables / their functionality into vis later
 
-    protected Bitmap Bitmap;
-
-
-    public int FrameCount = 8;
-    public int FrameLengthInMS = 100;
-
-    public int FrameW = 115, FrameH = 137;
-
-    public long LastFrameChangeTime = 0;
-    public int CurrentFrame = 0;
-
-    public Rect FrameToDraw = new Rect(0,0,FrameW,FrameH);
-    public RectF WhereToDraw = new RectF(XPos,YPos,XPos+FrameW,FrameH);
+    public RectF WhereToDraw = new RectF(XPos,YPos,XPos+TempSprite.FrameW,TempSprite.FrameH);
 
 
     // TODO : Use frame w and frame h to get a bounding box for this

@@ -15,8 +15,6 @@ public class GameController implements Runnable {
     private volatile boolean IsPlaying = false;
     private Thread GameThread;
     private long FPS;
-    private SurfaceHolder SurfaceHolder;
-    private Bitmap Bitmap;
     private boolean IsMoving = true;
     private float XPos = 500, YPos = 10;
     private float Velocity = 5;
@@ -40,19 +38,24 @@ public class GameController implements Runnable {
 
     public Visualization Vis;
 
-    private Context VisContext;
+
 
 
     public GameController(Context context) {
-        VisContext = context;
+        InitializeVisualization(context);
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
 
 
-        // Tick stuff here
+    }
 
-        ImageAccess();
+    private void InitializeVisualization(Context context)
+    {
+        Vis = new Visualization(context);
+    }
 
+    private void InitializeLogic()
+    {
 
     }
 
@@ -118,6 +121,7 @@ public class GameController implements Runnable {
 
     private void Visualization() {
         // Going to put stuff for drawing everything here
+        Entities.forEach(Entity::Draw);
         Vis.Draw(Player.WhereToDraw,Player.XPos,Player.YPos);
     }
 
@@ -267,13 +271,6 @@ public class GameController implements Runnable {
     }
     /* This is for the practical work, it's where we access the image in the constructor. I'm putting it in a function
      to make it easier to move around later on*/
-
-
-
-    // Stuff for "image access", just a way to separate draw init code from the constructor
-    public void ImageAccess(){
-        Vis = new Visualization(SurfaceHolder,Bitmap,VisContext);
-    }
 
 
 }
