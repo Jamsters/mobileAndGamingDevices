@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class GameSurfaceView extends SurfaceView implements Runnable {
 
     /* Most variables will be declared private, will probably communicate through
@@ -37,10 +39,10 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     private int FrameW = 115, FrameH = 137;
     private int FrameCount = 8;
     private int FrameLengthInMS = 100;
-    private long LastFrameChangeTime = 0;
-    private int CurrentFrame = 0;
+
     private Rect FrameToDraw = new Rect(0,0,FrameW,FrameH);
     private RectF WhereToDraw = new RectF(XPos,YPos,XPos+FrameW,FrameH);
+
     private SensorManager SensorManager;
     private LinearAccelerometer LinAcc;
     private long TickTime = 1000/50;
@@ -52,16 +54,37 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
     // When vis was last used
     private long LastVisTime = System.currentTimeMillis();
 
+    ArrayList<Entity> Entities = new ArrayList<Entity>();
+
+    public Entity Player = new Player(200,200);
+
+    private Visualization Vis;
+
 
     public GameSurfaceView(Context context) {
         super (context);
         LinAcc = new LinearAccelerometer(context);
+        EntityInit();
+
 
         // Tick stuff here
 
         ImageAccess();
 
 
+    }
+
+    private void EntityInit()
+    {
+        AddToEntities(new Player(40,40));
+
+
+
+    }
+
+    private void AddToEntities(Entity entity)
+    {
+        Entities.add(entity);
     }
 
     // Game loop
@@ -113,7 +136,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 
     private void Visualization() {
         // Going to put stuff for drawing everything here
-        Draw();
+        Vis.Draw(Player.WhereToDraw,Player.XPos,Player.YPos);
     }
 
     public void Resume() {
@@ -260,45 +283,10 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
 */
         }
     }
-
-    public void Draw(){
-        if (SurfaceHolder.getSurface().isValid())
-        {
-            canvas = SurfaceHolder.lockCanvas();
-            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
-                is an android graphics one
-            *   canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
-            canvas.drawColor(Color.WHITE);
-            WhereToDraw.set(XPos, YPos, XPos+FrameW, YPos+FrameH);
-            ManageCurrentFrame();
-            canvas.drawBitmap(Bitmap,FrameToDraw,WhereToDraw,null);
-            SurfaceHolder.unlockCanvasAndPost(canvas);
-
-
-        }
-
-    }
     /* This is for the practical work, it's where we access the image in the constructor. I'm putting it in a function
      to make it easier to move around later on*/
 
-    public void ManageCurrentFrame()
-    {
-        long Time = System.currentTimeMillis();
-        if (IsMoving) {
-            if (Time > LastFrameChangeTime + FrameLengthInMS)
-            {
-                LastFrameChangeTime = Time;
-                CurrentFrame++;
-                if (CurrentFrame >= FrameCount)
-                {
-                    CurrentFrame = 0;
-                }
-            }
 
-        }
-        FrameToDraw.left = CurrentFrame * FrameW;
-        FrameToDraw.right = FrameToDraw.left + FrameW;
-    }
 
     // Stuff for "image access", just a way to separate draw init code from the constructor
     public void ImageAccess(){
@@ -306,6 +294,9 @@ public class GameSurfaceView extends SurfaceView implements Runnable {
         Bitmap = BitmapFactory.decodeResource(
                 getResources(),
                 R.drawable.run);
-        Bitmap = Bitmap.createScaledBitmap(Bitmap,FrameW*FrameCount,FrameH,false);
+        Bitmap = Bitmap.createScaledBitmap(Bitmap,Player.FrameW*Player.FrameCount,Player.FrameH,false);
+        Vis = new Visualization(SurfaceHolder,Bitmap);
     }
+
+
 }
