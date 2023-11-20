@@ -27,7 +27,8 @@ public class Visualization extends SurfaceView {
     private SurfaceHolder SurfaceHolder;
     private Bitmap Bitmap;
 
-    private Vector2D ScreenSize = new Vector2D(ScreenWidthFromView(),ScreenHeightFromView());
+
+    protected Vector2D ScreenSize = new Vector2D(0,0);
 
     private Map<String, Sprite> Sprites = Collections.emptySortedMap();
 
@@ -74,6 +75,28 @@ public class Visualization extends SurfaceView {
         }
     }
 
+    public void Draw(Entity entity)
+    {
+        if (SurfaceHolder.getSurface().isValid())
+        {
+            Canvas = SurfaceHolder.lockCanvas();
+            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
+                is an android graphics one
+            *   canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
+            Canvas.drawColor(Color.WHITE);
+
+            //WhereToDraw.set(XPos, YPos, XPos+ ManRunning.FrameW, YPos+ ManRunning.FrameH);
+            entity.WhereToDraw.set(entity.XPos,entity.YPos,entity.XPos+entity.TempSprite.FrameW, entity.YPos + entity.TempSprite.FrameH);
+
+
+            ManageCurrentFrame();
+            Canvas.drawBitmap(Bitmap, ManRunning.FrameToDraw,entity.WhereToDraw,null);
+            SurfaceHolder.unlockCanvasAndPost(Canvas);
+
+
+        }
+    }
+
     // TODO : Maybe move this into sprite class?
     public void ManageCurrentFrame()
     {
@@ -94,10 +117,15 @@ public class Visualization extends SurfaceView {
         ManRunning.FrameToDraw.right = ManRunning.FrameToDraw.left + ManRunning.FrameW;
     }
 
+
     public Vector2D GetScreenSize() {
+        // Needs to update screen size to stop it from being 0 at the start
+        ScreenSize.SetX(ScreenWidthFromView());
+        ScreenSize.SetY(ScreenHeightFromView());
         return ScreenSize;
     }
 
+    // Remember ScreenWidthFromView() and ScreenHeightFromView() return 0 at initialization
     private int ScreenWidthFromView() {
         return getWidth();
     }

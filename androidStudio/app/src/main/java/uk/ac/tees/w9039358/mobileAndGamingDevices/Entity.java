@@ -8,13 +8,16 @@ import android.graphics.RectF;
 public abstract class Entity {
 
 //    TODO : Change variable visbility later once refactored
-    protected float XPos;
-    public float YPos;
+    protected float XPos, YPos, Velocity;
 
     // TODO: Remove TempSprite later once Vis uses sprite name
-    private Sprite TempSprite = new Sprite(8,115,137,100);
+    protected Sprite TempSprite = new Sprite(8,115,137,100);
 
     private String SpriteName = "Player";
+
+    protected boolean IsMoving = true;
+
+    protected boolean IsVisible = true;
 
     //protected
 
@@ -23,6 +26,8 @@ public abstract class Entity {
 
     public RectF WhereToDraw = new RectF(XPos,YPos,XPos+TempSprite.FrameW,TempSprite.FrameH);
 
+    protected GameController GameControllerReference;
+
 
     // TODO : Use frame w and frame h to get a bounding box for this
     // Drawable for this entity, e.g. R.drawable.run
@@ -30,8 +35,9 @@ public abstract class Entity {
     // Should frame info be contained here? Probably not. Should put it into Visualization
 
     //
-    Entity(float xPos, float yPos)
+    Entity(GameController gameControllerReference, float xPos, float yPos)
     {
+        GameControllerReference = gameControllerReference;
         XPos = xPos;
         YPos = yPos;
 
@@ -39,6 +45,8 @@ public abstract class Entity {
 
     protected abstract void Draw();
 
-    protected abstract void Update();
+    public abstract void Update();
+
+    protected abstract void Move();
 
 }

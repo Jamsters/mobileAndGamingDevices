@@ -1,19 +1,19 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public class Vector2D {
-    private int X, Y;
+    private float X, Y;
 
-    Vector2D(int x, int y)
+    Vector2D(float x, float y)
     {
         X = x;
         Y = y;
     }
 
-    public int GetX() {
+    public float GetX() {
         return X;
     }
 
-    public int GetY() {
+    public float GetY() {
         return Y;
     }
 
