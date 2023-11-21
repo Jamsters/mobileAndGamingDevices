@@ -34,6 +34,8 @@ public class GameController implements Runnable {
 
     public Visualization Vis;
 
+    public boolean SetupFinished = false;
+
 
 
 
@@ -41,6 +43,7 @@ public class GameController implements Runnable {
         InitializeVisualization(context);
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
+        SetupFinished = true;
 
 
     }
@@ -61,7 +64,7 @@ public class GameController implements Runnable {
         AddToEntities(Player);
 
         // Test of adding a new entity, uses player class
-        AddToEntities(new Player(this,200,400));
+        //AddToEntities(new Player(this,200,400));
 
 
 
@@ -75,7 +78,7 @@ public class GameController implements Runnable {
     // Game loop
     @Override
     public void run() {
-        while (IsPlaying)
+        while (IsPlaying && SetupFinished)
         {
             // TODO : Make an input function and put stuff for the linacc here
             //Input();
@@ -121,10 +124,21 @@ public class GameController implements Runnable {
     private void Visualization() {
         // Going to put stuff for drawing everything here
         //Entities.forEach(Entity::Draw);
-        for (int i = 0; i < Entities.size(); i++)
+
+        //Vis.DrawStart();
+        //Vis.DrawBackground();
+
+        for (Entity entity : Entities)
         {
-            Vis.Draw(Entities.get(i));
+            Vis.Draw(entity);
         }
+
+//        for (int i = 0; i < Entities.size(); i++)
+//        {
+//            Vis.Draw(Entities.get(i));
+//        }
+
+        //Vis.DrawEnd();
 
 
         //Vis.Draw(Player.WhereToDraw,Player.XPos,Player.YPos);

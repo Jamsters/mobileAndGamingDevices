@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Visualization extends SurfaceView {
 
-    private Canvas Canvas;
+    protected Canvas Canvas;
 
     // TODO : Add visibility to the IsMoving boolean, OR delete it if it's not needed anymore which might be the case
     boolean IsMoving = true;
@@ -24,8 +24,8 @@ public class Visualization extends SurfaceView {
     // TODO : Remember to add bitmap to sprite
     private Sprite ManRunning;
 
-    private SurfaceHolder SurfaceHolder;
-    private Bitmap Bitmap;
+    protected SurfaceHolder SurfaceHolder;
+    protected Bitmap Bitmap;
 
 
     protected Vector2D ScreenSize = new Vector2D(0,0);
@@ -57,23 +57,23 @@ public class Visualization extends SurfaceView {
 
     }
 
-    public void Draw(RectF WhereToDraw, float XPos, float YPos)
-    {
-        if (SurfaceHolder.getSurface().isValid())
-        {
-            Canvas = SurfaceHolder.lockCanvas();
-            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
-                is an android graphics one
-            *   canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
-            Canvas.drawColor(Color.WHITE);
-            WhereToDraw.set(XPos, YPos, XPos+ ManRunning.FrameW, YPos+ ManRunning.FrameH);
-            ManageCurrentFrame();
-            Canvas.drawBitmap(Bitmap, ManRunning.FrameToDraw,WhereToDraw,null);
-            SurfaceHolder.unlockCanvasAndPost(Canvas);
-
-
-        }
-    }
+//    public void Draw(RectF WhereToDraw, float XPos, float YPos)
+//    {
+//        if (SurfaceHolder.getSurface().isValid())
+//        {
+//            Canvas = SurfaceHolder.lockCanvas();
+//            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
+//                is an android graphics one
+//            *   canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
+//            Canvas.drawColor(Color.WHITE);
+//            WhereToDraw.set(XPos, YPos, XPos+ ManRunning.FrameW, YPos+ ManRunning.FrameH);
+//            ManageCurrentFrame();
+//            Canvas.drawBitmap(Bitmap, ManRunning.FrameToDraw,WhereToDraw,null);
+//            SurfaceHolder.unlockCanvasAndPost(Canvas);
+//
+//
+//        }
+//    }
 
     public void Draw(Entity entity)
     {
@@ -84,13 +84,10 @@ public class Visualization extends SurfaceView {
                 is an android graphics one
             *   canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
             Canvas.drawColor(Color.WHITE);
-
-            //WhereToDraw.set(XPos, YPos, XPos+ ManRunning.FrameW, YPos+ ManRunning.FrameH);
-            entity.WhereToDraw.set(entity.XPos,entity.YPos,entity.XPos+entity.TempSprite.FrameW, entity.YPos + entity.TempSprite.FrameH);
-
-
-            ManageCurrentFrame();
-            Canvas.drawBitmap(Bitmap, ManRunning.FrameToDraw,entity.WhereToDraw,null);
+            entity.WhereToDraw.set(entity.XPos,entity.YPos,entity.XPos + entity.TempSprite.FrameW, entity.YPos + entity.TempSprite.FrameH);
+            //ManageCurrentFrame(entity);
+            entity.TempSprite.ManageCurrentFrame();
+            Canvas.drawBitmap(Bitmap, entity.TempSprite.FrameToDraw,entity.WhereToDraw,null);
             SurfaceHolder.unlockCanvasAndPost(Canvas);
 
 
@@ -98,23 +95,23 @@ public class Visualization extends SurfaceView {
     }
 
     // TODO : Maybe move this into sprite class?
-    public void ManageCurrentFrame()
+    public void ManageCurrentFrame(Entity entity)
     {
         long Time = System.currentTimeMillis();
         if (IsMoving) {
-            if (Time > ManRunning.LastFrameChangeTime + ManRunning.FrameLengthInMS)
+            if (Time > entity.TempSprite.LastFrameChangeTime + entity.TempSprite.FrameLengthInMS)
             {
-                ManRunning.LastFrameChangeTime = Time;
-                ManRunning.CurrentFrame++;
-                if (ManRunning.CurrentFrame >= ManRunning.FrameCount)
+                entity.TempSprite.LastFrameChangeTime = Time;
+                entity.TempSprite.CurrentFrame++;
+                if (entity.TempSprite.CurrentFrame >= entity.TempSprite.FrameCount)
                 {
-                    ManRunning.CurrentFrame = 0;
+                    entity.TempSprite.CurrentFrame = 0;
                 }
             }
 
         }
-        ManRunning.FrameToDraw.left = ManRunning.CurrentFrame * ManRunning.FrameW;
-        ManRunning.FrameToDraw.right = ManRunning.FrameToDraw.left + ManRunning.FrameW;
+        entity.TempSprite.FrameToDraw.left = entity.TempSprite.CurrentFrame * entity.TempSprite.FrameW;
+        entity.TempSprite.FrameToDraw.right = entity.TempSprite.FrameToDraw.left + entity.TempSprite.FrameW;
     }
 
 
@@ -133,4 +130,23 @@ public class Visualization extends SurfaceView {
     private int ScreenHeightFromView() {
         return getHeight();
     }
+
+    public void DrawBackground()
+    {
+        Canvas.drawColor(Color.WHITE);
+    }
+
+    public void DrawStart()
+    {
+        Canvas = SurfaceHolder.lockCanvas();
+//        if (SurfaceHolder.getSurface().isValid()) {
+//            Canvas = SurfaceHolder.lockCanvas();
+//        }
+    }
+
+    public void DrawEnd()
+    {
+        SurfaceHolder.unlockCanvasAndPost(Canvas);
+    }
+    //public void Unlock
 }

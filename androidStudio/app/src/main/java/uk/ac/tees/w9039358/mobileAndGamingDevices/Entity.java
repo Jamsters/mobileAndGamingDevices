@@ -8,14 +8,14 @@ import android.graphics.RectF;
 public abstract class Entity {
 
 //    TODO : Change variable visbility later once refactored
-    protected float XPos, YPos, Velocity;
+    public float XPos, YPos, Velocity;
 
     // TODO: Remove TempSprite later once Vis uses sprite name
-    protected Sprite TempSprite = new Sprite(8,115,137,100);
+    public Sprite TempSprite = new Sprite(8,115,137,100);
 
     private String SpriteName = "Player";
 
-    protected boolean IsMoving = true;
+    public boolean IsMoving = true;
 
     protected boolean IsVisible = true;
 

@@ -10,6 +10,8 @@ public class Sprite {
     public int FrameLengthInMS;
     public Rect FrameToDraw;
 
+    public boolean IsMoving = true;
+
     Sprite(int frameCount, int frameW, int frameH, int frameLengthInMS)
     {
         FrameCount = frameCount;
@@ -25,6 +27,26 @@ public class Sprite {
         CurrentFrame++;
 
     }
+
+    public void ManageCurrentFrame()
+    {
+        long Time = System.currentTimeMillis();
+        if (IsMoving) {
+            if (Time > LastFrameChangeTime + FrameLengthInMS)
+            {
+                LastFrameChangeTime = Time;
+                CurrentFrame++;
+                if (CurrentFrame >= FrameCount)
+                {
+                    CurrentFrame = 0;
+                }
+            }
+        }
+        FrameToDraw.left = CurrentFrame * FrameW;
+        FrameToDraw.right = FrameToDraw.left + FrameW;
+    }
+
+
 
 
 
