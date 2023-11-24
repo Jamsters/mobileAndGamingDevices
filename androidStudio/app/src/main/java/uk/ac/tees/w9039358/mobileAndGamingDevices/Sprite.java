@@ -14,13 +14,13 @@ public class Sprite {
 
     public boolean IsMoving = true;
 
-    Sprite(String bitMapName, int frameCount, int frameW, int frameH, int frameLengthInMS)
+    Sprite(String bitmapName, int frameCount, int frameW, int frameH, int frameLengthInMS)
     {
         FrameCount = frameCount;
         FrameW = frameW;
         FrameH = frameH;
         FrameLengthInMS = frameLengthInMS;
-        BitmapName = bitMapName;
+        BitmapName = bitmapName;
 
         FrameToDraw = new Rect(0,0,FrameW,FrameH);
     }

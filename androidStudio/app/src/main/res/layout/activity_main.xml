@@ -30,7 +30,7 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:text="@string/GameName"
-        android:textSize="96sp"
+        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

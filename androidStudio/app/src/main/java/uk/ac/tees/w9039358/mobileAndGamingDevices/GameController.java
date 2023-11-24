@@ -63,8 +63,10 @@ public class GameController implements Runnable {
         Player = new Player(this,200,200, "Player");
         AddToEntities(Player);
 
+        AddToEntities(new Player(this,200,400,"Player2"));
+
         // Test of adding a new entity, uses player class
-        AddToEntities(new Player(this,200,400,"Error"));
+        AddToEntities(new Player(this,200,600,"Error"));
 
         // Overlay test
 //        for (int i = 10; i >= 0; i--)

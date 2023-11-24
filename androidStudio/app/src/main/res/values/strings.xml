@@ -1,6 +1,6 @@
 <resources>
     <string name="AppName">mobileAndGamingDevices</string>
-    <string name="GameName">Maze game</string>
+    <string name="GameName">Unnamed game</string>
     <string name="ButtonGoToMainMenu">Main menu</string>
     <string name="ButtonGoToSplash">Splash</string>
     <string name="ButtonGoToGame">Start Game</string>
