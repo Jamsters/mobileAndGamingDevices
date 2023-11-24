@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -39,8 +40,11 @@ public class GameController implements Runnable {
 
 
 
+
     public GameController(Context context) {
         InitializeVisualization(context);
+
+
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
         SetupFinished = true;
@@ -50,6 +54,7 @@ public class GameController implements Runnable {
 
     private void InitializeVisualization(Context context)
     {
+
         Vis = new Visualization(context);
     }
 
@@ -154,6 +159,8 @@ public class GameController implements Runnable {
         //TODO: LimAcc.Resume might need reordering, it needs to be the first thing started?
         LinAcc.Resume();
     }
+
+
 
     public void Pause() {
         IsPlaying = false;

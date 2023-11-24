@@ -4,11 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements View.OnTouchListener {
 
     GameController gameView;
+
+    private SingleTouch SingleTouch = new SingleTouch();
     private int ScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +26,7 @@ public class GameActivity extends AppCompatActivity {
         gameView = new GameController(this);
         // I'm not sure if the game is being started on a thread
         // gameView.Resume();
-
+        gameView.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
 
 
 
@@ -41,5 +46,10 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
         gameView.Resume();
 
+    }
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        return SingleTouch.onTouch(v,event);
     }
 }

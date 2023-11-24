@@ -167,4 +167,5 @@ public class Visualization extends SurfaceView {
             SurfaceHolder.unlockCanvasAndPost(Canvas);
         }
     }
+
 }

@@ -16,7 +16,7 @@ import android.util.Log;
 
 import java.text.Normalizer;
 
-public class LinearAccelerometer implements Utilities{
+public class LinearAccelerometer {
     private final SensorManager SenManager;
     private Sensor Sen;
     private final SensorEventListener SenEventListener;
