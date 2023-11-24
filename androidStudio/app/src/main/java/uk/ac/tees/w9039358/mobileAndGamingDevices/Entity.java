@@ -11,7 +11,7 @@ public abstract class Entity {
     public float XPos, YPos, Velocity;
 
     // TODO: Remove TempSprite later once Vis uses sprite name
-    public Sprite TempSprite = new Sprite(8,115,137,100);
+    public Sprite TempSprite = new Sprite("ManRunning",8,115,137,100);
 
     private String SpriteName = "Player";
 

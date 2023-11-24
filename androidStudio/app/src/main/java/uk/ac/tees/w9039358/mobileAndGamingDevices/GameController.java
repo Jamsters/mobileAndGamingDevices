@@ -64,7 +64,7 @@ public class GameController implements Runnable {
         AddToEntities(Player);
 
         // Test of adding a new entity, uses player class
-        //AddToEntities(new Player(this,200,400));
+        AddToEntities(new Player(this,200,400));
 
 
 

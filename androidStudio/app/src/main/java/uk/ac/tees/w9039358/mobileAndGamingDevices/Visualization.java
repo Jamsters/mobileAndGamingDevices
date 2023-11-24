@@ -1,12 +1,10 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.RectF;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -25,12 +23,14 @@ public class Visualization extends SurfaceView {
     private Sprite ManRunning;
 
     protected SurfaceHolder SurfaceHolder;
-    protected Bitmap Bitmap;
+    protected Bitmap InitialBitmap;
+
+    protected Bitmap ScaledBitmap;
 
 
     protected Vector2D ScreenSize = new Vector2D(0,0);
 
-    private Map<String, Sprite> Sprites = Collections.emptySortedMap();
+    private Map<String, Bitmap> Bitmaps = Collections.emptySortedMap();
 
     // Collection of drawables
 
@@ -38,23 +38,49 @@ public class Visualization extends SurfaceView {
     Visualization(Context context)
     {
         super(context);
-        InitializeSprites();
+        //InitializeBitmaps();
+        // TODO : Moving init for man running to init bitmap
+        ManRunning = new Sprite("ManRunning",8,115,137, 100);
         SurfaceHolder = getHolder();
-        Bitmap = BitmapFactory.decodeResource(
+        InitialBitmap = BitmapFactory.decodeResource(
                 getResources(),
                 R.drawable.run);
-        Bitmap = Bitmap.createScaledBitmap(Bitmap, ManRunning.FrameW* ManRunning.FrameCount, ManRunning.FrameH,false);
+        ScaledBitmap = InitialBitmap.createScaledBitmap(InitialBitmap, ManRunning.FrameW* ManRunning.FrameCount, ManRunning.FrameH,false);
 
     }
 
-    private void InitializeSprites()
+    private boolean BitmapKeyExists (String bitmapName)
     {
-        ManRunning = new Sprite(8,115,137, 100);
+        return Bitmaps.containsKey(bitmapName);
     }
 
-    private void InitializeBitmaps()
+    private void InitializeBitmaps(String bitmapName)
     {
+        if (BitmapKeyExists(bitmapName))
+        {
+            //FindB
 
+        }
+        ManRunning = new Sprite("ManRunning",8,115,137, 100);
+    }
+
+    private void FindAndCheckBitmap(String bitmapName)
+    {
+        if (BitmapKeyExists(bitmapName))
+        {
+            //return GetBitmap(bitmapName);
+
+        }
+        else
+        {
+            // Make a new bitmap
+        }
+        ManRunning = new Sprite("ManRunning",8,115,137, 100);
+    }
+
+    private Bitmap GetBitmap(String bitmapName)
+    {
+        return Bitmaps.get(bitmapName);
     }
 
 //    public void Draw(RectF WhereToDraw, float XPos, float YPos)
@@ -68,7 +94,7 @@ public class Visualization extends SurfaceView {
 //            Canvas.drawColor(Color.WHITE);
 //            WhereToDraw.set(XPos, YPos, XPos+ ManRunning.FrameW, YPos+ ManRunning.FrameH);
 //            ManageCurrentFrame();
-//            Canvas.drawBitmap(Bitmap, ManRunning.FrameToDraw,WhereToDraw,null);
+//            Canvas.drawBitmap(InitialBitmap, ManRunning.FrameToDraw,WhereToDraw,null);
 //            SurfaceHolder.unlockCanvasAndPost(Canvas);
 //
 //
@@ -87,7 +113,7 @@ public class Visualization extends SurfaceView {
             entity.WhereToDraw.set(entity.XPos,entity.YPos,entity.XPos + entity.TempSprite.FrameW, entity.YPos + entity.TempSprite.FrameH);
             //ManageCurrentFrame(entity);
             entity.TempSprite.ManageCurrentFrame();
-            Canvas.drawBitmap(Bitmap, entity.TempSprite.FrameToDraw,entity.WhereToDraw,null);
+            Canvas.drawBitmap(ScaledBitmap, entity.TempSprite.FrameToDraw,entity.WhereToDraw,null);
             SurfaceHolder.unlockCanvasAndPost(Canvas);
 
 
