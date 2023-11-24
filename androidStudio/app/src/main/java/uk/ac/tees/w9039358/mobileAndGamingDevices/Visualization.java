@@ -37,11 +37,17 @@ public class Visualization extends SurfaceView {
     }
 
     private void InitializeSprites() {
+        int Error = R.drawable.error;
+
         int Run = R.drawable.run;
+        int Coin = R.drawable.coin;
+
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
-        AddToSprites("Player2", new Sprite("ManRunning",Run,8,115,137, 10));
-        AddToSprites("Error", new Sprite("ManRunning",Run,8,115,137, 1));
+        AddToSprites("Coin1", new Sprite("Coin",Coin,8,150,150, 100));
+        AddToSprites("Coin2", new Sprite("Coin",Coin,8,150,150, 100));
+        AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
+        AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
     }
 
     private boolean SpritesKeyExists (String key)
@@ -74,7 +80,8 @@ public class Visualization extends SurfaceView {
                     getResources(),
                     resource);
             if (createScaled == true){
-                bitmap = Bitmap.createScaledBitmap(bitmap,sprite.FrameW*sprite.FrameCount,sprite.FrameH, false);
+                boolean useBilinearFilter = false;
+                bitmap = Bitmap.createScaledBitmap(bitmap,sprite.FrameW*sprite.FrameCount,sprite.FrameH, useBilinearFilter);
             }
             AddToBitmaps(sprite.BitmapName,bitmap);
         }
