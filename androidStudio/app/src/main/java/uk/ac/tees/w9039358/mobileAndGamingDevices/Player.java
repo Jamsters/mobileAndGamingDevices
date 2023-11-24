@@ -2,9 +2,9 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public class Player extends Entity{
 
-    Player(GameController gameControllerReference, float xPos, float yPos,String bitmapName)
+    Player(GameController gameControllerReference, float xPos, float yPos,String spriteName)
     {
-        super(gameControllerReference, xPos,yPos, bitmapName);
+        super(gameControllerReference, xPos,yPos, spriteName);
         Velocity = 0;
 
     }

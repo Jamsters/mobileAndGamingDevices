@@ -13,7 +13,7 @@ public abstract class Entity {
     // TODO: Remove TempSprite later once Vis uses sprite name
     public Sprite TempSprite = new Sprite("ManRunning",8,115,137,100);
 
-    private String SpriteName = "Player";
+    protected String SpriteName;
 
     public boolean IsMoving = true;
 
@@ -35,12 +35,12 @@ public abstract class Entity {
     // Should frame info be contained here? Probably not. Should put it into Visualization
 
     //
-    Entity(GameController gameControllerReference, float xPos, float yPos, String bitmapName)
+    Entity(GameController gameControllerReference, float xPos, float yPos, String spriteName)
     {
         GameControllerReference = gameControllerReference;
         XPos = xPos;
         YPos = yPos;
-        TempSprite.BitmapName = bitmapName;
+        SpriteName = spriteName;
 
     }
 
@@ -49,5 +49,9 @@ public abstract class Entity {
     public abstract void Update();
 
     protected abstract void Move();
+
+    protected boolean GetIsVisible() {return IsVisible;}
+
+    protected boolean GetIsMoving() {return IsMoving;}
 
 }

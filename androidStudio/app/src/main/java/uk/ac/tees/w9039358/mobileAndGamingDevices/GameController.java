@@ -60,11 +60,17 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
-        Player = new Player(this,200,200, "First");
+        Player = new Player(this,200,200, "Player");
         AddToEntities(Player);
 
         // Test of adding a new entity, uses player class
-        AddToEntities(new Player(this,200,400,"Second"));
+        AddToEntities(new Player(this,200,400,"Error"));
+
+        // Overlay test
+//        for (int i = 10; i >= 0; i--)
+//        {
+//            AddToEntities(new Player(this,300,i*100,"Second"));
+//        }
 
 
 
@@ -127,9 +133,9 @@ public class GameController implements Runnable {
 
         for (Entity entity : Entities)
         {
-
-
-            Vis.Draw(entity);
+            if (entity.GetIsVisible()) {
+                Vis.Draw(entity);
+            }
 
         }
 
