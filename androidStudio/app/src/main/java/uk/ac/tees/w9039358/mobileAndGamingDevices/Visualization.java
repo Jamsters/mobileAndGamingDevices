@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class Visualization extends SurfaceView {
     protected Canvas Canvas;
-    private Sprite ManRunning;
     protected SurfaceHolder SurfaceHolder;
     protected Vector2D ScreenSize = new Vector2D(0,0);
     private Map<String, Sprite> Sprites = new HashMap<>();
@@ -25,28 +24,60 @@ public class Visualization extends SurfaceView {
     Visualization(Context context) {
         super(context);
         SurfaceHolder = getHolder();
-        InitializeBitmaps();
+        Initialize();
+    }
+    private void Initialize()
+    {
         InitializeSprites();
+
+        for (Sprite sprite : Sprites.values())
+        {
+            InitializeBitmap(sprite.ResourceID, sprite,true);
+        }
     }
 
-    private void InitializeBitmaps() {
+    private void InitializeSprites() {
+        int Run = R.drawable.run;
 
-        ManRunning = new Sprite("ManRunning",8,115,137, 100);
+        AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
+        AddToSprites("Player2", new Sprite("ManRunning",Run,8,115,137, 10));
+        AddToSprites("Error", new Sprite("ManRunning",Run,8,115,137, 1));
+    }
 
-        InitializeBitmap(R.drawable.run, ManRunning,true);
+    private boolean SpritesKeyExists (String key)
+    {
+        return Sprites.containsKey(key);
+    }
+
+    private void AddToSprites(String key, Sprite value) {
+        Sprites.put(key,value);
+    }
+
+    private Sprite GetSprite(String key) {
+        if (SpritesKeyExists(key))
+        {
+            return Sprites.get(key);
+        }
+        else
+        {
+            Log.d("Visualization.GetSprite","Failed to get " + key + " sprite");
+            return Sprites.get("Error");
+        }
     }
 
     private void InitializeBitmap(int resource, Sprite sprite, boolean createScaled)
     {
-        Bitmap bitmap;
-        bitmap = BitmapFactory.decodeResource(
-            getResources(),
-            resource);
-        if (createScaled == true){
-            bitmap = Bitmap.createScaledBitmap(bitmap,sprite.FrameW*sprite.FrameCount,sprite.FrameH, false);
+        if (!BitmapKeyExists(sprite.BitmapName))
+        {
+            Bitmap bitmap;
+            bitmap = BitmapFactory.decodeResource(
+                    getResources(),
+                    resource);
+            if (createScaled == true){
+                bitmap = Bitmap.createScaledBitmap(bitmap,sprite.FrameW*sprite.FrameCount,sprite.FrameH, false);
+            }
+            AddToBitmaps(sprite.BitmapName,bitmap);
         }
-        AddToBitmaps(sprite.BitmapName,bitmap);
-
     }
 
     private boolean BitmapKeyExists (String key)
@@ -76,33 +107,6 @@ public class Visualization extends SurfaceView {
             return Bitmaps.get("Error");
         }
     }
-    private void InitializeSprites() {
-        AddToSprites("Player", new Sprite("ManRunning",8,115,137, 100));
-        AddToSprites("Player2", new Sprite("ManRunning",8,115,137, 10));
-        AddToSprites("Error", new Sprite("ManRunning",8,115,137, 1));
-    }
-
-    private boolean SpritesKeyExists (String key)
-    {
-        return Sprites.containsKey(key);
-    }
-
-    private void AddToSprites(String key, Sprite value) {
-        Sprites.put(key,value);
-    }
-
-    private Sprite GetSprite(String key) {
-        if (SpritesKeyExists(key))
-        {
-            return Sprites.get(key);
-        }
-        else
-        {
-            Log.d("Visualization.GetSprite","Failed to get " + key + " sprite");
-            return Sprites.get("Error");
-        }
-    }
-
     public void Draw(Entity entity) {
         if (SurfaceHolder.getSurface().isValid()) {
             Entity Entity = entity;

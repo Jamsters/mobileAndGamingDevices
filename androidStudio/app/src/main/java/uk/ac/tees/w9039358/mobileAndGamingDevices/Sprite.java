@@ -11,16 +11,20 @@ public class Sprite {
     public Rect FrameToDraw;
 
     protected String BitmapName;
+    protected int ResourceID;
 
     public boolean IsMoving = true;
 
-    Sprite(String bitmapName, int frameCount, int frameW, int frameH, int frameLengthInMS)
+    Sprite(String bitmapName, int resourceID, int frameCount, int frameW, int frameH, int frameLengthInMS)
     {
+        BitmapName = bitmapName;
+
+        ResourceID = resourceID;
         FrameCount = frameCount;
         FrameW = frameW;
         FrameH = frameH;
         FrameLengthInMS = frameLengthInMS;
-        BitmapName = bitmapName;
+
 
         FrameToDraw = new Rect(0,0,FrameW,FrameH);
     }
