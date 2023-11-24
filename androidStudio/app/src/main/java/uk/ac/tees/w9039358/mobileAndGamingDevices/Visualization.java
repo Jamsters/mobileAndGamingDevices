@@ -32,6 +32,8 @@ public class Visualization extends SurfaceView {
 
     private Map<String, Bitmap> Bitmaps = Collections.emptySortedMap();
 
+    private int BackgroundColour = (Color.WHITE);
+
     // Collection of drawables
 
 
@@ -58,7 +60,7 @@ public class Visualization extends SurfaceView {
     {
         if (BitmapKeyExists(bitmapName))
         {
-            //FindB
+            // We don't use existing bitmaps
 
         }
         ManRunning = new Sprite("ManRunning",8,115,137, 100);
@@ -105,18 +107,24 @@ public class Visualization extends SurfaceView {
     {
         if (SurfaceHolder.getSurface().isValid())
         {
-            Canvas = SurfaceHolder.lockCanvas();
-            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
-                is an android graphics one
-            *   canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
-            Canvas.drawColor(Color.WHITE);
+            // Working code
             entity.WhereToDraw.set(entity.XPos,entity.YPos,entity.XPos + entity.TempSprite.FrameW, entity.YPos + entity.TempSprite.FrameH);
-            //ManageCurrentFrame(entity);
             entity.TempSprite.ManageCurrentFrame();
+
+            // New code
+
+//            if (entity.TempSprite.BitmapName == "First")
+//            {
+//                Canvas.drawBitmap(ScaledBitmap, entity.TempSprite.FrameToDraw,entity.WhereToDraw,null);
+//            }
+//            else if (entity.TempSprite.BitmapName == "Second")
+//            {
+//                Canvas.drawBitmap(InitialBitmap, entity.TempSprite.FrameToDraw,entity.WhereToDraw,null);
+//            }
+
+
+            //Working old code
             Canvas.drawBitmap(ScaledBitmap, entity.TempSprite.FrameToDraw,entity.WhereToDraw,null);
-            SurfaceHolder.unlockCanvasAndPost(Canvas);
-
-
         }
     }
 
@@ -157,22 +165,26 @@ public class Visualization extends SurfaceView {
         return getHeight();
     }
 
-    public void DrawBackground()
-    {
-        Canvas.drawColor(Color.WHITE);
+    public void DrawBackground() {
+        if (SurfaceHolder.getSurface().isValid()) {
+            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
+                is an android graphics one. Example below :
+                canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
+            Canvas.drawColor(BackgroundColour);
+        }
     }
 
     public void DrawStart()
     {
-        Canvas = SurfaceHolder.lockCanvas();
-//        if (SurfaceHolder.getSurface().isValid()) {
-//            Canvas = SurfaceHolder.lockCanvas();
-//        }
+        if (SurfaceHolder.getSurface().isValid()) {
+            Canvas = SurfaceHolder.lockCanvas();
+        }
     }
 
     public void DrawEnd()
     {
-        SurfaceHolder.unlockCanvasAndPost(Canvas);
+        if (SurfaceHolder.getSurface().isValid()) {
+            SurfaceHolder.unlockCanvasAndPost(Canvas);
+        }
     }
-    //public void Unlock
 }

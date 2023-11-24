@@ -35,11 +35,12 @@ public abstract class Entity {
     // Should frame info be contained here? Probably not. Should put it into Visualization
 
     //
-    Entity(GameController gameControllerReference, float xPos, float yPos)
+    Entity(GameController gameControllerReference, float xPos, float yPos, String bitmapName)
     {
         GameControllerReference = gameControllerReference;
         XPos = xPos;
         YPos = yPos;
+        TempSprite.BitmapName = bitmapName;
 
     }
 

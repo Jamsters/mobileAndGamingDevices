@@ -10,7 +10,7 @@ public class Sprite {
     public int FrameLengthInMS;
     public Rect FrameToDraw;
 
-    private String BitmapName;
+    protected String BitmapName;
 
     public boolean IsMoving = true;
 

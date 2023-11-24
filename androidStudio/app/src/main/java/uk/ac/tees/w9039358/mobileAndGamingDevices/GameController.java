@@ -60,11 +60,11 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
-        Player = new Player(this,200,200);
+        Player = new Player(this,200,200, "First");
         AddToEntities(Player);
 
         // Test of adding a new entity, uses player class
-        AddToEntities(new Player(this,200,400));
+        AddToEntities(new Player(this,200,400,"Second"));
 
 
 
@@ -122,26 +122,18 @@ public class GameController implements Runnable {
     }
 
     private void Visualization() {
-        // Going to put stuff for drawing everything here
-        //Entities.forEach(Entity::Draw);
-
-        //Vis.DrawStart();
-        //Vis.DrawBackground();
+        Vis.DrawStart();
+        Vis.DrawBackground();
 
         for (Entity entity : Entities)
         {
+
+
             Vis.Draw(entity);
+
         }
 
-//        for (int i = 0; i < Entities.size(); i++)
-//        {
-//            Vis.Draw(Entities.get(i));
-//        }
-
-        //Vis.DrawEnd();
-
-
-        //Vis.Draw(Player.WhereToDraw,Player.XPos,Player.YPos);
+        Vis.DrawEnd();
     }
 
     public void Resume() {
