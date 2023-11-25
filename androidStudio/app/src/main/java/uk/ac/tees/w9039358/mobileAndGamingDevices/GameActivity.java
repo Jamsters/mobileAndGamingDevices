@@ -12,23 +12,15 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     GameController gameView;
 
     private SingleTouch SingleTouch = new SingleTouch();
-    private int ScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO : Check to see if setting orientation isn't persisting outside of the app, locking users stuff into portrait only
-        // TODO : Also it doesn't look like the orientation fix
-        this.setRequestedOrientation(ScreenOrientation);
-
-
-        gameView = new GameController(this);
+        gameView = new GameController(this, SingleTouch);
         // I'm not sure if the game is being started on a thread
         // gameView.Resume();
         gameView.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
-
-
 
         setContentView(gameView.Vis);
 

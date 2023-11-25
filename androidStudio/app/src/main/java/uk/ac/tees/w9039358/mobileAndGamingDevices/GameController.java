@@ -35,19 +35,23 @@ public class GameController implements Runnable {
 
     public Visualization Vis;
 
+    private SingleTouch SingleTouchReference;
+
     public boolean SetupFinished = false;
 
 
 
 
 
-    public GameController(Context context) {
+    public GameController(Context context, SingleTouch singleTouchReference) {
         InitializeVisualization(context);
 
 
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
         SetupFinished = true;
+
+        SingleTouchReference = singleTouchReference;
 
 
     }
@@ -68,9 +72,10 @@ public class GameController implements Runnable {
         Player = new Player(this,200,200, "Player");
         AddToEntities(Player);
 
-        AddToEntities(new Player(this,600,600,"Coin1"));
-        AddToEntities(new Player(this,600,800,"Coin2"));
-        AddToEntities(new Player(this,600,1000,"Coin3"));
+        // TODO : Change coins to being a collectable instead of a player
+        AddToEntities(new Collectable(this,600,600,"Coin1"));
+        AddToEntities(new Collectable(this,600,800,"Coin2"));
+        AddToEntities(new Collectable(this,600,1000,"Coin3"));
 
         //AddToEntities(new Player(this,200,600,"Error"));
 
@@ -94,8 +99,6 @@ public class GameController implements Runnable {
     public void run() {
         while (IsPlaying && SetupFinished)
         {
-            // TODO : Make an input function and put stuff for the linacc here
-            //Input();
             long TimeSinceLastLogic = System.currentTimeMillis() - LastLogicTime;
 
             if (TimeSinceLastLogic >= TickTime)
@@ -114,7 +117,7 @@ public class GameController implements Runnable {
             long TimeSinceLastVis = System.currentTimeMillis() - LastVisTime;
 
 
-            // If larger than 1 millisecond? In other words, pretty much always?
+            // If larger than 1 millisecond? always?
             if (TimeSinceLastVis >= 1)
             {
                 FPS = 1000 / TimeSinceLastVis;

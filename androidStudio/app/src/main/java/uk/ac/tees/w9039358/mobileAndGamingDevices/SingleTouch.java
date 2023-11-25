@@ -6,7 +6,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class SingleTouch implements View.OnTouchListener {
-    StringBuilder sb = new StringBuilder();
+    private StringBuilder sb = new StringBuilder();
+    private float XMovement = 0;
+
 
 
     public boolean onTouch(View v, MotionEvent event){
@@ -19,13 +21,26 @@ public class SingleTouch implements View.OnTouchListener {
                 sb.append("up, ");
                 break;
             case MotionEvent.ACTION_MOVE:
-                sb.append("move, ");
+                OnActionMove(event);
                 break;
         }
         sb.append(event.getX() + ", " + event.getY());
         String text = sb.toString();
         Log.i("SingleTouch.onTouch", text);
         return true;
+    }
+
+    private void OnActionMove(MotionEvent event)
+    {
+        sb.append("move, ");
+        XMovement += event.getX();
+    }
+
+    private float GetXMovement()
+    {
+        float xMovement = XMovement;
+        XMovement = 0;
+        return xMovement;
     }
 
 }

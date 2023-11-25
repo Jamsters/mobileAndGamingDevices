@@ -12,6 +12,6 @@
     <string name="ButtonQuit">Quit</string>
     <string name="ButtonContinue">Continue</string>
     <string name="WinMessage">You have won</string>
-    <string name="LoseMessage">YOu have lost</string>
+    <string name="LoseMessage">You have lost</string>
 
 </resources>
