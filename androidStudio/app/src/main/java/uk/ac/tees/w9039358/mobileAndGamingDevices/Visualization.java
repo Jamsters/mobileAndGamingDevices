@@ -128,7 +128,7 @@ public class Visualization extends SurfaceView {
             Entity Entity = entity;
             Sprite Sprite = GetSprite(entity.SpriteName);
 
-            RectF WhereToDraw = new RectF(Entity.XPos,Entity.YPos,Entity.XPos+Sprite.FrameW,Entity.YPos + Sprite.FrameH);
+            RectF WhereToDraw = new RectF(Entity.GetXPos(), Entity.GetYPos(), Entity.GetXPos() +Sprite.FrameW, Entity.GetYPos() + Sprite.FrameH);
 
             if ((Entity.GetIsMoving()||Entity.GetIsAlwaysAnimated()) == true) {
                 Sprite.ManageCurrentFrame();

@@ -12,11 +12,6 @@ public class Collectable extends Entity{
     }
 
     @Override
-    protected void Draw() {
-
-    }
-
-    @Override
     public void Update() {
         Move();
     }

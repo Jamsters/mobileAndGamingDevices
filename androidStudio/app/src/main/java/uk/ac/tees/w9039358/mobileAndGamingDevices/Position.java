@@ -27,11 +27,11 @@ public class Position {
 
     public float GetWidthXPosition()
     {
-//        Vector2D topLeftPosition = TopLeftPosition;
-//        topLeftPosition.AddX(GetWidthSize());
-//        return topLeftPosition.GetX();
-//
-        return TopLeftPosition.GetX()+GetWidthSize();
+        Vector2D topLeftPosition = TopLeftPosition;
+        topLeftPosition.AddX(GetWidthSize());
+        return topLeftPosition.GetX();
+
+        //return TopLeftPosition.GetX()+GetWidthSize();
     }
 
     public float GetHeightYPosition()

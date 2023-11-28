@@ -44,10 +44,14 @@ public class GameController implements Runnable {
 
 
     public GameController(Context context, SingleTouch singleTouchReference) {
+
         InitializeVisualization(context);
 
-        LinAcc = new LinearAccelerometer(context);
+
+
         EntityInit();
+        LinAcc = new LinearAccelerometer(context);
+
         SingleTouchReference = singleTouchReference;
 
         SetupFinished = true;
@@ -74,9 +78,9 @@ public class GameController implements Runnable {
         AddToEntities(Player);
 
         // TODO : Change coins to being a collectable instead of a player
-        AddToEntities(new Collectable(this,600,600,"Coin1"));
-        AddToEntities(new Collectable(this,600,800,"Coin2"));
-        AddToEntities(new Collectable(this,600,1000,"Coin3"));
+        AddToEntities(new Collectable(this,600,1200,"Coin1"));
+        AddToEntities(new Collectable(this,600,1400,"Coin2"));
+        AddToEntities(new Collectable(this,600,1600,"Coin3"));
 
         //AddToEntities(new Player(this,200,600,"Error"));
 

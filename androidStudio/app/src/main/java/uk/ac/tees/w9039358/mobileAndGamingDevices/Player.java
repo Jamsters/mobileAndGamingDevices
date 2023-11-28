@@ -11,11 +11,6 @@ public class Player extends Entity{
     }
 
     @Override
-    protected void Draw() {
-
-    }
-
-    @Override
     public void Update() {
         Move();
     }
@@ -25,7 +20,7 @@ public class Player extends Entity{
         // Init
         float MoveInput = GameControllerReference.SingleTouchReference.GetXMovement();
 
-        float Difference = MoveInput - XPos;
+        float Difference = MoveInput - GetXPos();
 
         float Acceleration = GameControllerReference.SingleTouchReference.GetXMovement(); // / FPS;
 
@@ -38,24 +33,24 @@ public class Player extends Entity{
 
         // Don't need to * acceleration by elapsed ticks because it already keeps track of missed acceleration by holding it
         Velocity = (Velocity + Acceleration /* elapsedTicks */) * VelocityMultiplier;
-        XPos = XPos + Velocity * elapsedTicks;
+        SetXPos(GetXPos() + Velocity * elapsedTicks);
 
-        XPos = Acceleration;
+        SetXPos(Acceleration);
 
 
         // getWidth and getHeight are 0 at launch, it might be possible to change that and avoid this first if statement?
         if (GameControllerReference.Vis.GetScreenSize().GetX() != 0 && GameControllerReference.Vis.GetScreenSize().GetY() != 0)
         {
             // X Bounds Right
-            if ((XPos+TempSprite.FrameW > GameControllerReference.Vis.GetScreenSize().GetX()))
+            if ((GetXPos() +TempSprite.FrameW > GameControllerReference.Vis.GetScreenSize().GetX()))
             {
-                XPos = (GameControllerReference.Vis.GetScreenSize().GetX()-TempSprite.FrameW);
+                SetXPos((GameControllerReference.Vis.GetScreenSize().GetX()-TempSprite.FrameW));
             }
 
             // X Bounds Left
-            if ((XPos) < 0)
+            if ((GetXPos()) < 0)
             {
-                XPos = 0;
+                SetXPos(0);
             }
         }
 

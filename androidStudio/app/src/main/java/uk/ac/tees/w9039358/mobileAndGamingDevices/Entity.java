@@ -1,17 +1,8 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
-import android.graphics.RectF;
-
 public abstract class Entity {
-
-//    TODO : Change pos into Vector2D
-
-    // Top left position
-
-    public float XPos, YPos;
-
     public float Velocity, YVelocity;
-    Position Position;
+    Position Position;// = new Position(new Vector2D(0,0),new Vector2D(0,0));
     // TODO: Remove TempSprite later once Vis uses sprite name
     public Sprite TempSprite = new Sprite("ManRunning",R.drawable.run,8,115,137,100);
 
@@ -31,17 +22,13 @@ public abstract class Entity {
     Entity(GameController gameControllerReference, float xPos, float yPos, String spriteName)
     {
         GameControllerReference = gameControllerReference;
-        XPos = xPos;
-        YPos = yPos;
         SpriteName = spriteName;
 
 
-        Vector2D TopLeftPosition = new Vector2D(xPos,yPos);
+       //Vector2D TopLeftPosition = new Vector2D(xPos,yPos);
         Vector2D BoundingBox = GameControllerReference.Vis.GetBoundingBoxFromSprite(SpriteName);
-        Position = new Position(TopLeftPosition, BoundingBox);
+        Position = new Position(new Vector2D(xPos,yPos), BoundingBox);
     }
-
-    protected abstract void Draw();
 
     public abstract void Update();
 
@@ -50,7 +37,7 @@ public abstract class Entity {
     protected void MoveUp()
     {
         // Need game tick?
-        YPos += YVelocity;
+        SetYPos(GetYPos() + YVelocity);
     }
 
     protected void Move()
@@ -86,6 +73,20 @@ public abstract class Entity {
     }
 
 
+    public float GetXPos() {
+        return Position.TopLeftPosition.GetX();
+    }
 
+    public void SetXPos(float XPos) {
+        //this.XPos = XPos;
+        this.Position.TopLeftPosition.SetX(XPos);
+    }
 
+    public float GetYPos() {
+        return Position.TopLeftPosition.GetY();
+    }
+
+    public void SetYPos(float YPos) {
+        this.Position.TopLeftPosition.SetY(YPos);
+    }
 }
