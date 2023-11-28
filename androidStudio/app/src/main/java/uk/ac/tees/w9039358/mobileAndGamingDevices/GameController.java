@@ -180,4 +180,12 @@ public class GameController implements Runnable {
             Log.e("GameController", "Interrupted");
         }
     }
+
+    public boolean IsScreenValid ()
+    {
+        // Screen getWidth and getHeight are 0 at launch, meaning that they're not valid.
+
+        boolean ScreenSizeIsNotZero = Vis.GetScreenSize().GetX() != 0 && Vis.GetScreenSize().GetY() != 0;
+        return ScreenSizeIsNotZero;
+    }
 }

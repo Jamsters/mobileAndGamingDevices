@@ -55,6 +55,22 @@ public class Position {
         return topLeftPosition;
     }
 
+    public float GetXPos() {
+        return TopLeftPosition.GetX();
+    }
+
+    public void SetXPos(float XPos) {
+        this.TopLeftPosition.SetX(XPos);
+    }
+
+    public float GetYPos() {
+        return TopLeftPosition.GetY();
+    }
+
+    public void SetYPos(float YPos) {
+        this.TopLeftPosition.SetY(YPos);
+    }
+
 
 
 }

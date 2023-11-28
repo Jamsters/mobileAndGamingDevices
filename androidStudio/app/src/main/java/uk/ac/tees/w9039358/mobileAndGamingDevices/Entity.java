@@ -29,7 +29,7 @@ public abstract class Entity {
     protected void MoveUp()
     {
         // Need game tick?
-        SetYPos(GetYPos() + YVelocity);
+        Position.SetYPos(Position.GetYPos() + YVelocity);
     }
 
     protected void Move()
@@ -43,6 +43,41 @@ public abstract class Entity {
         else
         {
             IsMoving = false;
+        }
+    }
+
+    protected void KeepInBounds()
+    {
+        KeepInHorizontalBounds();
+        KeepInVerticalBounds();
+    }
+
+    void KeepInHorizontalBounds()
+    {
+        if (GameControllerReference.IsScreenValid())
+        {
+            // Left
+            if ((Position.TopLeftPosition.GetX()) < 0)
+            {
+                Position.SetXPos(0);
+            }
+
+            // Right
+            if ((Position.GetWidthXPosition() > GameControllerReference.Vis.GetScreenSize().GetX()))
+            {
+                Position.SetXPos((GameControllerReference.Vis.GetScreenSize().GetX() - Position.GetWidthSize()));
+            }
+
+        }
+    }
+
+    void KeepInVerticalBounds()
+    {
+        if (GameControllerReference.IsScreenValid())
+        {
+            // Top
+
+            // Bottom
         }
     }
 
@@ -62,23 +97,5 @@ public abstract class Entity {
             IsAlwaysMovingUp = false;
         }
         return IsAlwaysMovingUp;
-    }
-
-    // TODO : Use Position class methods for getters and setters for X and Y
-    public float GetXPos() {
-        return Position.TopLeftPosition.GetX();
-    }
-
-    public void SetXPos(float XPos) {
-        //this.XPos = XPos;
-        this.Position.TopLeftPosition.SetX(XPos);
-    }
-
-    public float GetYPos() {
-        return Position.TopLeftPosition.GetY();
-    }
-
-    public void SetYPos(float YPos) {
-        this.Position.TopLeftPosition.SetY(YPos);
     }
 }

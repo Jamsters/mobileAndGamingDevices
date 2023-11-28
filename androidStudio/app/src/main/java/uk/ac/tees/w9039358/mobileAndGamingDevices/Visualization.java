@@ -125,10 +125,11 @@ public class Visualization extends SurfaceView {
     }
     public void Draw(Entity entity) {
         if (SurfaceHolder.getSurface().isValid()) {
+            Position ePos = entity.Position;
             Entity Entity = entity;
             Sprite Sprite = GetSprite(entity.SpriteName);
 
-            RectF WhereToDraw = new RectF(Entity.GetXPos(), Entity.GetYPos(), Entity.GetXPos() +Sprite.FrameW, Entity.GetYPos() + Sprite.FrameH);
+            RectF WhereToDraw = new RectF(ePos.GetXPos(), ePos.GetYPos(), ePos.GetXPos() +Sprite.FrameW, ePos.GetYPos() + Sprite.FrameH);
 
             if ((Entity.GetIsMoving()||Entity.GetIsAlwaysAnimated()) == true) {
                 Sprite.ManageCurrentFrame();
@@ -146,16 +147,12 @@ public class Visualization extends SurfaceView {
         ScreenSize.SetY(ScreenHeightFromView());
         return ScreenSize;
     }
-
-    // Remember ScreenWidthFromView() and ScreenHeightFromView() return 0 at initialization
     private int ScreenWidthFromView() {
         return getWidth();
     }
-
     private int ScreenHeightFromView() {
         return getHeight();
     }
-
     public void DrawBackground() {
         if (SurfaceHolder.getSurface().isValid()) {
             /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
