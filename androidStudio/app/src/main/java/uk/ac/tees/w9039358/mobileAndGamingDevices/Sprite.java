@@ -28,9 +28,9 @@ public class Sprite {
         FrameLengthInMS = frameLengthInMS;
 
 
-        FrameToDraw = new Rect(0,0,FrameW,FrameH);
+        FrameToDraw = new Rect(0,0,frameW,frameH);
 
-        BoundingBox = (new Vector2D(FrameW,FrameH));
+        BoundingBox = (new Vector2D(frameW,frameH));
     }
 
     public void ManageCurrentFrame()

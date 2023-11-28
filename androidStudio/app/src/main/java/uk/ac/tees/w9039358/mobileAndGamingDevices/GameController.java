@@ -47,10 +47,10 @@ public class GameController implements Runnable {
 
         InitializeVisualization(context);
 
-
+        LinAcc = new LinearAccelerometer(context);
 
         EntityInit();
-        LinAcc = new LinearAccelerometer(context);
+
 
         SingleTouchReference = singleTouchReference;
 

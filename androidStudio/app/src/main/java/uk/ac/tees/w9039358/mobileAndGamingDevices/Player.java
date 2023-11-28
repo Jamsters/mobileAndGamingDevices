@@ -42,9 +42,9 @@ public class Player extends Entity{
         if (GameControllerReference.Vis.GetScreenSize().GetX() != 0 && GameControllerReference.Vis.GetScreenSize().GetY() != 0)
         {
             // X Bounds Right
-            if ((GetXPos() +TempSprite.FrameW > GameControllerReference.Vis.GetScreenSize().GetX()))
+            if ((Position.GetWidthXPosition() > GameControllerReference.Vis.GetScreenSize().GetX()))
             {
-                SetXPos((GameControllerReference.Vis.GetScreenSize().GetX()-TempSprite.FrameW));
+                SetXPos((GameControllerReference.Vis.GetScreenSize().GetX() - Position.GetWidthSize()));
             }
 
             // X Bounds Left
