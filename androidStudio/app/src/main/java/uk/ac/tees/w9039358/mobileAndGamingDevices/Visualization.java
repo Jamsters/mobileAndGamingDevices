@@ -126,12 +126,11 @@ public class Visualization extends SurfaceView {
     public void Draw(Entity entity) {
         if (SurfaceHolder.getSurface().isValid()) {
             Position ePos = entity.Position;
-            Entity Entity = entity;
             Sprite Sprite = GetSprite(entity.SpriteName);
 
-            RectF WhereToDraw = new RectF(ePos.GetXPos(), ePos.GetYPos(), ePos.GetXPos() +Sprite.FrameW, ePos.GetYPos() + Sprite.FrameH);
+            RectF WhereToDraw = new RectF(ePos.GetXPos(), ePos.GetYPos(), ePos.GetWidthXPosition(), ePos.GetHeightYPosition());
 
-            if ((Entity.GetIsMoving()||Entity.GetIsAlwaysAnimated()) == true) {
+            if ((entity.GetIsMoving()||entity.GetIsAlwaysAnimated())) {
                 Sprite.ManageCurrentFrame();
             }
 

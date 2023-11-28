@@ -2,11 +2,11 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public class Collectable extends Entity{
 
-    Collectable(GameController gameControllerReference, float xPos, float yPos,String spriteName)
+    Collectable(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
     {
-        super(gameControllerReference, xPos,yPos, spriteName);
+        super(gameControllerReference, topLeftPosition, spriteName);
         Velocity = 0;
-        YVelocity = -10;
+        YVelocity = 10;
         IsAlwaysMovingUp = true;
 
     }
@@ -17,6 +17,6 @@ public class Collectable extends Entity{
     }
 
     protected void MoveImplementation(){
-
+        KeepInBounds();
     }
 }

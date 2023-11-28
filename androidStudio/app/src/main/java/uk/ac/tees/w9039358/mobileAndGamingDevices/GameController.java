@@ -74,13 +74,14 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
-        Player = new Player(this,200,200, "Player");
+        Player = new Player(this,new Vector2D(200,200), "Player");
         AddToEntities(Player);
 
+
         // TODO : Change coins to being a collectable instead of a player
-        AddToEntities(new Collectable(this,600,1200,"Coin1"));
-        AddToEntities(new Collectable(this,600,1400,"Coin2"));
-        AddToEntities(new Collectable(this,600,1600,"Coin3"));
+        AddToEntities(new Collectable(this, new Vector2D(600,1200),"Coin1"));
+        AddToEntities(new Collectable(this, new Vector2D(600,1200),"Coin2"));
+        AddToEntities(new Collectable(this, new Vector2D(600,1200),"Coin3"));
 
         //AddToEntities(new Player(this,200,600,"Error"));
 
@@ -184,8 +185,25 @@ public class GameController implements Runnable {
     public boolean IsScreenValid ()
     {
         // Screen getWidth and getHeight are 0 at launch, meaning that they're not valid.
+        float x = Vis.GetScreenSize().GetX();
+        float y = Vis.GetScreenSize().GetY();
 
-        boolean ScreenSizeIsNotZero = Vis.GetScreenSize().GetX() != 0 && Vis.GetScreenSize().GetY() != 0;
-        return ScreenSizeIsNotZero;
+        x = (float) Math.floor(x);
+        y = (float) Math.floor(y);
+
+        boolean ScreenSizeIsNotZero = (x != 0 && y != 0);
+        if (ScreenSizeIsNotZero && IsSetupFinished())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public boolean IsSetupFinished()
+    {
+        return SetupFinished;
     }
 }

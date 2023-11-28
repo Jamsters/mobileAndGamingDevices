@@ -11,15 +11,14 @@ public abstract class Entity {
     protected boolean IsAlwaysMovingUp = false;
     protected GameController GameControllerReference;
 
-    Entity(GameController gameControllerReference, float xPos, float yPos, String spriteName)
+    Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
     {
         GameControllerReference = gameControllerReference;
         SpriteName = spriteName;
 
 
-        Vector2D TopLeftPosition = new Vector2D(xPos,yPos);
         Vector2D BoundingBox = GameControllerReference.Vis.GetBoundingBoxFromSprite(SpriteName);
-        Position = new Position(TopLeftPosition, BoundingBox);
+        Position = new Position(topLeftPosition, BoundingBox);
     }
 
     public abstract void Update();
@@ -67,7 +66,6 @@ public abstract class Entity {
             {
                 Position.SetXPos((GameControllerReference.Vis.GetScreenSize().GetX() - Position.GetWidthSize()));
             }
-
         }
     }
 
@@ -76,8 +74,16 @@ public abstract class Entity {
         if (GameControllerReference.IsScreenValid())
         {
             // Top
+            if (Position.TopLeftPosition.GetY() < 0)
+            {
+                Position.SetYPos(0);
+            }
 
             // Bottom
+            if (Position.GetHeightYPosition() > GameControllerReference.Vis.GetScreenSize().GetY())
+            {
+                Position.SetYPos(GameControllerReference.Vis.GetScreenSize().GetY() - Position.GetHeightSize());
+            }
         }
     }
 

@@ -27,7 +27,7 @@ public class Position {
 
     public float GetWidthXPosition()
     {
-        Vector2D topLeftPosition = TopLeftPosition;
+        Vector2D topLeftPosition = new Vector2D(TopLeftPosition.GetX(), TopLeftPosition.GetY());
         topLeftPosition.AddX(GetWidthSize());
         return topLeftPosition.GetX();
 
@@ -36,21 +36,21 @@ public class Position {
 
     public float GetHeightYPosition()
     {
-        Vector2D topLeftPosition = TopLeftPosition;
+        Vector2D topLeftPosition = new Vector2D(TopLeftPosition.GetX(), TopLeftPosition.GetY());
         topLeftPosition.AddY(GetHeightSize());
         return topLeftPosition.GetY();
     }
 
     public Vector2D GetCentrePosition()
     {
-        Vector2D topLeftPosition = TopLeftPosition;
-        topLeftPosition.Add(GetCentreSize());
+        Vector2D topLeftPosition = new Vector2D(TopLeftPosition.GetX(), TopLeftPosition.GetY());
+        topLeftPosition.Add(GetCentrePosition());
         return topLeftPosition;
     }
 
     public Vector2D GetWidthAndHeightPosition ()
     {
-        Vector2D topLeftPosition = TopLeftPosition;
+        Vector2D topLeftPosition = new Vector2D(TopLeftPosition.GetX(), TopLeftPosition.GetY());
         topLeftPosition.Add(BoundingBox);
         return topLeftPosition;
     }
@@ -60,7 +60,7 @@ public class Position {
     }
 
     public void SetXPos(float XPos) {
-        this.TopLeftPosition.SetX(XPos);
+        TopLeftPosition.SetX(XPos);
     }
 
     public float GetYPos() {
@@ -68,7 +68,7 @@ public class Position {
     }
 
     public void SetYPos(float YPos) {
-        this.TopLeftPosition.SetY(YPos);
+        TopLeftPosition.SetY(YPos);
     }
 
 
