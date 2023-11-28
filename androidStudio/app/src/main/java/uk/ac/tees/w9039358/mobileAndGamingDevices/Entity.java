@@ -1,40 +1,33 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
 public abstract class Entity {
 
-//    TODO : Change variable visbility later once refactored
-    public float XPos, YPos, Velocity;
+//    TODO : Change pos into Vector2D
 
+    // Top left position
+
+    public float XPos, YPos;
+
+    public float Velocity, YVelocity;
+    Position Position;
     // TODO: Remove TempSprite later once Vis uses sprite name
     public Sprite TempSprite = new Sprite("ManRunning",R.drawable.run,8,115,137,100);
 
     protected String SpriteName;
-
-    public boolean IsMoving = true;
-
+    public boolean IsAllowedToMove = true;
+    private boolean IsAlwaysAnimated = false;
     protected boolean IsVisible = true;
+    protected boolean IsMoving = false;
 
-    //protected
-
-
-    // TODO : Move these variables / their functionality into vis later
-
-    public RectF WhereToDraw = new RectF(XPos,YPos,XPos+TempSprite.FrameW,TempSprite.FrameH);
+    protected boolean IsAlwaysMovingUp;
 
     protected GameController GameControllerReference;
 
 
     // TODO : Use frame w and frame h to get a bounding box for this
-    // Drawable for this entity, e.g. R.drawable.run
 
-    // Should frame info be contained here? Probably not. Should put it into Visualization
-
-    //
     Entity(GameController gameControllerReference, float xPos, float yPos, String spriteName)
     {
         GameControllerReference = gameControllerReference;
@@ -42,16 +35,57 @@ public abstract class Entity {
         YPos = yPos;
         SpriteName = spriteName;
 
+
+        Vector2D TopLeftPosition = new Vector2D(xPos,yPos);
+        Vector2D BoundingBox = GameControllerReference.Vis.GetBoundingBoxFromSprite(SpriteName);
+        Position = new Position(TopLeftPosition, BoundingBox);
     }
 
     protected abstract void Draw();
 
     public abstract void Update();
 
-    protected abstract void Move();
+    protected abstract void MoveImplementation();
 
+    protected void MoveUp()
+    {
+        // Need game tick?
+        YPos += YVelocity;
+    }
+
+    protected void Move()
+    {
+        if (GetIsAllowedToMove())
+        {
+            MoveUp();
+            MoveImplementation();
+            IsMoving = true;
+        }
+        else
+        {
+            IsMoving = false;
+        }
+    }
+
+    protected boolean GetIsAllowedToMove() {return IsAllowedToMove;}
+    protected boolean GetIsAlwaysAnimated() {return IsAlwaysAnimated; }
     protected boolean GetIsVisible() {return IsVisible;}
 
     protected boolean GetIsMoving() {return IsMoving;}
+
+    protected boolean GetIsAlwaysMovingUp() {
+        if (YVelocity == 0)
+        {
+            IsAlwaysMovingUp = true;
+        }
+        else
+        {
+            IsAlwaysMovingUp = false;
+        }
+        return IsAlwaysMovingUp;
+    }
+
+
+
 
 }

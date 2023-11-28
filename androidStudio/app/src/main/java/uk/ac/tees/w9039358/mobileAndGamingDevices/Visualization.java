@@ -5,12 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,12 +41,19 @@ public class Visualization extends SurfaceView {
         int Run = R.drawable.run;
         int Coin = R.drawable.coin;
 
+        AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
+
+        //        for (int i = 10; i >= 0; i--)
+//        {
+//            AddToEntities(new Player(this,300,i*100,"Second"));
+//        }
+
         AddToSprites("Coin1", new Sprite("Coin",Coin,8,150,150, 100));
         AddToSprites("Coin2", new Sprite("Coin",Coin,8,150,150, 100));
         AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
-        AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
+
     }
 
     private boolean SpritesKeyExists (String key)
@@ -71,8 +77,11 @@ public class Visualization extends SurfaceView {
         }
     }
 
-    private void InitializeBitmap(int resource, Sprite sprite, boolean createScaled)
-    {
+    public Vector2D GetBoundingBoxFromSprite(String spriteName) {
+        return GetSprite(spriteName).GetBoundingBox();
+    }
+
+    private void InitializeBitmap(int resource, Sprite sprite, boolean createScaled) {
         if (!BitmapKeyExists(sprite.BitmapName))
         {
             Bitmap bitmap;
@@ -119,15 +128,15 @@ public class Visualization extends SurfaceView {
             Entity Entity = entity;
             Sprite Sprite = GetSprite(entity.SpriteName);
 
+            RectF WhereToDraw = new RectF(Entity.XPos,Entity.YPos,Entity.XPos+Sprite.FrameW,Entity.YPos + Sprite.FrameH);
 
-            Entity.WhereToDraw.set(Entity.XPos,Entity.YPos,Entity.XPos + Sprite.FrameW, Entity.YPos + Sprite.FrameH);
-            if (Entity.GetIsMoving() == true) {
+            if ((Entity.GetIsMoving()||Entity.GetIsAlwaysAnimated()) == true) {
                 Sprite.ManageCurrentFrame();
             }
 
             Bitmap Bitmap = GetBitmap(Sprite.BitmapName);
 
-            Canvas.drawBitmap(Bitmap, Sprite.FrameToDraw,Entity.WhereToDraw,null);
+            Canvas.drawBitmap(Bitmap, Sprite.FrameToDraw,WhereToDraw,null);
         }
     }
 

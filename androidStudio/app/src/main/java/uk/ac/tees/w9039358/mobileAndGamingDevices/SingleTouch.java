@@ -13,6 +13,7 @@ public class SingleTouch implements View.OnTouchListener {
 
     public boolean onTouch(View v, MotionEvent event){
         sb.setLength(0);
+        XMovement = event.getX();
         switch(event.getActionMasked()){
             case MotionEvent.ACTION_DOWN:
                 sb.append("down, ");
@@ -33,14 +34,15 @@ public class SingleTouch implements View.OnTouchListener {
     private void OnActionMove(MotionEvent event)
     {
         sb.append("move, ");
-        XMovement += event.getX();
+
     }
 
-    private float GetXMovement()
+    protected float GetXMovement()
     {
-        float xMovement = XMovement;
-        XMovement = 0;
-        return xMovement;
+//        float xMovement = XMovement;
+//        XMovement = 0;
+//        return xMovement;
+        return XMovement;
     }
 
 }

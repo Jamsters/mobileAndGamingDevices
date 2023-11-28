@@ -6,6 +6,8 @@ public class Collectable extends Entity{
     {
         super(gameControllerReference, xPos,yPos, spriteName);
         Velocity = 0;
+        YVelocity = -10;
+        IsAlwaysMovingUp = true;
 
     }
 
@@ -19,7 +21,7 @@ public class Collectable extends Entity{
         Move();
     }
 
-    protected void Move(){
+    protected void MoveImplementation(){
 
     }
 }

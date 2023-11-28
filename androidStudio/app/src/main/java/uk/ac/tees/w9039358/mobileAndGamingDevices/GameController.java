@@ -35,7 +35,7 @@ public class GameController implements Runnable {
 
     public Visualization Vis;
 
-    private SingleTouch SingleTouchReference;
+    protected SingleTouch SingleTouchReference;
 
     public boolean SetupFinished = false;
 
@@ -46,12 +46,13 @@ public class GameController implements Runnable {
     public GameController(Context context, SingleTouch singleTouchReference) {
         InitializeVisualization(context);
 
-
         LinAcc = new LinearAccelerometer(context);
         EntityInit();
+        SingleTouchReference = singleTouchReference;
+
         SetupFinished = true;
 
-        SingleTouchReference = singleTouchReference;
+
 
 
     }

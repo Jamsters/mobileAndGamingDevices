@@ -13,7 +13,9 @@ public class Sprite {
     protected String BitmapName;
     protected int ResourceID;
 
-    public boolean IsMoving = true;
+    private Vector2D BoundingBox;
+
+
 
     Sprite(String bitmapName, int resourceID, int frameCount, int frameW, int frameH, int frameLengthInMS)
     {
@@ -27,34 +29,28 @@ public class Sprite {
 
 
         FrameToDraw = new Rect(0,0,FrameW,FrameH);
-    }
 
-    public void IncrementCurrentFrame()
-    {
-        CurrentFrame++;
-
+        BoundingBox = (new Vector2D(FrameW,FrameH));
     }
 
     public void ManageCurrentFrame()
     {
         long Time = System.currentTimeMillis();
-        if (IsMoving) {
-            if (Time > LastFrameChangeTime + FrameLengthInMS)
+        if (Time > LastFrameChangeTime + FrameLengthInMS)
+        {
+            LastFrameChangeTime = Time;
+            CurrentFrame++;
+            if (CurrentFrame >= FrameCount)
             {
-                LastFrameChangeTime = Time;
-                CurrentFrame++;
-                if (CurrentFrame >= FrameCount)
-                {
-                    CurrentFrame = 0;
-                }
+                CurrentFrame = 0;
             }
         }
         FrameToDraw.left = CurrentFrame * FrameW;
         FrameToDraw.right = FrameToDraw.left + FrameW;
     }
 
-
-
-
-
+    public Vector2D GetBoundingBox()
+    {
+        return BoundingBox;
+    }
 }
