@@ -1,12 +1,13 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public class Position {
-    private Vector2D BoundingBox;
-    private Vector2D TopLeftPosition;
+    protected Vector2D BoundingBox;
+    protected Vector2D TopLeftPosition;
 
-    Position(Vector2D TopLeftPosition, Vector2D boundingBox)
+    Position(Vector2D topLeftPosition, Vector2D boundingBox)
     {
         BoundingBox = boundingBox;
+        TopLeftPosition = topLeftPosition;
     }
 
     public float GetWidthSize()
@@ -24,24 +25,34 @@ public class Position {
         return new Vector2D(BoundingBox.GetX()/2, BoundingBox.GetY()/2 );
     }
 
-    public Vector2D GetWidthPosition(Vector2D topLeft)
+    public float GetWidthXPosition()
     {
-        return topLeft.AddX(GetWidthSize());
+//        Vector2D topLeftPosition = TopLeftPosition;
+//        topLeftPosition.AddX(GetWidthSize());
+//        return topLeftPosition.GetX();
+//
+        return TopLeftPosition.GetX()+GetWidthSize();
     }
 
-    public Vector2D GetHeightPosition(Vector2D topLeft)
+    public float GetHeightYPosition()
     {
-        return topLeft.AddY(GetHeightSize());
+        Vector2D topLeftPosition = TopLeftPosition;
+        topLeftPosition.AddY(GetHeightSize());
+        return topLeftPosition.GetY();
     }
 
-    public Vector2D GetCentrePosition(Vector2D topLeft)
+    public Vector2D GetCentrePosition()
     {
-        return topLeft.Add(GetCentreSize());
+        Vector2D topLeftPosition = TopLeftPosition;
+        topLeftPosition.Add(GetCentreSize());
+        return topLeftPosition;
     }
 
-    public Vector2D GetWidthAndHeightPosition (Vector2D topLeft)
+    public Vector2D GetWidthAndHeightPosition ()
     {
-        return topLeft.Add(BoundingBox);
+        Vector2D topLeftPosition = TopLeftPosition;
+        topLeftPosition.Add(BoundingBox);
+        return topLeftPosition;
     }
 
 
