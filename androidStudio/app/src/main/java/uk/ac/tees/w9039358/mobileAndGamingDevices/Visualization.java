@@ -157,6 +157,7 @@ public class Visualization extends SurfaceView {
             Bitmap Bitmap = GetBitmap(Sprite.BitmapName);
 
             Canvas.drawBitmap(Bitmap, Sprite.FrameToDraw,WhereToDraw,null);
+
         }
     }
 

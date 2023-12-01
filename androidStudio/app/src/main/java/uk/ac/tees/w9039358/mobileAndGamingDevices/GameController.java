@@ -45,6 +45,8 @@ public class GameController implements Runnable {
 
         LinAcc = new LinearAccelerometer(context);
 
+        // Vis has to be setup before we run this
+
         EntityInit();
 
 
@@ -147,18 +149,29 @@ public class GameController implements Runnable {
     }
 
     private void Visualization() {
-        Vis.DrawStart();
-        Vis.DrawBackground();
 
-        for (Entity entity : Entities)
-        {
-            if (entity.GetIsVisible()) {
-                Vis.Draw(entity);
+        try {
+            Vis.DrawStart();
+            Vis.DrawBackground();
+
+            for (Entity entity : Entities)
+            {
+                if (entity.GetIsVisible() && entity != null) {
+                    Vis.Draw(entity);
+                }
+
             }
 
+            Vis.DrawEnd();
+        }
+        catch(Exception e)
+        {
+            // TODO : Figure out how the exception here occurs (a random one happens every X restarts), the current try stops it. Think it has to do with accessing
+            // an entity that is null but when I changed for it to not draw I still got errors. Maybe it's for the Vis methods as a whole, I was getting problems with
+            // DrawStart, DrawEnd and DrawBackground even when non entities were being drawn.
+            Log.e("GameController.Visualization","Vis loop exception");
         }
 
-        Vis.DrawEnd();
     }
 
     public void Resume() {

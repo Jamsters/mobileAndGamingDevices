@@ -29,6 +29,7 @@ public class Collectable extends Entity{
     protected void MoveImplementation(){
         DefaultMoveImplementation();
         KeepInHorizontalBounds();
+        KeepInVerticalBounds();
     }
 
     // TODO : Investigate making this an interface

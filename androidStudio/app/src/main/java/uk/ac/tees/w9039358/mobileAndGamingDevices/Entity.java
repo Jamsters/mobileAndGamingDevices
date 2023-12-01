@@ -31,11 +31,15 @@ public abstract class Entity {
     {
         // Set position
 
-        // TODO : Check if delta time is actually needed here or if it messes with movement too much
-        float DeltaTime = GameControllerReference.DeltaTime;
+//        // TODO : Check if delta time is actually needed here or if it messes with movement too much
+//        // Answer to above, don't think it is because I only needed to use delta time before for the lin acc adding to a total velocity
+//        float DeltaTime = GameControllerReference.DeltaTime;
+//
+//        Position.SetXPos(Position.GetXPos() + Velocity.GetX() * DeltaTime);
+//        Position.SetYPos(Position.GetYPos() + Velocity.GetY() * DeltaTime);
 
-        Position.SetXPos(Position.GetXPos() + Velocity.GetX() * DeltaTime);
-        Position.SetYPos(Position.GetYPos() + Velocity.GetY() * DeltaTime);
+        Position.SetXPos(Position.GetXPos() + Velocity.GetX());
+        Position.SetYPos(Position.GetYPos() + Velocity.GetY());
 
         // Set IsMoving
         if (Velocity.GetX() == 0 && Velocity.GetY() == 0)
@@ -68,7 +72,7 @@ public abstract class Entity {
         KeepInHorizontalBounds();
         KeepInVerticalBounds();
     }
-
+    // Returns true if hit left or right horizontal bounds
     protected void KeepInHorizontalBounds()
     {
         if (GameControllerReference.IsScreenValid())
@@ -87,6 +91,7 @@ public abstract class Entity {
         }
     }
 
+    // Returns true if hit top or bottom vertical bounds
     protected void KeepInVerticalBounds()
     {
         if (GameControllerReference.IsScreenValid())
@@ -103,6 +108,15 @@ public abstract class Entity {
                 Position.SetYPos(GameControllerReference.Vis.GetScreenSize().GetY() - Position.GetHeightSize());
             }
         }
+    }
+
+    protected boolean KeepInTopBounds()
+    {
+        return true;
+    }
+    protected boolean KeepInBottomBounds()
+    {
+        return true;
     }
     protected void IsOutOfBounds()
     {

@@ -34,8 +34,10 @@ public class Player extends Entity{
 
         float PlayerCentrePosition = Position.GetCentrePosition().GetX();
 
+
         float AbsXMovementToReachMoveTarget = Math.abs(MoveTarget - PlayerCentrePosition);
         float AbsMoveSpeed = Math.abs(MoveSpeed);
+
 
         boolean PlayerAtTarget = PlayerCentrePosition == MoveTarget;
         boolean PlayerWillReachTarget = AbsMoveSpeed > AbsXMovementToReachMoveTarget;
@@ -46,7 +48,6 @@ public class Player extends Entity{
 
         if (PlayerAtTarget)
         {
-            IsMoving = false;
         }
         else if (PlayerWillReachTarget)
         {
@@ -63,6 +64,26 @@ public class Player extends Entity{
         }
 
         DefaultMoveImplementation();
+
+
+        // Stop the player sprite moving at edge of screen
+
+        float PlayerCentreSize = Position.GetCentreSize().GetX();
+        float PlayerXPos = Position.GetXPos();
+
+        float ScreenWidth = GameControllerReference.Vis.GetScreenSize().GetX();
+
+        boolean PlayerInLeftBounds = PlayerXPos >= PlayerCentreSize;
+        boolean PlayerInRightBounds = PlayerXPos <= (ScreenWidth - PlayerCentreSize*2);
+
+        boolean PlayerWithinBounds = PlayerInLeftBounds && PlayerInRightBounds;
+
+        if (!PlayerWithinBounds)
+        {
+            IsMoving = false;
+        }
+
+        // Keep player in bounds
 
         KeepInBounds();
 
