@@ -17,16 +17,12 @@ public class GameController implements Runnable {
     private Thread GameThread;
     private long FPS;
 
-    /* Stuff for the run image at the moment. Change later */
-
     protected LinearAccelerometer LinAcc;
     private long TickTime = 1000/50;
 
-    // How many ticks have happened
+    // How many ticks should (?) have happened
     protected float DeltaTime = 0.0f;
-    // When logic was last used
     private long LastLogicTime = System.currentTimeMillis();
-    // When vis was last used
     private long LastVisTime = System.currentTimeMillis();
 
     ArrayList<Entity> Entities = new ArrayList<>();
@@ -74,12 +70,16 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
+        AddToEntities(new Background(this, new Vector2D(0,0),"Background"));
+
         PlayerReference = new Player(this,new Vector2D(200,200), "Player");
         AddToEntities(PlayerReference);
 
 
-        // TODO : Change coins to being a collectable instead of a player
-        //AddToEntities(new Background(this, new Vector2D(0,0),"Background"));
+        AddToEntities(new Enemy(this, new Vector2D(500,1500),"TempEnemy"));
+
+
+
 
 
         //AddToEntities(new Collectable(this, new Vector2D(600,1400),"Coin2"));
@@ -88,7 +88,7 @@ public class GameController implements Runnable {
         //AddToEntities(new Player(this,200,600,"Error"));
 
         // Multiple entity init / Overlay test
-        for (int i = 5; i >= 0; i--)
+        for (int i = 50; i >= 0; i--)
         {
             AddToEntities(new Collectable(this, new Vector2D(600,500+200*i),("Coin" + Integer.toString(i))));
         }
@@ -105,7 +105,7 @@ public class GameController implements Runnable {
     // Game loop
     @Override
     public void run() {
-        while (IsPlaying && SetupFinished)
+        while (IsPlaying && SetupFinished && Vis.SetupFinished())
         {
             long TimeSinceLastLogic = System.currentTimeMillis() - LastLogicTime;
 

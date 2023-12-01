@@ -29,6 +29,14 @@ public abstract class Entity {
 
     protected void DefaultMoveImplementation()
     {
+        // Set position
+
+        // TODO : Check if delta time is actually needed here or if it messes with movement too much
+        float DeltaTime = GameControllerReference.DeltaTime;
+
+        Position.SetXPos(Position.GetXPos() + Velocity.GetX() * DeltaTime);
+        Position.SetYPos(Position.GetYPos() + Velocity.GetY() * DeltaTime);
+
         // Set IsMoving
         if (Velocity.GetX() == 0 && Velocity.GetY() == 0)
         {
@@ -39,10 +47,7 @@ public abstract class Entity {
             IsMoving = true;
         }
 
-        // Set position
 
-        Position.SetXPos(Position.GetXPos() + Velocity.GetX());
-        Position.SetYPos(Position.GetYPos() + Velocity.GetY());
 
     }
 
@@ -101,7 +106,7 @@ public abstract class Entity {
     }
     protected void IsOutOfBounds()
     {
-        // TODO : When something is out of bounds fully we need to stop it from moving, makes the game lag if it keeps moving
+        // TODO : When something is out of bounds fully we need to stop it from moving, think it makes the game lag if it keeps moving
     }
 
     protected abstract void OnCollision(Entity collider);

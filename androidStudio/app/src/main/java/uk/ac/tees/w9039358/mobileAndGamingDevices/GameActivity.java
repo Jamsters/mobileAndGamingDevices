@@ -44,4 +44,9 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     {
         return SingleTouch.onTouch(v,event);
     }
+
+    public void ReturnToMainMenu()
+    {
+        // Implementation, take to MainActivity
+    }
 }

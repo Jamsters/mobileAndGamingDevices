@@ -20,10 +20,14 @@ public class Visualization extends SurfaceView {
     private Map<String, Sprite> Sprites = new HashMap<>();
     private Map<String, Bitmap> Bitmaps = new HashMap<>();
     private int BackgroundColour = (Color.WHITE);
+
+    private boolean SetupFinished = false;
     Visualization(Context context) {
         super(context);
         SurfaceHolder = getHolder();
         Initialize();
+
+        SetupFinished = true;
     }
     private void Initialize()
     {
@@ -52,9 +56,11 @@ public class Visualization extends SurfaceView {
 
         AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
 
+        AddToSprites("Error", new Sprite("TempEnemy",Error,1,200,200, 100));
+
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
 
-        //AddToSprites("Background", new Sprite("Background",Background,1,512*2,512*2, 100));
+        AddToSprites("Background", new Sprite("Background",Background,1,512*2,512*2, 100));
 
         //AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
 
@@ -63,7 +69,7 @@ public class Visualization extends SurfaceView {
 //            AddToSprites(("Background" + Integer.toString(i)), new Sprite("Background",Background,1,512*4,512*4,100));
 //        }
 
-        for (int i = 5; i >= 0; i--)
+        for (int i = 50; i >= 0; i--)
         {
             AddToSprites(("Coin" + Integer.toString(i)), new Sprite("Coin",Coin,8,150,150,100));
         }
@@ -185,6 +191,11 @@ public class Visualization extends SurfaceView {
         if (SurfaceHolder.getSurface().isValid()) {
             SurfaceHolder.unlockCanvasAndPost(Canvas);
         }
+    }
+
+    public boolean SetupFinished()
+    {
+        return SetupFinished;
     }
 
 }

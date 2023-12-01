@@ -33,7 +33,6 @@ public class Player extends Entity{
         PlayerTouchInput();
 
         float PlayerCentrePosition = Position.GetCentrePosition().GetX();
-        float PlayerCentreSize = Position.GetCentreSize().GetX();
 
         float AbsXMovementToReachMoveTarget = Math.abs(MoveTarget - PlayerCentrePosition);
         float AbsMoveSpeed = Math.abs(MoveSpeed);
@@ -65,14 +64,6 @@ public class Player extends Entity{
 
         DefaultMoveImplementation();
 
-        // TODO : Investigate if collision helper should be an interface? Or maybe include it in the entity class?
-
-
-
-
-
-
-
         KeepInBounds();
 
 
@@ -82,7 +73,7 @@ public class Player extends Entity{
 
     }
 
-    // TODO : Move CollisionChecks() to entity class
+    // TODO : Move CollisionChecks() to entity class?
     public void CollisionChecks()
     {
         for (Entity other : GameControllerReference.Entities)
