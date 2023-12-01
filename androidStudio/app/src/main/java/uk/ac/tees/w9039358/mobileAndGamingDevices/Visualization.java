@@ -31,7 +31,15 @@ public class Visualization extends SurfaceView {
 
         for (Sprite sprite : Sprites.values())
         {
-            InitializeBitmap(sprite.ResourceID, sprite,true);
+            if (sprite.BitmapName == "Background")
+            {
+                InitializeBitmap(sprite.ResourceID, sprite,false);
+            }
+            else
+            {
+                InitializeBitmap(sprite.ResourceID, sprite,true);
+            }
+
         }
     }
 
@@ -40,19 +48,25 @@ public class Visualization extends SurfaceView {
 
         int Run = R.drawable.run;
         int Coin = R.drawable.coin;
+        int Background = R.drawable.background;
 
         AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
 
-        //        for (int i = 10; i >= 0; i--)
+        //AddToSprites("Background", new Sprite("Background",Background,1,512*2,512*2, 100));
+
+        //AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
+
+//        for (int i = 5; i >= 0; i--)
 //        {
-//            AddToEntities(new Player(this,300,i*100,"Second"));
+//            AddToSprites(("Background" + Integer.toString(i)), new Sprite("Background",Background,1,512*4,512*4,100));
 //        }
 
-        AddToSprites("Coin1", new Sprite("Coin",Coin,8,150,150, 100));
-        AddToSprites("Coin2", new Sprite("Coin",Coin,8,150,150, 100));
-        AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
+        for (int i = 5; i >= 0; i--)
+        {
+            AddToSprites(("Coin" + Integer.toString(i)), new Sprite("Coin",Coin,8,150,150,100));
+        }
 
     }
 

@@ -40,7 +40,7 @@ public class SingleTouch implements View.OnTouchListener {
     protected float GetXMovement()
     {
 //        float xMovement = XMovement;
-//        XMovement = 0;
+        //XMovement = 0;
 //        return xMovement;
         return XMovement;
     }

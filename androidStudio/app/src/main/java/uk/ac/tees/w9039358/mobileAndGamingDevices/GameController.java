@@ -31,7 +31,7 @@ public class GameController implements Runnable {
 
     ArrayList<Entity> Entities = new ArrayList<>();
 
-    protected Player Player;
+    protected Player PlayerReference;
 
     public Visualization Vis;
 
@@ -74,22 +74,24 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
-        Player = new Player(this,new Vector2D(200,200), "Player");
-        AddToEntities(Player);
+        PlayerReference = new Player(this,new Vector2D(200,200), "Player");
+        AddToEntities(PlayerReference);
 
 
         // TODO : Change coins to being a collectable instead of a player
-        AddToEntities(new Collectable(this, new Vector2D(600,1200),"Coin1"));
-        AddToEntities(new Collectable(this, new Vector2D(600,1200),"Coin2"));
-        AddToEntities(new Collectable(this, new Vector2D(600,1200),"Coin3"));
+        //AddToEntities(new Background(this, new Vector2D(0,0),"Background"));
+
+
+        //AddToEntities(new Collectable(this, new Vector2D(600,1400),"Coin2"));
+        //AddToEntities(new Collectable(this, new Vector2D(600,1600),"Coin3"));
 
         //AddToEntities(new Player(this,200,600,"Error"));
 
         // Multiple entity init / Overlay test
-//        for (int i = 10; i >= 0; i--)
-//        {
-//            AddToEntities(new Player(this,300,i*100,"Second"));
-//        }
+        for (int i = 5; i >= 0; i--)
+        {
+            AddToEntities(new Collectable(this, new Vector2D(600,500+200*i),("Coin" + Integer.toString(i))));
+        }
 
 
 
@@ -205,5 +207,12 @@ public class GameController implements Runnable {
     public boolean IsSetupFinished()
     {
         return SetupFinished;
+    }
+
+    protected ArrayList<Entity> GetAllOtherEntities(Entity entity)
+    {
+        ArrayList<Entity> AllOther = new ArrayList<Entity>(Entities);
+        AllOther.remove(entity);
+        return AllOther;
     }
 }

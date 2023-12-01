@@ -37,7 +37,13 @@ public class CollisionHelper {
 
     public boolean CollisionCheck(Entity entity1, Entity entity2)
     {
-        return CollisionCheck(entity1.Position,entity2.Position);
+        boolean IsCollision = CollisionCheck(entity1.Position,entity2.Position);
+        if (IsCollision)
+        {
+            entity1.OnCollision(entity2);
+            entity2.OnCollision(entity1);
+        }
+        return IsCollision;
     }
 
 }

@@ -22,7 +22,10 @@ public class Position {
 
     public Vector2D GetCentreSize()
     {
-        return new Vector2D(BoundingBox.GetX()/2, BoundingBox.GetY()/2 );
+        float centreX = BoundingBox.GetX()/2;
+        float centreY = BoundingBox.GetY()/2;
+        Vector2D centreSize = new Vector2D(centreX, centreY);
+        return centreSize;
     }
 
     public float GetWidthXPosition()
@@ -30,8 +33,6 @@ public class Position {
         Vector2D topLeftPosition = new Vector2D(TopLeftPosition.GetX(), TopLeftPosition.GetY());
         topLeftPosition.AddX(GetWidthSize());
         return topLeftPosition.GetX();
-
-        //return TopLeftPosition.GetX()+GetWidthSize();
     }
 
     public float GetHeightYPosition()
@@ -44,7 +45,7 @@ public class Position {
     public Vector2D GetCentrePosition()
     {
         Vector2D topLeftPosition = new Vector2D(TopLeftPosition.GetX(), TopLeftPosition.GetY());
-        topLeftPosition.Add(GetCentrePosition());
+        topLeftPosition.Add(GetCentreSize());
         return topLeftPosition;
     }
 

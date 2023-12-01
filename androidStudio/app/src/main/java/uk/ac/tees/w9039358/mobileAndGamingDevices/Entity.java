@@ -1,15 +1,17 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public abstract class Entity {
-    public float Velocity, YVelocity;
     Position Position;
+    public Vector2D Velocity = new Vector2D(0,0);
     protected String SpriteName;
     public boolean IsAllowedToMove = true;
     private boolean IsAlwaysAnimated = false;
-    protected boolean IsVisible = true;
+    private boolean IsVisible = true;
     protected boolean IsMoving = false;
     protected boolean IsAlwaysMovingUp = false;
     protected GameController GameControllerReference;
+
+    protected CollisionHelper CollisionHelper = new CollisionHelper();
 
     Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
     {
@@ -25,19 +27,30 @@ public abstract class Entity {
 
     protected abstract void MoveImplementation();
 
-    protected void MoveUp()
+    protected void DefaultMoveImplementation()
     {
-        // Need game tick?
-        Position.SetYPos(Position.GetYPos() + YVelocity);
+        // Set IsMoving
+        if (Velocity.GetX() == 0 && Velocity.GetY() == 0)
+        {
+            IsMoving = false;
+        }
+        else
+        {
+            IsMoving = true;
+        }
+
+        // Set position
+
+        Position.SetXPos(Position.GetXPos() + Velocity.GetX());
+        Position.SetYPos(Position.GetYPos() + Velocity.GetY());
+
     }
 
     protected void Move()
     {
         if (GetIsAllowedToMove())
         {
-            MoveUp();
             MoveImplementation();
-            IsMoving = true;
         }
         else
         {
@@ -51,7 +64,7 @@ public abstract class Entity {
         KeepInVerticalBounds();
     }
 
-    void KeepInHorizontalBounds()
+    protected void KeepInHorizontalBounds()
     {
         if (GameControllerReference.IsScreenValid())
         {
@@ -69,7 +82,7 @@ public abstract class Entity {
         }
     }
 
-    void KeepInVerticalBounds()
+    protected void KeepInVerticalBounds()
     {
         if (GameControllerReference.IsScreenValid())
         {
@@ -86,6 +99,12 @@ public abstract class Entity {
             }
         }
     }
+    protected void IsOutOfBounds()
+    {
+        // TODO : When something is out of bounds fully we need to stop it from moving, makes the game lag if it keeps moving
+    }
+
+    protected abstract void OnCollision(Entity collider);
 
     protected boolean GetIsAllowedToMove() {return IsAllowedToMove;}
     protected boolean GetIsAlwaysAnimated() {return IsAlwaysAnimated; }
@@ -94,7 +113,7 @@ public abstract class Entity {
     protected boolean GetIsMoving() {return IsMoving;}
 
     protected boolean GetIsAlwaysMovingUp() {
-        if (YVelocity == 0)
+        if (Velocity.GetY() == 0)
         {
             IsAlwaysMovingUp = true;
         }
@@ -103,5 +122,9 @@ public abstract class Entity {
             IsAlwaysMovingUp = false;
         }
         return IsAlwaysMovingUp;
+    }
+
+    public void SetIsVisible(boolean visible) {
+        IsVisible = visible;
     }
 }
