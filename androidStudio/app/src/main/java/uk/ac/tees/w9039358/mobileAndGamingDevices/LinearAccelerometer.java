@@ -21,6 +21,8 @@ public class LinearAccelerometer {
     private Sensor Sen;
     private final SensorEventListener SenEventListener;
     private float XAxisRunningTotal = 0.0f;
+
+    private float XAxis = 0.0f;
     private boolean isAccuracyPassable = false;
     private int SensorUpdateDelay = SENSOR_DELAY_GAME;
     private int SensorType = Sensor.TYPE_LINEAR_ACCELERATION;
@@ -84,32 +86,33 @@ public class LinearAccelerometer {
     {
         if (isAccuracyPassable == true)
         {
-            // How many decimal points are we getting
-            int TruncateScale = 1;
+//            // How many decimal points are we getting
+//            int TruncateScale = 1;
+//
+//            int RoundingMethod = BigDecimal.ROUND_DOWN;
+//
+//            float XAxis = event.values[0];
+//
+//            // Truncate the float we get by putting it into a big decimal
+//            BigDecimal BD1 = BigDecimal.valueOf(XAxis).setScale(TruncateScale, RoundingMethod);
+//
+//            float TruncatedXAxis = BD1.floatValue();
+//
+//            // Going to normalize the truncated value, this assumes that all accelerometers use the normalization value as their max acceleration
+//            float NormalizedTruncatedXAxis = TruncatedXAxis / NormalizationValue;
+//
+//            if (RB.DoesReboundBarrierExist(TruncatedXAxis))
+//            {
+//
+//                XAxisRunningTotal += NormalizedTruncatedXAxis;
+//            }
 
-            int RoundingMethod = BigDecimal.ROUND_DOWN;
-
-            float XAxis = event.values[0];
-
-            // Truncate the float we get by putting it into a big decimal
-            BigDecimal BD1 = BigDecimal.valueOf(XAxis).setScale(TruncateScale, RoundingMethod);
-
-            float TruncatedXAxis = BD1.floatValue();
-
-            // Going to normalize the truncated value, this assumes that all accelerometers use the normalization value as their max acceleration
-            float NormalizedTruncatedXAxis = TruncatedXAxis / NormalizationValue;
-
-            if (RB.DoesReboundBarrierExist(TruncatedXAxis))
-            {
-
-                XAxisRunningTotal += NormalizedTruncatedXAxis;
-            }
+            // Implementation for using Lin Acc for shake
+            XAxis = event.values[0];
 
 
-
-
-            Log.d("LinearAccelerometer.TruncatedXAxis", (String)"TruncatedXAxis: " + Float.toString(TruncatedXAxis));
-            Log.d("LinearAccelerometer.TruncatedXAxis", (String)"Normalized TruncatedXAxis: " + Float.toString(NormalizedTruncatedXAxis));
+//            Log.d("LinearAccelerometer.TruncatedXAxis", (String)"TruncatedXAxis: " + Float.toString(TruncatedXAxis));
+//            Log.d("LinearAccelerometer.TruncatedXAxis", (String)"Normalized TruncatedXAxis: " + Float.toString(NormalizedTruncatedXAxis));
             Log.d("LinearAccelerometer.XAxisRunningTotal", (String)"Normalized XAxisRunningTotal: " + Float.toString(XAxisRunningTotal));
             Log.d("LinearAccelerometer.EndLine", (String)"\n");
 
@@ -158,6 +161,10 @@ public class LinearAccelerometer {
         }
     }
 
+    public float GetXAxis()
+    {
+        return XAxis;
+    }
     public float GetXAxisRunningTotal() {
         float x = XAxisRunningTotal;
         ResetXAxisRunningTotal();

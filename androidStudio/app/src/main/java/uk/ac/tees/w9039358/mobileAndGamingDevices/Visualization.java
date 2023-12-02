@@ -56,7 +56,9 @@ public class Visualization extends SurfaceView {
 
         AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
 
-        AddToSprites("Error", new Sprite("TempEnemy",Error,1,200,200, 100));
+        AddToSprites("TempEnemy1", new Sprite("Error",Error,1,200,200, 100));
+
+        AddToSprites("TempEnemy2", new Sprite("Error",Error,1,200,200, 100));
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
 

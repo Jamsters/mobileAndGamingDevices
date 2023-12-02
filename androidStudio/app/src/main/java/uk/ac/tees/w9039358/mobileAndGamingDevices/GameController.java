@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,15 +36,18 @@ public class GameController implements Runnable {
 
     public boolean SetupFinished = false;
 
+    protected Context Context;
+
 
 
 
 
     public GameController(Context context, SingleTouch singleTouchReference) {
 
-        InitializeVisualization(context);
+        Context = context;
+        InitializeVisualization(Context);
 
-        LinAcc = new LinearAccelerometer(context);
+        LinAcc = new LinearAccelerometer(Context);
 
         // Vis has to be setup before we run this
 
@@ -55,6 +59,11 @@ public class GameController implements Runnable {
         SetupFinished = true;
 
 
+        // TODO : Test toasts, delete later
+
+        // Does the Toast.LENGTH mean the duration or the string length?
+        Toast.makeText(Context, "SHORT TEST TOAST WORKING", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Context, "LONG TEST TOAST WORKING", Toast.LENGTH_LONG).show();
 
 
     }
@@ -78,8 +87,9 @@ public class GameController implements Runnable {
         AddToEntities(PlayerReference);
 
 
-        AddToEntities(new Enemy(this, new Vector2D(500,1500),"TempEnemy"));
+        AddToEntities(new Enemy(this, new Vector2D(500,1500),"TempEnemy1"));
 
+        AddToEntities(new ShakeEnemy(this, new Vector2D(700,1500),"TempEnemy2"));
 
 
 
