@@ -10,7 +10,7 @@ public class ShakeEnemy extends Enemy{
     {
         super(gameControllerReference,topLeftPosition,spriteName);
         Velocity.SetX(0);
-        Velocity.SetY(-1);
+        Velocity.SetY(-10);
     }
 
     @Override

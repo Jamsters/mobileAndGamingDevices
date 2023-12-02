@@ -17,7 +17,7 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public void OnCollision(Entity collider)
+    public void OnCollisionImplementation(Entity collider)
     {
         if (collider.getClass() == Player.class)
         {

@@ -158,7 +158,15 @@ public abstract class Entity {
 
     }
 
-    protected abstract void OnCollision(Entity collider);
+    protected void OnCollision(Entity collider)
+    {
+        if (GetIsVisible())
+        {
+            OnCollisionImplementation(collider);
+        }
+    }
+
+    protected abstract void OnCollisionImplementation(Entity collider);
 
     protected boolean GetIsAllowedToMove() {return IsAllowedToMove;}
     protected boolean GetIsAlwaysAnimated() {return IsAlwaysAnimated; }

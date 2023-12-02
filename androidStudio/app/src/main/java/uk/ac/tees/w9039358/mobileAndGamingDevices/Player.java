@@ -22,7 +22,7 @@ public class Player extends Entity{
     }
 
     @Override
-    public void OnCollision(Entity collider)
+    public void OnCollisionImplementation(Entity collider)
     {
         Log.i("Player.OnCollision", "Player has collied with " + collider.SpriteName);
         // TODO : Logging score should be for collectable only

@@ -19,7 +19,7 @@ public class Background extends Entity{
     }
 
     @Override
-    protected void OnCollision(Entity collider) {
+    protected void OnCollisionImplementation(Entity collider) {
 
     }
 }

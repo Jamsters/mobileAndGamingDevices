@@ -49,6 +49,8 @@ public class LinearAccelerometer {
         {
             // failure
             Log.e("LinearAccelerometer", "Linear acceleration sensor not found");
+
+            // TODO : Handle the lin acc failing, maybe kick the player out of the game and back to the main menu and display a toast saying the error
         }
 
 
