@@ -9,7 +9,10 @@ public class Collectable extends Entity{
     Collectable(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
     {
         super(gameControllerReference, topLeftPosition, spriteName);
-        Velocity.SetY(-10);
+
+        MoveSpeed = 10.0f;
+        Velocity.SetY(-MoveSpeed);
+        Velocity.SetX(MoveSpeed);
     }
 
     @Override
@@ -28,8 +31,8 @@ public class Collectable extends Entity{
 
     protected void MoveImplementation(){
         DefaultMoveImplementation();
+        KeepInTopBounds();
         KeepInHorizontalBounds();
-        KeepInVerticalBounds();
     }
 
     // TODO : Investigate making this an interface

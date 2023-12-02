@@ -6,11 +6,12 @@ public class Player extends Entity{
 
     private int Score = 0;
     float MoveTarget = 800.0f;
-    float MoveSpeed = 20.0f;
+
 
     Player(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
     {
         super(gameControllerReference, topLeftPosition, spriteName);
+        MoveSpeed = 20.0f;
         Velocity.SetX(10);
     }
 
@@ -85,7 +86,7 @@ public class Player extends Entity{
 
         // Keep player in bounds
 
-        KeepInBounds();
+        KeepInAllBounds();
 
 
 

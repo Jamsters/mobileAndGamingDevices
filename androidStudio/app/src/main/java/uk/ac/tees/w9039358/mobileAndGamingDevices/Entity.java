@@ -13,6 +13,8 @@ public abstract class Entity {
 
     protected CollisionHelper CollisionHelper = new CollisionHelper();
 
+    float MoveSpeed = 0.0f;
+
     Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
     {
         GameControllerReference = gameControllerReference;
@@ -67,60 +69,93 @@ public abstract class Entity {
         }
     }
 
-    protected void KeepInBounds()
+    // TODO : Can simplify all of the in bounds methods by passing through booleans, position data and/or screen info data. Maybe overload it for X boolean statements
+    protected boolean KeepInAllBounds()
     {
-        KeepInHorizontalBounds();
-        KeepInVerticalBounds();
+        // Uses a single | to run both statements. || only runs the first one if it returns false.
+        return KeepInHorizontalBounds() | KeepInVerticalBounds();
+
     }
     // Returns true if hit left or right horizontal bounds
-    protected void KeepInHorizontalBounds()
+    protected boolean KeepInHorizontalBounds()
+    {
+        // Uses a single | to run both statements. || only runs the first one if it returns false.
+        return KeepInLeftBounds() | KeepInRightBounds();
+    }
+
+    protected boolean KeepInLeftBounds()
     {
         if (GameControllerReference.IsScreenValid())
         {
-            // Left
             if ((Position.TopLeftPosition.GetX()) < 0)
             {
                 Position.SetXPos(0);
-            }
-
-            // Right
-            if ((Position.GetWidthXPosition() > GameControllerReference.Vis.GetScreenSize().GetX()))
-            {
-                Position.SetXPos((GameControllerReference.Vis.GetScreenSize().GetX() - Position.GetWidthSize()));
+                HitLeftBounds();
+                return true;
             }
         }
+        return false;
     }
 
-    // Returns true if hit top or bottom vertical bounds
-    protected void KeepInVerticalBounds()
+    protected boolean KeepInRightBounds()
     {
         if (GameControllerReference.IsScreenValid())
         {
-            // Top
-            if (Position.TopLeftPosition.GetY() < 0)
+            if ((Position.GetWidthXPosition() > GameControllerReference.Vis.GetScreenSize().GetX()))
             {
-                Position.SetYPos(0);
-            }
-
-            // Bottom
-            if (Position.GetHeightYPosition() > GameControllerReference.Vis.GetScreenSize().GetY())
-            {
-                Position.SetYPos(GameControllerReference.Vis.GetScreenSize().GetY() - Position.GetHeightSize());
+                Position.SetXPos((GameControllerReference.Vis.GetScreenSize().GetX() - Position.GetWidthSize()));
+                HitRightBounds();
+                return true;
             }
         }
+        return false;
+    }
+
+    // Returns true if hit top or bottom vertical bounds
+    protected boolean KeepInVerticalBounds()
+    {
+        // Uses a single & to run both statements. && only runs the first one if it returns false.
+        return KeepInTopBounds() | KeepInBottomBounds();
     }
 
     protected boolean KeepInTopBounds()
     {
-        return true;
+        if (GameControllerReference.IsScreenValid())
+        {
+            if (Position.TopLeftPosition.GetY() < 0)
+            {
+                Position.SetYPos(0);
+                return true;
+            }
+        }
+        return false;
+
     }
     protected boolean KeepInBottomBounds()
     {
-        return true;
+        if (GameControllerReference.IsScreenValid()) {
+            if (Position.GetHeightYPosition() > GameControllerReference.Vis.GetScreenSize().GetY())
+            {
+                Position.SetYPos(GameControllerReference.Vis.GetScreenSize().GetY() - Position.GetHeightSize());
+                return true;
+            }
+        }
+        return false;
     }
     protected void IsOutOfBounds()
     {
         // TODO : When something is out of bounds fully we need to stop it from moving, think it makes the game lag if it keeps moving
+    }
+
+    // TODO : Can simplify this with an enum?
+    protected void HitLeftBounds()
+    {
+
+    }
+
+    protected void HitRightBounds()
+    {
+
     }
 
     protected abstract void OnCollision(Entity collider);

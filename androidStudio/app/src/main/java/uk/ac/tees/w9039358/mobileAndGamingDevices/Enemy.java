@@ -4,6 +4,10 @@ public class Enemy extends Entity {
     Enemy(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
     {
         super(gameControllerReference, topLeftPosition, spriteName);
+        MoveSpeed = 10.0f;
+
+        Velocity.SetX(MoveSpeed);
+        Velocity.SetY(-MoveSpeed);
 
     }
 
@@ -28,6 +32,19 @@ public class Enemy extends Entity {
 
     public void OnPlayerCollision()
     {
+        GameControllerReference.Pause();
         // Take health away from player or game over?
+    }
+
+    @Override
+    public void HitLeftBounds()
+    {
+        Velocity.SetX(MoveSpeed);
+    }
+
+    @Override
+    public void HitRightBounds()
+    {
+        Velocity.SetX(-MoveSpeed);
     }
 }
