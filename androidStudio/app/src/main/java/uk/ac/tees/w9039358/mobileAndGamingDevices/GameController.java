@@ -19,12 +19,15 @@ public class GameController implements Runnable {
     private long FPS;
 
     protected LinearAccelerometer LinAcc;
+
+    // 20 ticks a second
     private long TickTime = 1000/50;
 
     // How many ticks should (?) have happened
     protected float DeltaTime = 0.0f;
     private long LastLogicTime = System.currentTimeMillis();
     private long LastVisTime = System.currentTimeMillis();
+    private long LastFPSLogTime = System.currentTimeMillis();
 
     ArrayList<Entity> Entities = new ArrayList<>();
 
@@ -42,10 +45,10 @@ public class GameController implements Runnable {
 
 
 
-    public GameController(Context context, SingleTouch singleTouchReference) {
+    public GameController(Context context, SingleTouch singleTouchReference, Vector2D screenSize) {
 
         Context = context;
-        InitializeVisualization(Context);
+        InitializeVisualization(Context, screenSize);
 
         LinAcc = new LinearAccelerometer(Context);
 
@@ -68,10 +71,10 @@ public class GameController implements Runnable {
 
     }
 
-    private void InitializeVisualization(Context context)
+    private void InitializeVisualization(Context context, Vector2D ScreenSize)
     {
 
-        Vis = new Visualization(context);
+        Vis = new Visualization(context, ScreenSize);
     }
 
     private void InitializeLogic()
@@ -87,7 +90,7 @@ public class GameController implements Runnable {
         AddToEntities(PlayerReference);
 
 
-        AddToEntities(new Enemy(this, new Vector2D(500,1500),"TempEnemy1"));
+        AddToEntities(new Enemy(this, new Vector2D(500,2500),"HoverDrone"));
 
         AddToEntities(new ShakeEnemy(this, new Vector2D(700,1500),"TempEnemy2"));
 
@@ -133,21 +136,21 @@ public class GameController implements Runnable {
             //deltaTime = TimeSinceLastLogic / TickTime;
 
             Visualization();
+            FPS = FPS + 1;
 
-            long TimeSinceLastVis = System.currentTimeMillis() - LastVisTime;
 
-
-            // If larger than 1 millisecond? always?
-            if (TimeSinceLastVis >= 1)
+            long TimeSinceLastFPSLogTime = System.currentTimeMillis() - LastFPSLogTime;
+            if (TimeSinceLastFPSLogTime >= 1000)
             {
-                FPS = 1000 / TimeSinceLastVis;
-                LastVisTime = System.currentTimeMillis();
+                Log.d("GameController.FPS", (String)"FPS: " + Long.toString(FPS));
+                FPS = 0;
+                LastFPSLogTime = System.currentTimeMillis();
             }
 
 
 
             Log.d("GameController.DeltaTime", (String)"DeltaTime: " + Float.toString(DeltaTime));
-            Log.d("GameController.FPS", (String)"FPS: " + Long.toString(FPS));;
+
 
 
         }
@@ -159,7 +162,6 @@ public class GameController implements Runnable {
     }
 
     private void Visualization() {
-
         try {
             Vis.DrawStart();
             Vis.DrawBackground();
@@ -181,7 +183,6 @@ public class GameController implements Runnable {
             // DrawStart, DrawEnd and DrawBackground even when non entities were being drawn.
             Log.e("GameController.Visualization","Vis loop exception");
         }
-
     }
 
     public void Resume() {

@@ -2,14 +2,16 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowMetrics;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    GameController gameView;
+    GameController gameController;
 
     private SingleTouch SingleTouch = new SingleTouch();
 
@@ -17,26 +19,37 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gameView = new GameController(this, SingleTouch);
-        // I'm not sure if the game is being started on a thread
-        // gameView.Resume();
-        gameView.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 
-        setContentView(gameView.Vis);
+        float ScreenWidth = metrics.widthPixels;
+        float ScreenHeight = metrics.heightPixels;
+
+        Log.d("GameActivity.ScreenSize" , "X:" + Float.toString(ScreenWidth) + " Y:" + Float.toString(ScreenHeight));
+
+        Vector2D screenSize = new Vector2D(ScreenWidth,ScreenHeight);
+
+        gameController = new GameController(this, SingleTouch, screenSize);
+        // I'm not sure if the game is being started on a thread
+        // gameController.Resume();
+        gameController.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
+
+
+
+        setContentView(gameController.Vis);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        gameView.Pause();
+        gameController.Pause();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        gameView.Resume();
+        gameController.Resume();
 
     }
     @Override
@@ -49,4 +62,12 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     {
         // Implementation, take to MainActivity
     }
+
+    public void ObtainScreenSize()
+    {
+        //getWindowManager().getDefaultDisplay().getMetrics(display);
+    }
+
+
 }
+

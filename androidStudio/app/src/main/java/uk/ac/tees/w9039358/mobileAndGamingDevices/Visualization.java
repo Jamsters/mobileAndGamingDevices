@@ -16,18 +16,21 @@ import java.util.Map;
 public class Visualization extends SurfaceView {
     protected Canvas Canvas;
     protected SurfaceHolder SurfaceHolder;
-    protected Vector2D ScreenSize = new Vector2D(0,0);
+    protected Vector2D ScreenSize;
     private Map<String, Sprite> Sprites = new HashMap<>();
     private Map<String, Bitmap> Bitmaps = new HashMap<>();
     private int BackgroundColour = (Color.WHITE);
 
     private boolean SetupFinished = false;
-    Visualization(Context context) {
+    Visualization(Context context, Vector2D screenSize) {
         super(context);
+        ScreenSize = screenSize;
         SurfaceHolder = getHolder();
         Initialize();
 
         SetupFinished = true;
+
+        Log.d("Visualization.ScreenSize", "X:" + Float.toString( ScreenSize.GetX()) + "Y: " + Float.toString(ScreenSize.GetY()));
     }
     private void Initialize()
     {
@@ -37,7 +40,7 @@ public class Visualization extends SurfaceView {
         {
             if (sprite.BitmapName == "Background")
             {
-                InitializeBitmap(sprite.ResourceID, sprite,false);
+                InitializeBitmap(sprite.ResourceID, sprite,true);
             }
             else
             {
@@ -53,16 +56,24 @@ public class Visualization extends SurfaceView {
         int Run = R.drawable.run;
         int Coin = R.drawable.coin;
         int Background = R.drawable.background;
+        int HookDrone = R.drawable.hookdrone;
+        int HoverDrone = R.drawable.hoverdrone;
+
+        // Any frame width or frame height is of the resource's original size. Only multipliers should be used to change it.
 
         AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
 
-        AddToSprites("TempEnemy1", new Sprite("Error",Error,1,200,200, 100));
+        AddToSprites("HookDrone", new Sprite("HookDrone",HookDrone,4,93*2,63*2, 100));
+
+        AddToSprites("HoverDrone", new Sprite("HoverDrone",HoverDrone,4,36*5,21*5, 100));
 
         AddToSprites("TempEnemy2", new Sprite("Error",Error,1,200,200, 100));
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
 
-        AddToSprites("Background", new Sprite("Background",Background,1,512*2,512*2, 100));
+
+        // Background is 512 x 512
+        AddToSprites("Background", new Sprite("Background",Background,1, (int) ScreenSize.GetX(),(int) ScreenSize.GetY(), 100));
 
         //AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
 
@@ -165,21 +176,16 @@ public class Visualization extends SurfaceView {
 
     public Vector2D GetScreenSize() {
         // Needs to update screen size to stop it from being 0 at the start
-        ScreenSize.SetX(ScreenWidthFromView());
-        ScreenSize.SetY(ScreenHeightFromView());
+        //ScreenSize.SetX(ScreenWidthFromView());
+        //ScreenSize.SetY(ScreenHeightFromView());
         return ScreenSize;
     }
-    private int ScreenWidthFromView() {
-        return getWidth();
-    }
+    private int ScreenWidthFromView() { return getWidth(); }
     private int ScreenHeightFromView() {
         return getHeight();
     }
     public void DrawBackground() {
         if (SurfaceHolder.getSurface().isValid()) {
-            /* TODO : Can I use one of the resource colour strings for this? Maybe this? Or maybe its a different colour format because this one
-                is an android graphics one. Example below :
-                canvas.drawColor(getResources().getColor(R.color.ColourWhite)); */
             Canvas.drawColor(BackgroundColour);
         }
     }
