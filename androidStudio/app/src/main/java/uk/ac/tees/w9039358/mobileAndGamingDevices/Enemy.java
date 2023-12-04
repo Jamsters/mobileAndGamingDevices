@@ -9,6 +9,8 @@ public class Enemy extends Entity {
         Velocity.SetX(MoveSpeed);
         Velocity.SetY(-MoveSpeed);
 
+        SpawnWeight = 2;
+
     }
 
     @Override

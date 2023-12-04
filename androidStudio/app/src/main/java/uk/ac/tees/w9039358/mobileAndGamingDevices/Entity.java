@@ -13,6 +13,8 @@ public abstract class Entity {
 
     protected CollisionHelper CollisionHelper = new CollisionHelper();
 
+    protected int SpawnWeight = 0;
+
     float MoveSpeed = 0.0f;
 
     Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
@@ -186,7 +188,12 @@ public abstract class Entity {
         return IsAlwaysMovingUp;
     }
 
+    public int GetSpawnWeight() { return SpawnWeight;
+    }
+
     public void SetIsVisible(boolean visible) {
         IsVisible = visible;
     }
 }
+
+

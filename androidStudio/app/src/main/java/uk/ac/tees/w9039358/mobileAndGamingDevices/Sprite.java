@@ -35,6 +35,7 @@ public class Sprite {
 
     public void ManageCurrentFrame()
     {
+        // TODO : Change for System.currentTimeMillis to the preferred SystemClock.elapsedRealtime()
         long Time = System.currentTimeMillis();
         if (Time > LastFrameChangeTime + FrameLengthInMS)
         {

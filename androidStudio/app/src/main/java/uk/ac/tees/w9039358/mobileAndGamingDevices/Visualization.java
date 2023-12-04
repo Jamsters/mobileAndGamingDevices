@@ -38,9 +38,9 @@ public class Visualization extends SurfaceView {
 
         for (Sprite sprite : Sprites.values())
         {
-            if (sprite.BitmapName == "Background")
+            if (sprite.BitmapName == "Example")
             {
-                InitializeBitmap(sprite.ResourceID, sprite,true);
+                InitializeBitmap(sprite.ResourceID, sprite,false);
             }
             else
             {
@@ -58,21 +58,22 @@ public class Visualization extends SurfaceView {
         int Background = R.drawable.background;
         int HookDrone = R.drawable.hookdrone;
         int HoverDrone = R.drawable.hoverdrone;
+        int Laser = R.drawable.laser;
 
         // Any frame width or frame height is of the resource's original size. Only multipliers should be used to change it.
 
         AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
 
-        AddToSprites("HookDrone", new Sprite("HookDrone",HookDrone,4,93*2,63*2, 100));
+        //AddToSprites("HookDrone", new Sprite("HookDrone",HookDrone,4,93*2,63*2, 100));
 
         AddToSprites("HoverDrone", new Sprite("HoverDrone",HoverDrone,4,36*5,21*5, 100));
 
-        AddToSprites("TempEnemy2", new Sprite("Error",Error,1,200,200, 100));
+        AddToSprites("Laser", new Sprite("Laser",Laser,1,(int) ScreenSize.GetX(),64, 100));
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
 
 
-        // Background is 512 x 512
+        // Background is 256 x 256
         AddToSprites("Background", new Sprite("Background",Background,1, (int) ScreenSize.GetX(),(int) ScreenSize.GetY(), 100));
 
         //AddToSprites("Coin3", new Sprite("Coin",Coin,8,150,150, 100));
@@ -184,7 +185,7 @@ public class Visualization extends SurfaceView {
     private int ScreenHeightFromView() {
         return getHeight();
     }
-    public void DrawBackground() {
+    public void DrawBackgroundWithColour() {
         if (SurfaceHolder.getSurface().isValid()) {
             Canvas.drawColor(BackgroundColour);
         }

@@ -1,10 +1,8 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,9 +23,8 @@ public class GameController implements Runnable {
 
     // How many ticks should (?) have happened
     protected float DeltaTime = 0.0f;
-    private long LastLogicTime = System.currentTimeMillis();
-    private long LastVisTime = System.currentTimeMillis();
-    private long LastFPSLogTime = System.currentTimeMillis();
+    private long LastLogicTime = SystemClock.elapsedRealtime();
+    private long LastFPSLogTime = SystemClock.elapsedRealtime();
 
     ArrayList<Entity> Entities = new ArrayList<>();
 
@@ -90,9 +87,9 @@ public class GameController implements Runnable {
         AddToEntities(PlayerReference);
 
 
-        AddToEntities(new Enemy(this, new Vector2D(500,2500),"HoverDrone"));
+        AddToEntities(new Enemy(this, new Vector2D(500,3500),"HoverDrone"));
 
-        AddToEntities(new ShakeEnemy(this, new Vector2D(700,1500),"TempEnemy2"));
+        AddToEntities(new ShakeEnemy(this, new Vector2D(700,2500),"Laser"));
 
 
 
@@ -122,13 +119,13 @@ public class GameController implements Runnable {
     public void run() {
         while (IsPlaying && SetupFinished && Vis.SetupFinished())
         {
-            long TimeSinceLastLogic = System.currentTimeMillis() - LastLogicTime;
+            long TimeSinceLastLogic = SystemClock.elapsedRealtime() - LastLogicTime;
 
             if (TimeSinceLastLogic >= TickTime)
             {
                 Logic();
 
-                LastLogicTime = System.currentTimeMillis();
+                LastLogicTime = SystemClock.elapsedRealtime();
 
                 // Should I round this up?
                 DeltaTime = TimeSinceLastLogic / TickTime;
@@ -136,15 +133,13 @@ public class GameController implements Runnable {
             //deltaTime = TimeSinceLastLogic / TickTime;
 
             Visualization();
-            FPS = FPS + 1;
 
-
-            long TimeSinceLastFPSLogTime = System.currentTimeMillis() - LastFPSLogTime;
+            long TimeSinceLastFPSLogTime = SystemClock.elapsedRealtime() - LastFPSLogTime;
             if (TimeSinceLastFPSLogTime >= 1000)
             {
                 Log.d("GameController.FPS", (String)"FPS: " + Long.toString(FPS));
                 FPS = 0;
-                LastFPSLogTime = System.currentTimeMillis();
+                LastFPSLogTime = SystemClock.elapsedRealtime();
             }
 
 
@@ -164,17 +159,19 @@ public class GameController implements Runnable {
     private void Visualization() {
         try {
             Vis.DrawStart();
-            Vis.DrawBackground();
+
+            // Using a drawable for background now
+            //Vis.DrawBackgroundWithColour();
 
             for (Entity entity : Entities)
             {
                 if (entity.GetIsVisible() && entity != null) {
                     Vis.Draw(entity);
                 }
-
             }
 
             Vis.DrawEnd();
+            FPS++;
         }
         catch(Exception e)
         {

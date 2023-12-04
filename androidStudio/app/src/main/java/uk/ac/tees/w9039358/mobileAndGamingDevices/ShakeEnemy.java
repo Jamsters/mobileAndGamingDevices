@@ -4,13 +4,16 @@ import android.util.Log;
 
 public class ShakeEnemy extends Enemy{
 
-    int BarrierHealth = 10;
+    int BarrierHealth = 100;
     float LastShakeValue = 0.0f;
+    float ShakeSpeedActivationThreshold = 1.0f;
     ShakeEnemy(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
     {
         super(gameControllerReference,topLeftPosition,spriteName);
         Velocity.SetX(0);
         Velocity.SetY(-10);
+
+        SpawnWeight = 1;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ShakeEnemy extends Enemy{
 
         float ShakeSpeed = Math.abs(currentShakeValue - LastShakeValue);
 
-        float ShakeSpeedActivationThreshold = 0.5f;
+
 
         Log.d("ShakeEnemy.HandleLinAccShakeInput", (String)"currentShakeValue : " + Float.toString(currentShakeValue));
         Log.d("ShakeEnemy.HandleLinAccShakeInput", (String)"LastShakeValue : " + Float.toString(LastShakeValue));
