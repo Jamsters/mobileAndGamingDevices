@@ -62,6 +62,8 @@ public class CollisionHelper {
         }
         else
         {
+
+            // An entity is only considered out of bounds when it isn't spawning.
             if (!DoesThisEntityNeedToSpawn)
             {
                 entity.OnOutOfBounds();

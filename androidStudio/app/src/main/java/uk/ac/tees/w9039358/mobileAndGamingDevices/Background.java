@@ -31,8 +31,7 @@ public class Background extends Entity{
         {
             boolean OtherIsSelf = other == this;
 
-            // An entity isn't considered out of bounds if it's still spawning
-            //boolean OtherIsSpawning = other.GetIsSpawning();
+
 
             // The player has inbuilt ways to stay in bounds
             boolean OtherIsPlayer = other.getClass() == Player.class;

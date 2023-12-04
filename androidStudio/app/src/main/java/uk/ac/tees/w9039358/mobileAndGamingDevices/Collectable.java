@@ -44,7 +44,7 @@ public class Collectable extends Entity{
         if (GetIsVisible())
         {
             GameControllerReference.PlayerReference.AddScore(Value);
-            SetIsVisible(false);
+            AliveToggle(false);
         }
 
 
