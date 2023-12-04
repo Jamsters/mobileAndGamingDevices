@@ -34,7 +34,7 @@ public class Enemy extends Entity {
 
     public void OnPlayerCollision()
     {
-        GameControllerReference.Pause();
+        GameControllerReference.GameOver();
         // Take health away from player or game over?
     }
 

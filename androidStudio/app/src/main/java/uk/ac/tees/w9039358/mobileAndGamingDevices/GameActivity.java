@@ -2,6 +2,7 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
         Vector2D screenSize = new Vector2D(ScreenWidth,ScreenHeight);
 
-        gameController = new GameController(this, SingleTouch, screenSize);
+        gameController = new GameController(this,this, SingleTouch, screenSize);
         // I'm not sure if the game is being started on a thread
         // gameController.Resume();
         gameController.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
@@ -58,9 +59,17 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         return SingleTouch.onTouch(v,event);
     }
 
-    public void ReturnToMainMenu()
+    public void SendToGameOverActivity()
     {
-        // Implementation, take to MainActivity
+        // TODO : Check if the game controller even needs to be paused, or if it has to be destroyed. Java garbage collection should take care of it but need to check if there's still a ref to it because this activity with the game in it isn't
+        // being destroyed when moving to this game over activity.
+        //gameController.Pause();
+        Log.d("GameActivity", "Sent user to game over activity");
+
+        // TODO : Make this go to a new GameOverActivity and not just the main menu
+        Intent intent = new Intent(this, MainActivity.class);
+
+        startActivity(intent);
     }
 
     public void ObtainScreenSize()

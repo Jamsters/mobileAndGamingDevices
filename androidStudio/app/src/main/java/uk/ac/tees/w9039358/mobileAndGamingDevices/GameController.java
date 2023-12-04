@@ -38,12 +38,14 @@ public class GameController implements Runnable {
 
     protected Context Context;
 
+    private GameActivity GameActivityReference;
 
 
 
 
-    public GameController(Context context, SingleTouch singleTouchReference, Vector2D screenSize) {
 
+    public GameController(GameActivity gameActivityReference, Context context, SingleTouch singleTouchReference, Vector2D screenSize) {
+        GameActivityReference = gameActivityReference;
         Context = context;
         InitializeVisualization(Context, screenSize);
 
@@ -235,5 +237,10 @@ public class GameController implements Runnable {
         ArrayList<Entity> AllOther = new ArrayList<Entity>(Entities);
         AllOther.remove(entity);
         return AllOther;
+    }
+
+    protected void GameOver()
+    {
+        GameActivityReference.SendToGameOverActivity();
     }
 }
