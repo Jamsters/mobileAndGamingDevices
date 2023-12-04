@@ -6,7 +6,7 @@ public class ShakeEnemy extends Enemy{
 
     int BarrierHealth = 100;
     float LastShakeValue = 0.0f;
-    float ShakeSpeedActivationThreshold = 1.0f;
+    float ShakeSpeedActivationThreshold = 0.75f;
     ShakeEnemy(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
     {
         super(gameControllerReference,topLeftPosition,spriteName);
@@ -59,7 +59,7 @@ public class ShakeEnemy extends Enemy{
     {
         if (BarrierHealth <= 0)
         {
-            SetIsVisible(false);
+            AliveToggle(false);
         }
     }
 }

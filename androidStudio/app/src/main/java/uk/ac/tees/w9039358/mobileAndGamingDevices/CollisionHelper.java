@@ -46,4 +46,28 @@ public class CollisionHelper {
         return IsCollision;
     }
 
+    public boolean InsideBackgroundBoundsCheck(Background background, Entity entity)
+    {
+
+        boolean EntityIsInBackgroundsBounds = CollisionCheck(background.Position,entity.Position);
+        boolean DoesThisEntityNeedToSpawn = entity.GetIsSpawning();
+
+        if (EntityIsInBackgroundsBounds)
+        {
+            if (DoesThisEntityNeedToSpawn)
+            {
+                entity.OnInsideBounds();
+            }
+
+        }
+        else
+        {
+            if (!DoesThisEntityNeedToSpawn)
+            {
+                entity.OnOutOfBounds();
+            }
+        }
+        return EntityIsInBackgroundsBounds;
+    }
+
 }

@@ -18,7 +18,11 @@ public class Player extends Entity{
     @Override
     public void Update() {
         Move();
-        CollisionChecks();
+
+        if (GetIsVisible())
+        {
+            CollisionChecksAgainstPlayer();
+        }
     }
 
     @Override
@@ -96,11 +100,16 @@ public class Player extends Entity{
     }
 
     // TODO : Move CollisionChecks() to entity class?
-    public void CollisionChecks()
+    public void CollisionChecksAgainstPlayer()
     {
+
+
         for (Entity other : GameControllerReference.Entities)
         {
-            if (other != this)
+            boolean OtherIsSelf = other == this;
+            boolean OtherIsBackground = other.getClass() == Background.class;
+
+            if (!OtherIsSelf && !OtherIsBackground)
             {
                 CollisionHelper.CollisionCheck(this,other);
             }

@@ -33,7 +33,7 @@ public class Collectable extends Entity{
 
     protected void MoveImplementation(){
         DefaultMoveImplementation();
-        KeepInTopBounds();
+        //KeepInTopBounds();
         KeepInHorizontalBounds();
     }
 

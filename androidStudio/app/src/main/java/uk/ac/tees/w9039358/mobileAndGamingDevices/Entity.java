@@ -1,10 +1,12 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
+import android.util.Log;
+
 public abstract class Entity {
     Position Position;
     public Vector2D Velocity = new Vector2D(0,0);
     protected String SpriteName;
-    public boolean IsAllowedToMove = true;
+    private boolean IsAllowedToMove = true;
     private boolean IsAlwaysAnimated = false;
     private boolean IsVisible = true;
     protected boolean IsMoving = false;
@@ -15,10 +17,16 @@ public abstract class Entity {
 
     protected int SpawnWeight = 0;
 
+    private boolean Spawning = true;
+
+    private boolean Alive = false;
+
     float MoveSpeed = 0.0f;
 
     Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
     {
+        AliveToggle(GetIsSpawning());
+
         GameControllerReference = gameControllerReference;
         SpriteName = spriteName;
 
@@ -92,7 +100,7 @@ public abstract class Entity {
             if ((Position.TopLeftPosition.GetX()) < 0)
             {
                 Position.SetXPos(0);
-                HitLeftBounds();
+                OnHitLeftBounds();
                 return true;
             }
         }
@@ -106,7 +114,7 @@ public abstract class Entity {
             if ((Position.GetWidthXPosition() > GameControllerReference.Vis.GetScreenSize().GetX()))
             {
                 Position.SetXPos((GameControllerReference.Vis.GetScreenSize().GetX() - Position.GetWidthSize()));
-                HitRightBounds();
+                OnHitRightBounds();
                 return true;
             }
         }
@@ -144,20 +152,37 @@ public abstract class Entity {
         }
         return false;
     }
-    protected void IsOutOfBounds()
+
+    protected void OnHitLeftBounds()
     {
+
+    }
+
+    protected void OnHitRightBounds()
+    {
+
+    }
+
+    protected void OnOutOfBounds()
+    {
+        Log.d("Entity.OnOutOfBounds",SpriteName + " is out of bounds! " );
         // TODO : When something is out of bounds fully we need to stop it from moving, think it makes the game lag if it keeps moving
-    }
-
-    // TODO : Can simplify this with an enum?
-    protected void HitLeftBounds()
-    {
+        AliveToggle(false);
 
     }
 
-    protected void HitRightBounds()
+    protected void OnInsideBounds()
     {
+        Log.d("Entity.OnInsideOfBounds",SpriteName + " is inside of bounds! " );
+        AliveToggle(true);
+        SetSpawning(false);
+    }
 
+    protected void AliveToggle(boolean makeAlive)
+    {
+        SetIsVisible(makeAlive);
+        SetAllowedToMove(makeAlive);
+        SetAlive(makeAlive);
     }
 
     protected void OnCollision(Entity collider)
@@ -167,7 +192,6 @@ public abstract class Entity {
             OnCollisionImplementation(collider);
         }
     }
-
     protected abstract void OnCollisionImplementation(Entity collider);
 
     protected boolean GetIsAllowedToMove() {return IsAllowedToMove;}
@@ -193,6 +217,31 @@ public abstract class Entity {
 
     public void SetIsVisible(boolean visible) {
         IsVisible = visible;
+    }
+
+    public boolean GetIsSpawning() {
+        return Spawning;
+    }
+
+    public void SetSpawning(boolean spawning) {
+        Spawning = spawning;
+    }
+
+    public void SetAllowedToMove(boolean allowedToMove) {
+        IsAllowedToMove = allowedToMove;
+    }
+
+    public void LogMyPosition()
+    {
+        Log.d("Entity.Position", "Name:" + SpriteName + " at X:" + Float.toString(Position.GetXPos()) + " Y:" + Float.toString(Position.GetYPos()));
+    }
+
+    public boolean GetIsAlive() {
+        return Alive;
+    }
+
+    public void SetAlive(boolean alive) {
+        Alive = alive;
     }
 }
 

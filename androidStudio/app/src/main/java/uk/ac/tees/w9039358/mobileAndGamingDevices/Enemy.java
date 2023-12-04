@@ -15,13 +15,17 @@ public class Enemy extends Entity {
 
     @Override
     public void Update() {
+
         Move();
+        LogMyPosition();
     }
 
     @Override
     public void OnCollisionImplementation(Entity collider)
     {
-        if (collider.getClass() == Player.class)
+        boolean ColliderIsPlayer = collider.getClass() == Player.class;
+        boolean SelfIsAlive = GetIsAlive();
+        if (ColliderIsPlayer && SelfIsAlive)
         {
             OnPlayerCollision();
         }
@@ -39,13 +43,13 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public void HitLeftBounds()
+    public void OnHitLeftBounds()
     {
         Velocity.SetX(MoveSpeed);
     }
 
     @Override
-    public void HitRightBounds()
+    public void OnHitRightBounds()
     {
         Velocity.SetX(-MoveSpeed);
     }
