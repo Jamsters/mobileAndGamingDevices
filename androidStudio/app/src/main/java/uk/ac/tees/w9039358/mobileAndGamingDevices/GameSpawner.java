@@ -4,23 +4,23 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class GameSpawner {
     ArrayList<Entity> Spawnables = new ArrayList<>();
 
-    private int WeightTotal = 0;
     private int RandomWeight = 0;
     private Entity EntityToSpawnReference;
 
     private long LastSpawnTime = SystemClock.elapsedRealtime();
 
-    // Attempts to spawn every one and a half second
     private long RandomSpawnDelay = 0;
 
-    private static int DefaultSpawnDelay = 600;
+    private static final int DefaultSpawnDelay = Settings.GetNormalSpawnDelay();
 
-    private static int AddedSpawnDelay = 1000;
+    private static final int MaxAddedSpawnDelay = Settings.GetNormalMaxAddedSpawnDelay();
 
     private static final int DynamicSpawningInitializationAmount = 20;
 
@@ -44,14 +44,25 @@ public class GameSpawner {
             return;
         }
 
-        // 1. Get all spawn weights from spawnables and total them
-        WeightTotal = 0;
-
-
-
-        for (Entity entity : Spawnables)
+        // Only need a set of ints, not set of classes
+        Set<Integer> UniqueWeights = new HashSet<>();
+        for(Entity entity : Spawnables)
         {
-            WeightTotal += entity.GetSpawnWeight();
+            UniqueWeights.add(entity.GetSpawnWeight());
+        }
+
+
+
+
+
+        // 1. Get all spawn weights from spawnables and total them
+        int weightTotal = 0;
+
+
+
+        for (Integer integer : UniqueWeights)
+        {
+            weightTotal += integer.intValue();
 
         }
 
@@ -59,15 +70,18 @@ public class GameSpawner {
 
         Random RandomNumber = new Random();
 
-        RandomWeight = RandomNumber.nextInt(WeightTotal);
+        RandomWeight = RandomNumber.nextInt(weightTotal);
 
         // 3. Go through the spawnables again and remove their weight from the random weight until we get 0. That is the entity we're returning.
 
         // This assumes that the order of the for is the same as when we got weight totals
+        // TODO : Now that we have a total weight of uniques, how can we use that to select what we want?
+        int weightCounter = 0;
+
         for (Entity entity : Spawnables)
         {
-            RandomWeight -= entity.GetSpawnWeight();
-            if (RandomWeight <= 0)
+            weightCounter += entity.GetSpawnWeight();
+            if (weightCounter >= RandomWeight)
             {
                 EntityToSpawnReference = entity;
                 return;
@@ -97,7 +111,8 @@ public class GameSpawner {
 
             // Set new random spawn delay
             Random RandomNumber = new Random();
-            int randomSpawnDelay = RandomNumber.nextInt(AddedSpawnDelay) + DefaultSpawnDelay;
+
+            int randomSpawnDelay = RandomNumber.nextInt(MaxAddedSpawnDelay) + DefaultSpawnDelay;
 
             RandomSpawnDelay = Integer.toUnsignedLong(randomSpawnDelay);
 
@@ -115,26 +130,13 @@ public class GameSpawner {
         {
             EntityToSpawnReference.SetSpawning(true);
 
-
-
             Random RandomNumber = new Random();
 
-
-            // TODO : Instead of using the centre screen width, use random + screen width to determine a place where the entity can spawn with every part of its' sprite inbounds
-            // More advanced position stuff
-
             float RightMostSpawnInHorizontalBounds = GameControllerReference.Vis.GetScreenSize().GetX() - EntityToSpawnReference.Position.GetWidthSize();
-            float LeftMostSpawnInHorizontalBounds = 0;
-
             float RandomWidth = RandomNumber.nextFloat() * RightMostSpawnInHorizontalBounds;
-
-            // if entity. spawn me centre = true then spaw
-
-            float CentreScreenWidth = GameControllerReference.Vis.GetScreenSize().GetX()/2 - EntityToSpawnReference.Position.GetCentreSize().GetX();
             float BelowScreenHeight = GameControllerReference.Vis.GetScreenSize().GetY();
 
             EntityToSpawnReference.Position.SetXPos((float)RandomWidth);
-            //EntityToSpawnReference.Position.SetXPos(CentreScreenWidth);
             EntityToSpawnReference.Position.SetYPos(BelowScreenHeight);
 
             EntityToSpawnReference.AliveToggle(true);
