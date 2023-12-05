@@ -72,11 +72,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         startActivity(intent);
     }
 
-    public void ObtainScreenSize()
-    {
-        //getWindowManager().getDefaultDisplay().getMetrics(display);
-    }
-
 
 }
 

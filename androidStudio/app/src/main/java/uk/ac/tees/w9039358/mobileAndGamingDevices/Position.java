@@ -72,6 +72,8 @@ public class Position {
         TopLeftPosition.SetY(YPos);
     }
 
+    public void SetPosition(Vector2D newPosition){TopLeftPosition = newPosition;}
+
 
 
 }

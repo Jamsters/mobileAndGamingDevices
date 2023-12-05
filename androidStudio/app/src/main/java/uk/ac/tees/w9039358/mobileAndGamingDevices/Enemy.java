@@ -1,15 +1,15 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public class Enemy extends Entity {
-    Enemy(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
+    Enemy(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName, boolean spawnsAtStart)
     {
-        super(gameControllerReference, topLeftPosition, spriteName);
+        super(gameControllerReference, topLeftPosition, spriteName, spawnsAtStart);
         MoveSpeed = 10.0f;
 
         Velocity.SetX(MoveSpeed);
         Velocity.SetY(-MoveSpeed);
 
-        SpawnWeight = 2;
+        SetSpawnWeight(2);
 
     }
 
@@ -38,7 +38,7 @@ public class Enemy extends Entity {
 
     public void OnPlayerCollision()
     {
-        GameControllerReference.GameOver();
+       // GameControllerReference.GameOver();
         // Take health away from player or game over?
     }
 

@@ -8,11 +8,12 @@ public class Player extends Entity{
     float MoveTarget = 800.0f;
 
 
-    Player(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
+    Player(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName, boolean spawnsAtStart)
     {
-        super(gameControllerReference, topLeftPosition, spriteName);
+        super(gameControllerReference, topLeftPosition, spriteName, spawnsAtStart);
         MoveSpeed = 20.0f;
         Velocity.SetX(10);
+        SetSpawning(true);
     }
 
     @Override

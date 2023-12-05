@@ -26,6 +26,7 @@ public class GameController implements Runnable {
     private long LastLogicTime = SystemClock.elapsedRealtime();
     private long LastFPSLogTime = SystemClock.elapsedRealtime();
 
+
     ArrayList<Entity> Entities = new ArrayList<>();
 
     protected Player PlayerReference;
@@ -39,6 +40,8 @@ public class GameController implements Runnable {
     protected Context Context;
 
     private GameActivity GameActivityReference;
+
+    private GameSpawner GameSpawn = new GameSpawner(this);
 
 
 
@@ -83,28 +86,20 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
-        AddToEntities(new Background(this, new Vector2D(0,0),"Background"));
+        AddToEntities(new Background(this, new Vector2D(0,0),"Background",true));
 
-        PlayerReference = new Player(this,new Vector2D(200,200), "Player");
+        PlayerReference = new Player(this,new Vector2D(200,200), "Player", true);
         AddToEntities(PlayerReference);
 
 
-        AddToEntities(new Enemy(this, new Vector2D(500,3500),"HoverDrone"));
-
-        AddToEntities(new ShakeEnemy(this, new Vector2D(700,2500),"Laser"));
 
 
-
-
-        //AddToEntities(new Collectable(this, new Vector2D(600,1400),"Coin2"));
-        //AddToEntities(new Collectable(this, new Vector2D(600,1600),"Coin3"));
-
-        //AddToEntities(new Player(this,200,600,"Error"));
-
-        // Multiple entity init / Overlay test
-        for (int i = 50; i >= 0; i--)
+        // Multiple entity init for dynamic spawning
+        for (int i = GameSpawner.GetDynamicSpawningInitializationAmount(); i >= 0; i--)
         {
-            AddToEntities(new Collectable(this, new Vector2D(600,500+200*i),("Coin" + Integer.toString(i))));
+            AddToEntities(new Collectable(this, new Vector2D(0,0),("Coin" + Integer.toString(i)),false));
+            AddToEntities(new Enemy(this, new Vector2D(0,0),("HoverDrone" + Integer.toString(i)), false));
+            AddToEntities(new ShakeEnemy(this, new Vector2D(0,0),("Laser" + Integer.toString(i)),false));
         }
 
 
@@ -132,7 +127,6 @@ public class GameController implements Runnable {
                 // Should I round this up?
                 DeltaTime = TimeSinceLastLogic / TickTime;
             }
-            //deltaTime = TimeSinceLastLogic / TickTime;
 
             Visualization();
 
@@ -155,7 +149,11 @@ public class GameController implements Runnable {
     }
 
     private void Logic() {
+
         Entities.forEach(Entity::Update);
+        GameSpawn.SpawnEntityCall();
+
+
     }
 
     private void Visualization() {
@@ -167,7 +165,7 @@ public class GameController implements Runnable {
 
             for (Entity entity : Entities)
             {
-                if (entity.GetIsVisible() && entity != null) {
+                if (entity.GetIsVisible()) {
                     Vis.Draw(entity);
                 }
             }
@@ -209,6 +207,7 @@ public class GameController implements Runnable {
 
     public boolean IsScreenValid ()
     {
+        // TODO : Investigate if you need this anymore seen as screen size is now known at Vis launch, in other words we know it won't be 0.
         // Screen getWidth and getHeight are 0 at launch, meaning that they're not valid.
         float x = Vis.GetScreenSize().GetX();
         float y = Vis.GetScreenSize().GetY();

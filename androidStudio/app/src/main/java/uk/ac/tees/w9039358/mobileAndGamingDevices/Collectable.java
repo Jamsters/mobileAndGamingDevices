@@ -6,15 +6,15 @@ public class Collectable extends Entity{
 
     int Value = 1;
 
-    Collectable(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName)
+    Collectable(GameController gameControllerReference, Vector2D topLeftPosition,String spriteName, boolean spawnsAtStart)
     {
-        super(gameControllerReference, topLeftPosition, spriteName);
+        super(gameControllerReference, topLeftPosition, spriteName, spawnsAtStart);
 
         MoveSpeed = 10.0f;
         Velocity.SetY(-MoveSpeed);
         Velocity.SetX(MoveSpeed);
 
-        SpawnWeight = 20;
+        SetSpawnWeight(20);
     }
 
     @Override

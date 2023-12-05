@@ -1,10 +1,11 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 public class Background extends Entity{
-    Background(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
+    Background(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName, boolean spawnsAtStart)
     {
-        super(gameControllerReference, topLeftPosition, spriteName);
+        super(gameControllerReference, topLeftPosition, spriteName, spawnsAtStart);
         Velocity.SetY(0);
+        SetSpawning(true);
 
     }
 

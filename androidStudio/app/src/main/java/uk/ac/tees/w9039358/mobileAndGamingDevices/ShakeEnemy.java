@@ -3,17 +3,17 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 import android.util.Log;
 
 public class ShakeEnemy extends Enemy{
-
+    // TODO : Try a lower barrier health but higher shake speed activation threshold
     int BarrierHealth = 100;
     float LastShakeValue = 0.0f;
     float ShakeSpeedActivationThreshold = 0.75f;
-    ShakeEnemy(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
+    ShakeEnemy(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName, boolean spawnsAtStart)
     {
-        super(gameControllerReference,topLeftPosition,spriteName);
+        super(gameControllerReference,topLeftPosition,spriteName, spawnsAtStart);
         Velocity.SetX(0);
         Velocity.SetY(-10);
 
-        SpawnWeight = 1;
+        SetSpawnWeight(1);
     }
 
     @Override

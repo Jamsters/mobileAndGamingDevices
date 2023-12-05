@@ -15,16 +15,17 @@ public abstract class Entity {
 
     protected CollisionHelper CollisionHelper = new CollisionHelper();
 
-    protected int SpawnWeight = 0;
+    private static int SpawnWeight = 0;
 
-    private boolean Spawning = true;
+    private boolean Spawning;
 
     private boolean Alive = false;
 
     float MoveSpeed = 0.0f;
 
-    Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName)
+    Entity(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName, boolean spawnsAtStart)
     {
+        Spawning = spawnsAtStart;
         AliveToggle(GetIsSpawning());
 
         GameControllerReference = gameControllerReference;
@@ -212,7 +213,7 @@ public abstract class Entity {
         return IsAlwaysMovingUp;
     }
 
-    public int GetSpawnWeight() { return SpawnWeight;
+    public int GetSpawnWeight() { return SetSpawnWeight();
     }
 
     public void SetIsVisible(boolean visible) {
@@ -240,8 +241,16 @@ public abstract class Entity {
         return Alive;
     }
 
-    public void SetAlive(boolean alive) {
+    private void SetAlive(boolean alive) {
         Alive = alive;
+    }
+
+    public static int SetSpawnWeight() {
+        return SpawnWeight;
+    }
+
+    public static void SetSpawnWeight(int spawnWeight) {
+        SpawnWeight = spawnWeight;
     }
 }
 
