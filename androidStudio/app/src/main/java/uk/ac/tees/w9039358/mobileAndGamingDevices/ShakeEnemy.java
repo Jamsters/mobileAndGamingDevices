@@ -20,15 +20,22 @@ public class ShakeEnemy extends Enemy{
     public void Update() {
         super.Update();
 
-        // Health stuff
-        float LinAccInput = GameControllerReference.LinAcc.GetXAxis();
-        HandleLinAccShakeInput(LinAccInput);
-
         BarrierHealthCheck();
 
-
+    }
+    @Override
+    protected void MoveImplementation() {
+        super.MoveImplementation();
+        float LinAccInput = GameControllerReference.LinAcc.GetXAxis();
+        HandleLinAccShakeInput(LinAccInput);
     }
 
+    @Override
+    protected boolean IsSpawnConditionMet()
+    {
+        // No other shake enemy on screen
+        return !GameControllerReference.IsSameClassEntityInPlay(this);
+    }
 
     public void HandleLinAccShakeInput(float currentShakeValue)
     {

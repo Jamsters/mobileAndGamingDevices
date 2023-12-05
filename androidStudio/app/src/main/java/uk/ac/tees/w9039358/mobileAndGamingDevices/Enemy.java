@@ -17,7 +17,6 @@ public class Enemy extends Entity {
     public void Update() {
 
         Move();
-        LogMyPosition();
     }
 
     @Override

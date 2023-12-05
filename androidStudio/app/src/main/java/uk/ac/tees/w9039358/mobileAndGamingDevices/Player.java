@@ -33,6 +33,8 @@ public class Player extends Entity{
         // TODO : Logging score should be for collectable only
         Log.i("Player.OnCollision", "Score : " + Integer.toString(Score));
     }
+
+
     @Override
     protected void MoveImplementation()
     {

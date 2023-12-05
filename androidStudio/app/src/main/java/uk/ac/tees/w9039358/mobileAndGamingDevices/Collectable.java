@@ -12,9 +12,9 @@ public class Collectable extends Entity{
 
         MoveSpeed = 10.0f;
         Velocity.SetY(-MoveSpeed);
-        Velocity.SetX(MoveSpeed);
+        //Velocity.SetX(MoveSpeed);
 
-        SetSpawnWeight(20);
+        SetSpawnWeight(20000);
     }
 
     @Override

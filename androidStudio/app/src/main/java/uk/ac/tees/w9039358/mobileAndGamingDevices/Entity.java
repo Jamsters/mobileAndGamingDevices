@@ -195,6 +195,11 @@ public abstract class Entity {
     }
     protected abstract void OnCollisionImplementation(Entity collider);
 
+    protected boolean IsSpawnConditionMet()
+    {
+        return true;
+    }
+
     protected boolean GetIsAllowedToMove() {return IsAllowedToMove;}
     protected boolean GetIsAlwaysAnimated() {return IsAlwaysAnimated; }
     protected boolean GetIsVisible() {return IsVisible;}

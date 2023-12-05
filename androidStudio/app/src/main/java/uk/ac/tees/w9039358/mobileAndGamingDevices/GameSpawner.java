@@ -15,8 +15,12 @@ public class GameSpawner {
 
     private long LastSpawnTime = SystemClock.elapsedRealtime();
 
-    // Attempts to spawn every second
-    private long AttemptToSpawnEntityTime = 2000;
+    // Attempts to spawn every one and a half second
+    private long RandomSpawnDelay = 0;
+
+    private static int DefaultSpawnDelay = 600;
+
+    private static int AddedSpawnDelay = 1000;
 
     private static final int DynamicSpawningInitializationAmount = 20;
 
@@ -62,14 +66,11 @@ public class GameSpawner {
         // This assumes that the order of the for is the same as when we got weight totals
         for (Entity entity : Spawnables)
         {
+            RandomWeight -= entity.GetSpawnWeight();
             if (RandomWeight <= 0)
             {
                 EntityToSpawnReference = entity;
                 return;
-            }
-            else
-            {
-            RandomWeight -= entity.GetSpawnWeight();
             }
         }
     }
@@ -90,9 +91,18 @@ public class GameSpawner {
     protected void SpawnEntityCall()
     {
         long TimeSinceLastSpawn = SystemClock.elapsedRealtime() - LastSpawnTime;
-        if (TimeSinceLastSpawn >= AttemptToSpawnEntityTime)
+        if (TimeSinceLastSpawn >= RandomSpawnDelay)
         {
             SpawnEntityImplementation();
+
+            // Set new random spawn delay
+            Random RandomNumber = new Random();
+            int randomSpawnDelay = RandomNumber.nextInt(AddedSpawnDelay) + DefaultSpawnDelay;
+
+            RandomSpawnDelay = Integer.toUnsignedLong(randomSpawnDelay);
+
+            Log.d("GameSpawner.RandomSpawnDelay", "Spawn delay :" + Long.toString(RandomSpawnDelay));
+
         }
 
     }
@@ -105,13 +115,26 @@ public class GameSpawner {
         {
             EntityToSpawnReference.SetSpawning(true);
 
-            // Won't guarantee true centre of screen because we're dividing a float, it shouldn't matter much though
+
+
+            Random RandomNumber = new Random();
+
 
             // TODO : Instead of using the centre screen width, use random + screen width to determine a place where the entity can spawn with every part of its' sprite inbounds
+            // More advanced position stuff
+
+            float RightMostSpawnInHorizontalBounds = GameControllerReference.Vis.GetScreenSize().GetX() - EntityToSpawnReference.Position.GetWidthSize();
+            float LeftMostSpawnInHorizontalBounds = 0;
+
+            float RandomWidth = RandomNumber.nextFloat() * RightMostSpawnInHorizontalBounds;
+
+            // if entity. spawn me centre = true then spaw
+
             float CentreScreenWidth = GameControllerReference.Vis.GetScreenSize().GetX()/2 - EntityToSpawnReference.Position.GetCentreSize().GetX();
             float BelowScreenHeight = GameControllerReference.Vis.GetScreenSize().GetY();
 
-            EntityToSpawnReference.Position.SetXPos(CentreScreenWidth);
+            EntityToSpawnReference.Position.SetXPos((float)RandomWidth);
+            //EntityToSpawnReference.Position.SetXPos(CentreScreenWidth);
             EntityToSpawnReference.Position.SetYPos(BelowScreenHeight);
 
             EntityToSpawnReference.AliveToggle(true);
@@ -134,7 +157,7 @@ public class GameSpawner {
         Spawnables = new ArrayList<>();
         for (Entity entity : AllEntitiesReference)
         {
-            if (!entity.GetIsAlive() && !entity.GetIsSpawning())
+            if (!entity.GetIsAlive() && !entity.GetIsSpawning() && entity.IsSpawnConditionMet())
             {
                 // If dead and already spawned means that it is unused
                 Spawnables.add(entity);

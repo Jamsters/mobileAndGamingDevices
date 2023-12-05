@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class GameController implements Runnable {
 
-    /* Most variables will be declared private, will probably communicate through
-    intents or broadcast receivers to get stuff from accelerometer or settings */
+    // This class is similar to a singleton
 
     private volatile boolean IsPlaying = false;
     private Thread GameThread;
@@ -236,6 +235,20 @@ public class GameController implements Runnable {
         ArrayList<Entity> AllOther = new ArrayList<Entity>(Entities);
         AllOther.remove(entity);
         return AllOther;
+    }
+
+    protected boolean IsSameClassEntityInPlay(Entity entity)
+    {
+        for (Entity other : Entities)
+        {
+            boolean OtherIsInPlay = other.GetIsAlive();
+            boolean OtherIsSameClass = entity.getClass() == other.getClass();
+            if (OtherIsSameClass && OtherIsInPlay)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected void GameOver()
