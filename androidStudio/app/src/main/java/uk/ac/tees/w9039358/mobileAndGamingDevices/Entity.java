@@ -15,7 +15,7 @@ public abstract class Entity {
 
     protected CollisionHelper CollisionHelper = new CollisionHelper();
 
-    private static int SpawnWeight = 0;
+    private int SpawnWeight = 0;
 
     private boolean Spawning;
 
@@ -251,7 +251,7 @@ public abstract class Entity {
     }
 
 
-    public static void SetSpawnWeight(int spawnWeight) {
+    public void SetSpawnWeight(int spawnWeight) {
         SpawnWeight = spawnWeight;
     }
 }

@@ -17,7 +17,6 @@ public class GameSpawner {
 
     private float RandomWeight = 0;
     private Entity EntityToSpawnReference;
-    private Class EntityClassToSpawn;
 
     private long LastSpawnTime = SystemClock.elapsedRealtime();
 
@@ -49,30 +48,24 @@ public class GameSpawner {
             return;
         }
 
-        //private LinkedList<Class <?>> collectionOfClasses
+        // 1. Get weight from unique classes (polymorphism doesn't count) that are able to be spawned (set ensures uniqueness, can't add the same class to it).
+        // We add entity to weight data instead of a class so we don't have to later go through spawnables again to find an entity of that class we want to spawn.
 
-        // Only need a set of ints, not set of classes
-        // Would use triplet but it's apart of kotlin
-        Set<Pair<Integer,Entity>> WeightData = new HashSet<>();
+        ArrayList<Pair<Integer,Entity>> WeightData = new ArrayList<>();
+        Set<Class> UniqueClasses = new HashSet<>();
         for(Entity entity : Spawnables)
         {
-            Log.d("GameSpawner.WhichEntity", "Super Class name " + entity.getClass().getGenericSuperclass());
-            //entity.getClass().asSubclass()
-            if (entity.GetSpawnWeight() != 0)
+            if (!UniqueClasses.contains(entity.getClass()))
             {
                 WeightData.add(new Pair<>(entity.GetSpawnWeight(),entity));
+                UniqueClasses.add(entity.getClass());
             }
 
         }
 
         Log.d("GameSpawner.WhichEntity", "Size of weight data: " + WeightData.size());
 
-
-
-
-
-
-        // 1. Get all spawn weights from spawnables and total them
+        // 2. Get all spawn weights from WeightData and total them.
 
 
         TotalWeight = 0;
@@ -83,23 +76,18 @@ public class GameSpawner {
 
         }
 
-        // 2. Get random weight number based on total weights
-
-
-
-        // 3. Go through the spawnables again and remove their weight from the random weight until we get 0. That is the entity we're returning.
-
-        // This assumes that the order of the for is the same as when we got weight totals
-        // TODO : Now that we have a total weight of uniques, how can we use that to select what we want?
+        // 3. Now we need to normalize (0.0f to 1.0f) the weights individually as a percentage of the total weight got earlier.
 
         ArrayList<Pair<Float,Entity>> PercentageData = new ArrayList<>();
-        // Normalize it in to a percentage
         for (Pair<Integer,Entity> floatEntityPair : WeightData)
         {
             float Percentage = floatEntityPair.first.floatValue()/TotalWeight;
             PercentageData.add(new Pair<Float,Entity>(Percentage, floatEntityPair.second));
         }
 
+
+        // 4. With the weights normalized as a percentage we can get a random float (0.0 to 1.0f) and take away the entities normalized weights from that until
+        // we get equal to or less than 0.
         Random RandomNumber = new Random();
 
         RandomWeight = RandomNumber.nextFloat();
@@ -116,8 +104,8 @@ public class GameSpawner {
             }
         }
 
-        /* If float rounding problems or something unexpected happens the entity reference will already be null
-        from the end of SpawnEntityImplementation, and there's checks to stop a null entity from trying to spawn
+        /* If float rounding problems or something else unexpected happens the entity reference will already be null
+        from the end of SpawnEntityImplementation, and there's checks to stop a null entity from trying to spawn.
          */
 
 
