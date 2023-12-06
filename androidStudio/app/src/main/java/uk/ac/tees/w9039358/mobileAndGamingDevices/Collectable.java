@@ -14,7 +14,7 @@ public class Collectable extends Entity{
         Velocity.SetY(-MoveSpeed);
         //Velocity.SetX(MoveSpeed);
 
-        SetSpawnWeight(20000);
+        SetSpawnWeight(20);
     }
 
     @Override

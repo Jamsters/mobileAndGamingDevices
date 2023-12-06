@@ -2,7 +2,9 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import android.os.SystemClock;
 import android.util.Log;
+import android.util.Pair;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -11,8 +13,11 @@ import java.util.Set;
 public class GameSpawner {
     ArrayList<Entity> Spawnables = new ArrayList<>();
 
-    private int RandomWeight = 0;
+    float TotalWeight=0;
+
+    private float RandomWeight = 0;
     private Entity EntityToSpawnReference;
+    private Class EntityClassToSpawn;
 
     private long LastSpawnTime = SystemClock.elapsedRealtime();
 
@@ -44,49 +49,81 @@ public class GameSpawner {
             return;
         }
 
+        //private LinkedList<Class <?>> collectionOfClasses
+
         // Only need a set of ints, not set of classes
-        Set<Integer> UniqueWeights = new HashSet<>();
+        // Would use triplet but it's apart of kotlin
+        Set<Pair<Integer,Entity>> WeightData = new HashSet<>();
         for(Entity entity : Spawnables)
         {
-            UniqueWeights.add(entity.GetSpawnWeight());
+            Log.d("GameSpawner.WhichEntity", "Super Class name " + entity.getClass().getGenericSuperclass());
+            //entity.getClass().asSubclass()
+            if (entity.GetSpawnWeight() != 0)
+            {
+                WeightData.add(new Pair<>(entity.GetSpawnWeight(),entity));
+            }
+
         }
+
+        Log.d("GameSpawner.WhichEntity", "Size of weight data: " + WeightData.size());
+
 
 
 
 
 
         // 1. Get all spawn weights from spawnables and total them
-        int weightTotal = 0;
 
 
+        TotalWeight = 0;
 
-        for (Integer integer : UniqueWeights)
+        for (Pair<Integer,Entity> entity : WeightData)
         {
-            weightTotal += integer.intValue();
+            TotalWeight += entity.first.intValue();
 
         }
 
         // 2. Get random weight number based on total weights
 
-        Random RandomNumber = new Random();
 
-        RandomWeight = RandomNumber.nextInt(weightTotal);
 
         // 3. Go through the spawnables again and remove their weight from the random weight until we get 0. That is the entity we're returning.
 
         // This assumes that the order of the for is the same as when we got weight totals
         // TODO : Now that we have a total weight of uniques, how can we use that to select what we want?
-        int weightCounter = 0;
 
-        for (Entity entity : Spawnables)
+        ArrayList<Pair<Float,Entity>> PercentageData = new ArrayList<>();
+        // Normalize it in to a percentage
+        for (Pair<Integer,Entity> floatEntityPair : WeightData)
         {
-            weightCounter += entity.GetSpawnWeight();
-            if (weightCounter >= RandomWeight)
+            float Percentage = floatEntityPair.first.floatValue()/TotalWeight;
+            PercentageData.add(new Pair<Float,Entity>(Percentage, floatEntityPair.second));
+        }
+
+        Random RandomNumber = new Random();
+
+        RandomWeight = RandomNumber.nextFloat();
+
+        Log.d("GameSpawner.WhichEntity", "Total Weight: " + Float.toString(TotalWeight));
+
+        for (Pair<Float,Entity> floatEntityPair : PercentageData)
+        {
+            RandomWeight -= floatEntityPair.first.floatValue();
+            if (RandomWeight <= 0)
             {
-                EntityToSpawnReference = entity;
+                EntityToSpawnReference = floatEntityPair.second;
                 return;
             }
         }
+
+        /* If float rounding problems or something unexpected happens the entity reference will already be null
+        from the end of SpawnEntityImplementation, and there's checks to stop a null entity from trying to spawn
+         */
+
+
+
+
+
     }
 
     private boolean IsEntityToSpawnValid()

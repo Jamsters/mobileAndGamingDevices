@@ -218,7 +218,7 @@ public abstract class Entity {
         return IsAlwaysMovingUp;
     }
 
-    public int GetSpawnWeight() { return SetSpawnWeight();
+    public int GetSpawnWeight() { return SpawnWeight;
     }
 
     public void SetIsVisible(boolean visible) {
@@ -250,9 +250,6 @@ public abstract class Entity {
         Alive = alive;
     }
 
-    public static int SetSpawnWeight() {
-        return SpawnWeight;
-    }
 
     public static void SetSpawnWeight(int spawnWeight) {
         SpawnWeight = spawnWeight;
