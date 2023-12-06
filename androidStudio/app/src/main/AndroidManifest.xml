@@ -13,13 +13,16 @@
         android:theme="@style/Theme.MobileAndGamingDevices"
         tools:targetApi="31">
         <activity
+            android:name=".GameEndOverviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DisplayActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

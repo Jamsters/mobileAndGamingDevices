@@ -64,10 +64,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         // TODO : Check if the game controller even needs to be paused, or if it has to be destroyed. Java garbage collection should take care of it but need to check if there's still a ref to it because this activity with the game in it isn't
         // being destroyed when moving to this game over activity.
         //gameController.Pause();
-        Log.d("GameActivity.GameOver", "Sent user to game over activity");
+        Log.d("GameActivity.EndOverview", "Sent user to GameEndOverviewActivity");
 
         // TODO : Make this go to a new GameOverActivity and not just the main menu
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, GameEndOverviewActivity.class);
 
         startActivity(intent);
     }

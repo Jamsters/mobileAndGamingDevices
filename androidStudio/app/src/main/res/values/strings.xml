@@ -1,4 +1,5 @@
 <resources>
+    // General
     <string name="AppName">mobileAndGamingDevices</string>
     <string name="GameName">Unnamed game</string>
     <string name="ButtonGoToMainMenu">Main menu</string>
@@ -13,5 +14,10 @@
     <string name="ButtonContinue">Continue</string>
     <string name="WinMessage">You have won</string>
     <string name="LoseMessage">You have lost</string>
+
+    // GameEndOverviewActivity
+    <string name="GameEndOverviewTitle">Game Overview</string>
+    <string name="ScorePrefixText">You scored: </string>
+    <string name="ButtonGoBackToMainMenu">Back to Main Menu</string>
 
 </resources>
