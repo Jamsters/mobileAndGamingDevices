@@ -167,7 +167,6 @@ public abstract class Entity {
     protected void OnOutOfBounds()
     {
         Log.d("Entity.OnOutOfBounds",SpriteName + " is out of bounds! " );
-        // TODO : When something is out of bounds fully we need to stop it from moving, think it makes the game lag if it keeps moving
         AliveToggle(false);
 
     }

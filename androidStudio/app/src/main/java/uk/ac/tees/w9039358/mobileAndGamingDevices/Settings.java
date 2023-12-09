@@ -16,6 +16,8 @@ public class Settings {
     private static final int HARD_SPAWN_DELAY = 500;
     private static final int HARD_MAX_ADDED_SPAWN_DELAY = 800;
 
+    private static int BACKGROUND_MOVE_SPEED = -5;
+
     private Settings()
     {
 
@@ -44,5 +46,13 @@ public class Settings {
 
     public static int GetHardMaxAddedSpawnDelay() {
         return HARD_MAX_ADDED_SPAWN_DELAY;
+    }
+
+    public static int GetBackgroundMoveSpeed() {
+        return BACKGROUND_MOVE_SPEED;
+    }
+
+    public static void SetBackgroundMoveSpeed(int backgroundMoveSpeed) {
+        BACKGROUND_MOVE_SPEED = backgroundMoveSpeed;
     }
 }

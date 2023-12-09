@@ -4,7 +4,7 @@ public class Background extends Entity{
     Background(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName, boolean spawnsAtStart)
     {
         super(gameControllerReference, topLeftPosition, spriteName, spawnsAtStart);
-        Velocity.SetY(0);
+        Velocity.SetY(Settings.GetBackgroundMoveSpeed());
         SetSpawning(true);
 
     }
@@ -12,12 +12,16 @@ public class Background extends Entity{
     @Override
     public void Update() {
         Move();
-        FindOutOfBoundsEntities();
     }
 
     @Override
     protected void MoveImplementation() {
+
         DefaultMoveImplementation();
+//        if (Position.GetYPos() <= -200)
+//        {
+//            Position.SetYPos(0);
+//        }
     }
 
     @Override
@@ -25,23 +29,10 @@ public class Background extends Entity{
 
     }
 
-    protected void FindOutOfBoundsEntities()
-    {
-        // The background is the size of the playable space, so we can do collision checks with it to determine what is out of bounds.
-        for (Entity other : GameControllerReference.Entities)
-        {
-            boolean OtherIsSelf = other == this;
-
-
-
-            // The player has inbuilt ways to stay in bounds
-            boolean OtherIsPlayer = other.getClass() == Player.class;
-
-            if (!OtherIsSelf && !OtherIsPlayer)
-            {
-                CollisionHelper.InsideBackgroundBoundsCheck(this,other);
-                // Out of bounds
-            }
-        }
+    @Override
+    protected void OnOutOfBounds() {
+        super.OnOutOfBounds();
+        Position.SetYPos(GameControllerReference.Vis.GetScreenSize().GetY());
+        AliveToggle(true);
     }
 }

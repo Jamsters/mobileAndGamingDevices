@@ -31,7 +31,7 @@ public class Player extends Entity{
     {
         Log.i("Player.OnCollision", "Player has collied with " + collider.SpriteName);
         // TODO : Logging score should be for collectable only
-        Log.i("Player.OnCollision", "Score : " + Integer.toString(Score));
+        Log.i("Player.OnCollision", "Score : " + Integer.toString(GetScore()));
     }
 
 
@@ -129,15 +129,15 @@ public class Player extends Entity{
         }
     }
 
+    public void AddScore(int score) {
+        SetScore(GetScore() + score);
+    }
+
     public int GetScore() {
         return Score;
     }
 
     public void SetScore(int score) {
-        this.Score = score;
-    }
-
-    public void AddScore(int score) {
-        Score += score;
+        Score = score;
     }
 }

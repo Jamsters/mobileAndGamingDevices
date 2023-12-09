@@ -85,7 +85,8 @@ public class GameController implements Runnable {
 
     private void EntityInit()
     {
-        AddToEntities(new Background(this, new Vector2D(0,0),"Background",true));
+        AddToEntities(new Background(this, new Vector2D(0,0),"Background1",true));
+        AddToEntities(new Background(this, new Vector2D(0,Vis.GetScreenSize().GetY()),"Background2",true));
 
         PlayerReference = new Player(this,new Vector2D(200,200), "Player", true);
         AddToEntities(PlayerReference);
@@ -150,9 +151,37 @@ public class GameController implements Runnable {
     private void Logic() {
 
         Entities.forEach(Entity::Update);
+        FindOutOfBoundsEntities();
+
+
+
+
+
+
+
+
+
         GameSpawn.SpawnEntityCall();
 
 
+    }
+
+    protected void FindOutOfBoundsEntities()
+    {
+        // The background is the size of the playable space (?), so we can do collision checks with it to determine what is out of bounds.
+        for (Entity entity : Entities)
+        {
+            Position screenBounds = new Position(new Vector2D(0,0),Vis.GetScreenSize());
+
+            // The player has inbuilt ways to stay in bounds
+            boolean EntityIsPlayer = entity.getClass() == Player.class;
+
+            if (!EntityIsPlayer)
+            {
+                CollisionHelper.InsideBoundsCheck(screenBounds,entity);
+                // Out of bounds
+            }
+        }
     }
 
     private void Visualization() {

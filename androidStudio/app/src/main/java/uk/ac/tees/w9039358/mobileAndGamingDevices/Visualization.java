@@ -16,7 +16,7 @@ import java.util.Map;
 public class Visualization extends SurfaceView {
     protected Canvas Canvas;
     protected SurfaceHolder SurfaceHolder;
-    protected Vector2D ScreenSize;
+    private Vector2D ScreenSize;
     private Map<String, Sprite> Sprites = new HashMap<>();
     private Map<String, Bitmap> Bitmaps = new HashMap<>();
     private int BackgroundColour = (Color.WHITE);
@@ -68,8 +68,9 @@ public class Visualization extends SurfaceView {
 
         AddToSprites("Player", new Sprite("ManRunning",Run,8,115,137, 100));
 
-        // Background is 256 x 256
-        AddToSprites("Background", new Sprite("Background",Background,1, (int) ScreenSize.GetX(),(int) ScreenSize.GetY(), 100));
+        // Background is 256 x 512
+        AddToSprites("Background1", new Sprite("Background",Background,1, (int) ScreenSize.GetX(),(int) ScreenSize.GetY(), 100));
+        AddToSprites("Background2", new Sprite("Background",Background,1, (int) ScreenSize.GetX(),(int) ScreenSize.GetY(), 100));
 
         for (int i = GameSpawner.GetDynamicSpawningInitializationAmount(); i >= 0; i--)
         {

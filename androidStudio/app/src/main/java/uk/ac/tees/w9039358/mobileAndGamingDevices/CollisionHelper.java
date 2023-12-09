@@ -8,7 +8,7 @@ public class CollisionHelper {
 
     }
 
-    public boolean CollisionCheck(Position pos1, Position pos2)
+    public static boolean CollisionCheck(Position pos1, Position pos2)
     {
         // Full collision check
 
@@ -35,7 +35,7 @@ public class CollisionHelper {
         }
     }
 
-    public boolean CollisionCheck(Entity entity1, Entity entity2)
+    public static boolean CollisionCheck(Entity entity1, Entity entity2)
     {
         boolean IsCollision = CollisionCheck(entity1.Position,entity2.Position);
         if (IsCollision)
@@ -46,10 +46,9 @@ public class CollisionHelper {
         return IsCollision;
     }
 
-    public boolean InsideBackgroundBoundsCheck(Background background, Entity entity)
+    public static boolean InsideBoundsCheck(Position position, Entity entity)
     {
-
-        boolean EntityIsInBackgroundsBounds = CollisionCheck(background.Position,entity.Position);
+        boolean EntityIsInBackgroundsBounds = CollisionCheck(position,entity.Position);
         boolean DoesThisEntityNeedToSpawn = entity.GetIsSpawning();
 
         if (EntityIsInBackgroundsBounds)
@@ -71,5 +70,12 @@ public class CollisionHelper {
         }
         return EntityIsInBackgroundsBounds;
     }
+
+    public static boolean InsideBoundsCheck(Background background, Entity entity)
+    {
+        return InsideBoundsCheck(background.Position,entity);
+    }
+
+
 
 }
