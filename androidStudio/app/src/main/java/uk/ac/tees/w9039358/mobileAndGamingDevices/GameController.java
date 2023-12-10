@@ -36,11 +36,13 @@ public class GameController implements Runnable {
 
     public boolean SetupFinished = false;
 
-    protected Context Context;
+    private Context Context;
 
     private GameActivity GameActivityReference;
 
     private GameSpawner GameSpawn = new GameSpawner(this);
+
+    private Toast LaserToast;
 
 
 
@@ -48,10 +50,10 @@ public class GameController implements Runnable {
 
     public GameController(GameActivity gameActivityReference, Context context, SingleTouch singleTouchReference, Vector2D screenSize) {
         GameActivityReference = gameActivityReference;
-        Context = context;
-        InitializeVisualization(Context, screenSize);
+        setContext(context);
+        InitializeVisualization(GetContext(), screenSize);
 
-        LinAcc = new LinearAccelerometer(Context);
+        LinAcc = new LinearAccelerometer(this,GetContext());
 
         // Vis has to be setup before we run this
 
@@ -66,8 +68,15 @@ public class GameController implements Runnable {
         // TODO : Test toasts, delete later
 
         // Does the Toast.LENGTH mean the duration or the string length?
-        Toast.makeText(Context, "SHORT TEST TOAST WORKING", Toast.LENGTH_SHORT).show();
-        Toast.makeText(Context, "LONG TEST TOAST WORKING", Toast.LENGTH_LONG).show();
+        //Toast.makeText(Context, "SHORT TEST TOAST WORKING", Toast.LENGTH_SHORT).show();
+        String TutorialMessage = "Tap to move! Collect coins and dodge drones!";
+        Toast startToast = Toast.makeText(GetContext(), TutorialMessage, Toast.LENGTH_LONG);
+        ToastHelper.showToast(startToast);
+
+        String LaserMessage = "A laser is coming! Shake left and right to get rid of it!";
+        Toast laserToast = Toast.makeText(GetContext(), LaserMessage, Toast.LENGTH_LONG);
+        SetLaserToast(laserToast);
+
 
 
     }
@@ -283,5 +292,26 @@ public class GameController implements Runnable {
     protected void GameOver()
     {
         GameActivityReference.SendToGameOverActivity();
+    }
+
+    protected void SendBackToMainMenu(String reason)
+    {
+        GameActivityReference.SendBackToMainMenuActivity(reason);
+    }
+
+    public android.content.Context GetContext() {
+        return Context;
+    }
+
+    public void setContext(android.content.Context context) {
+        Context = context;
+    }
+
+    public Toast GetLaserToast() {
+        return LaserToast;
+    }
+
+    public void SetLaserToast(Toast laserToast) {
+        LaserToast = laserToast;
     }
 }

@@ -62,7 +62,10 @@ public class Visualization extends SurfaceView {
 
         // Any frame width or frame height is of the resource's original size. Only multipliers should be used to change it unless it uses screen size
 
-        AddToSprites("Error", new Sprite("Error",Error,1,200,200, 100));
+        int screenSizeX = (int)ScreenSize.GetX();
+        int screenSizeY = (int)ScreenSize.GetY();
+
+        //AddToSprites("Error", new Sprite("Error",Error,1,screenSizeX/6,screenSizeY/6, 100));
 
         //AddToSprites("HookDrone", new Sprite("HookDrone",HookDrone,4,93*2,63*2, 100));
 

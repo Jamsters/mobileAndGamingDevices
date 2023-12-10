@@ -1,12 +1,13 @@
 package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import android.util.Log;
+import android.widget.Toast;
 
 public class ShakeEnemy extends Enemy{
     // TODO : Try a lower barrier health but higher shake speed activation threshold
-    int BarrierHealth = 100;
+    int BarrierHealth = 50;
     float LastShakeValue = 0.0f;
-    float ShakeSpeedActivationThreshold = 0.75f;
+    float ShakeSpeedActivationThreshold = 0.5f;
     ShakeEnemy(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName, boolean spawnsAtStart)
     {
         super(gameControllerReference,topLeftPosition,spriteName, spawnsAtStart);
@@ -68,5 +69,11 @@ public class ShakeEnemy extends Enemy{
         {
             AliveToggle(false);
         }
+    }
+
+    @Override
+    protected void OnInsideBounds() {
+        super.OnInsideBounds();
+        ToastHelper.showThisToastImmediately(GameControllerReference.GetLaserToast());
     }
 }

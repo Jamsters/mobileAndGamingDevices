@@ -20,10 +20,4 @@ public class GameEndOverviewActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-    @Override
-    public void onBackPressed() {
-        // We disable the ability to go back to the game once it's over
-        //super.onBackPressed();
-    }
 }

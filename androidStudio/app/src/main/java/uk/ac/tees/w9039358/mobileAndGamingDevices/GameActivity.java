@@ -2,13 +2,15 @@ package uk.ac.tees.w9039358.mobileAndGamingDevices;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowMetrics;
+
+import java.util.Vector;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -28,6 +30,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         Log.d("GameActivity.ScreenSize" , "X:" + Float.toString(ScreenWidth) + " Y:" + Float.toString(ScreenHeight));
 
         Vector2D screenSize = new Vector2D(ScreenWidth,ScreenHeight);
+
+        InitialCheckIfThePhoneCanRunTheGame(screenSize);
 
         gameController = new GameController(this,this, SingleTouch, screenSize);
         // I'm not sure if the game is being started on a thread
@@ -70,6 +74,66 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         Intent intent = new Intent(this, GameEndOverviewActivity.class);
 
         startActivity(intent);
+        FinishActivityAndStopBack();
+    }
+
+    public void SendBackToMainMenuActivity(String reason)
+    {
+        Log.d("GameActivity.SentBackToMainMenu", "Reason for sending back :" + reason);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("ErrorReason",reason);
+
+        startActivity(intent);
+        FinishActivityAndStopBack();
+
+    }
+
+    public void FinishActivityAndStopBack()
+    {
+        // Close this activity so we can't go back to it
+        finish();
+    }
+
+    public void InitialCheckIfThePhoneCanRunTheGame(Vector2D screenSize)
+    {
+        // Checks for phone size and memory. Doesn't check for accelerometer untill the accleerometer starts.
+
+        boolean DEBUG = false;
+
+        // Size, needs to be considered a medium size on width and height to be allowed to play
+
+        // Defined as medium width and height on android studio developer website
+        float MIN_SCREEN_WIDTH = 600;
+        float MIN_SCREEN_HEIGHT = 900;
+
+        boolean SmallerThanMinWidth = screenSize.GetX() <= MIN_SCREEN_WIDTH;
+        boolean SmallerThanMinHeight = screenSize.GetY() <= MIN_SCREEN_HEIGHT;
+
+        if (SmallerThanMinWidth || SmallerThanMinHeight)
+        {
+            SendBackToMainMenuActivity("Your device's screen size is too small! Minimum width:" + MIN_SCREEN_WIDTH + " Minimum height:" + MIN_SCREEN_HEIGHT);
+            return;
+        }
+
+
+        // Memory, need at least 4GB
+        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(memoryInfo);
+        long totalMemoryInBytes = memoryInfo.totalMem;
+
+        Log.d("GameActivity.TotalMemory", "Total memory in bytes:" + Long.toString(totalMemoryInBytes));
+
+
+
+
+        // DEBUG
+        if (DEBUG)
+        {
+            SendBackToMainMenuActivity("TEST USER ERROR MESSAGE!");
+            return;
+        }
+
     }
 
 

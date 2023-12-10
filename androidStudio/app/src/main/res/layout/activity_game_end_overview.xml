@@ -28,7 +28,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="You suck"
+        android:text="You have lost"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/BackToMainMenuButton"
         app:layout_constraintEnd_toEndOf="parent"

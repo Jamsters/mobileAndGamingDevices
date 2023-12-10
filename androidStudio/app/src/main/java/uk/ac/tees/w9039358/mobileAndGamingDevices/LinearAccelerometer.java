@@ -29,12 +29,16 @@ public class LinearAccelerometer {
     private boolean isLinAccCreated = false;
     private int NormalizationValue = 7;
     private ReboundBarrier RB = new ReboundBarrier();
+    private GameController GameControllerReference;
 
-    public LinearAccelerometer(Context context)
+    public LinearAccelerometer(GameController gameControllerReference, Context context)
     {
+        GameControllerReference = gameControllerReference;
         SenManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
-        if (SenManager.getDefaultSensor(SensorType) != null)
+        boolean HasLinearAccelerometer = SenManager.getSensorList(SensorType).size() > 0;
+
+        if (HasLinearAccelerometer && SenManager.getDefaultSensor(SensorType) != null)
         {
             Sen = SenManager.getDefaultSensor(SensorType);
 
@@ -50,7 +54,9 @@ public class LinearAccelerometer {
             // failure
             Log.e("LinearAccelerometer", "Linear acceleration sensor not found");
 
-            // TODO : Handle the lin acc failing, maybe kick the player out of the game and back to the main menu and display a toast saying the error
+
+            String FailureMessage = "You can't run the game! A working Accelerometer is needed";
+            GameControllerReference.SendBackToMainMenu(FailureMessage);
         }
 
 

@@ -8,22 +8,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button button;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.button);
 
-        /* Trying to change this code so I can have multiple on click listener functions in this class
-        button.setOnClickListener(this::onClickButtonName);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null)
+        {
+            if (extras.containsKey("ErrorReason"))
+            {
+                Toast toast = Toast.makeText(this, extras.getString("ErrorReason"), Toast.LENGTH_LONG);
+                ToastHelper.showThisToastImmediately(toast);
+                //Snackbar.ma
+            }
+        }
 
-        */
-        button.setOnClickListener(this);
     }
 
     public void onClick(View view) {
