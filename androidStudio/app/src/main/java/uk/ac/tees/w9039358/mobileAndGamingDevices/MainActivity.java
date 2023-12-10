@@ -38,4 +38,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         startActivity(intent);
     }
+
+    public void onClickGoToSettings(View view) {
+        Log.d("MainActivity", "Settings activity button pressed");
+        Intent intent = new Intent(this, SettingsActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void onClickGoToHighScores(View view) {
+        Log.d("MainActivity", "High scores activity button pressed");
+        Intent intent = new Intent(this, HighScoresActivity.class);
+
+        startActivity(intent);
+    }
 }

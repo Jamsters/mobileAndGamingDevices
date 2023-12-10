@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MobileAndGamingDevices"
         tools:targetApi="31">
         <activity
+            android:name=".HighScoresActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameEndOverviewActivity"
             android:exported="false" />
         <activity
