@@ -16,6 +16,12 @@ public class Settings {
     private static final int HARD_SPAWN_DELAY = 500;
     private static final int HARD_MAX_ADDED_SPAWN_DELAY = 800;
 
+    private static final int EASY = 0;
+    private static final int NORMAL = 1;
+    private static final int HARD = 2;
+
+    private static final int DIFFICULTY = NORMAL;
+
     private static int BACKGROUND_MOVE_SPEED = -5;
 
     private Settings()

@@ -21,7 +21,7 @@ public class Visualization extends SurfaceView {
     private Map<String, Bitmap> Bitmaps = new HashMap<>();
     private int BackgroundColour = (Color.WHITE);
 
-    private boolean SetupFinished = false;
+    private volatile boolean SetupFinished = false;
     Visualization(Context context, Vector2D screenSize) {
         super(context);
         ScreenSize = screenSize;

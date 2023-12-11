@@ -38,8 +38,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         // gameController.Resume();
         gameController.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
 
-
-
         setContentView(gameController.Vis);
 
     }
@@ -73,15 +71,24 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         // TODO : Make this go to a new GameOverActivity and not just the main menu
         Intent intent = new Intent(this, GameEndOverviewActivity.class);
 
+        // We shouldn't be able to go back to a finished game
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         startActivity(intent);
         FinishActivityAndStopBack();
+
     }
 
     public void SendBackToMainMenuActivity(String reason)
     {
         Log.d("GameActivity.SentBackToMainMenu", "Reason for sending back :" + reason);
         Intent intent = new Intent(this, MainActivity.class);
+
+        // We shouldn't be able to go back to a finished game
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         intent.putExtra("ErrorReason",reason);
+
 
         startActivity(intent);
         FinishActivityAndStopBack();
@@ -90,8 +97,12 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     public void FinishActivityAndStopBack()
     {
-        // Close this activity so we can't go back to it
+        // Close this activity so we can't go back to it, onPause should be called on the way to onDestroy so we don't have to call it
+        //gameController = null;
+
         finish();
+
+
     }
 
     public void InitialCheckIfThePhoneCanRunTheGame(Vector2D screenSize)
@@ -115,14 +126,15 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
             return;
         }
 
+        // TODO : Check for memory + other specs
+        // Memory
+//        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+//        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+//        activityManager.getMemoryInfo(memoryInfo);
+//        long totalMemoryInBytes = memoryInfo.totalMem;
+//        long availableMemoryInBytes = memoryInfo.availMem;
 
-        // Memory, need at least 4GB
-        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        activityManager.getMemoryInfo(memoryInfo);
-        long totalMemoryInBytes = memoryInfo.totalMem;
-
-        Log.d("GameActivity.TotalMemory", "Total memory in bytes:" + Long.toString(totalMemoryInBytes));
+//        Log.d("GameActivity.TotalMemory", "Total memory in bytes:" + Long.toString(totalMemoryInBytes));
 
 
 

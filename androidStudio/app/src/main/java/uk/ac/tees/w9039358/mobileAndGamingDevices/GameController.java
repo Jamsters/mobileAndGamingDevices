@@ -34,7 +34,7 @@ public class GameController implements Runnable {
 
     protected SingleTouch SingleTouchReference;
 
-    public boolean SetupFinished = false;
+    public volatile boolean SetupFinished = false;
 
     private Context Context;
 
@@ -123,7 +123,7 @@ public class GameController implements Runnable {
     // Game loop
     @Override
     public void run() {
-        while (IsPlaying && SetupFinished && Vis.SetupFinished())
+        while (IsPlaying() && SetupFinished && Vis.SetupFinished())
         {
             long TimeSinceLastLogic = SystemClock.elapsedRealtime() - LastLogicTime;
 
@@ -140,6 +140,7 @@ public class GameController implements Runnable {
             Visualization();
 
             long TimeSinceLastFPSLogTime = SystemClock.elapsedRealtime() - LastFPSLogTime;
+            // 1000 milliseconds = second
             if (TimeSinceLastFPSLogTime >= 1000)
             {
                 Log.d("GameController.FPS", (String)"FPS: " + Long.toString(FPS));
@@ -202,7 +203,7 @@ public class GameController implements Runnable {
 
             for (Entity entity : Entities)
             {
-                if (entity.GetIsVisible()) {
+                if (entity.GetIsAlive() && entity.GetIsVisible()) {
                     Vis.Draw(entity);
                 }
             }
@@ -220,7 +221,7 @@ public class GameController implements Runnable {
     }
 
     public void Resume() {
-        IsPlaying = true;
+        SetPlaying(true);
 
         GameThread = new Thread(this);
         GameThread.start();
@@ -232,7 +233,7 @@ public class GameController implements Runnable {
 
 
     public void Pause() {
-        IsPlaying = false;
+        SetPlaying(false);
         //TODO: LimAcc.Pause might need reordering, it needs to be the last thing stopped?
         LinAcc.Pause();
         try {
@@ -240,6 +241,7 @@ public class GameController implements Runnable {
         } catch (InterruptedException e) {
             Log.e("GameController", "Interrupted");
         }
+
     }
 
     public boolean IsScreenValid ()
@@ -313,5 +315,13 @@ public class GameController implements Runnable {
 
     public void SetLaserToast(Toast laserToast) {
         LaserToast = laserToast;
+    }
+
+    public boolean IsPlaying() {
+        return IsPlaying;
+    }
+
+    public void SetPlaying(boolean playing) {
+        IsPlaying = playing;
     }
 }

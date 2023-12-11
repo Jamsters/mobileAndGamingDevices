@@ -4,7 +4,7 @@ public class Background extends Entity{
     Background(GameController gameControllerReference, Vector2D topLeftPosition, String spriteName, boolean spawnsAtStart)
     {
         super(gameControllerReference, topLeftPosition, spriteName, spawnsAtStart);
-        Velocity.SetY(Settings.GetBackgroundMoveSpeed());
+        Velocity.SetY(-5);
         SetSpawning(true);
 
     }
@@ -36,3 +36,4 @@ public class Background extends Entity{
         AliveToggle(true);
     }
 }
+
