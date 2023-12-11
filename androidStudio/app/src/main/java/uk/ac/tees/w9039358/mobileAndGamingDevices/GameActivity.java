@@ -34,8 +34,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         InitialCheckIfThePhoneCanRunTheGame(screenSize);
 
         gameController = new GameController(this,this, SingleTouch, screenSize);
-        // I'm not sure if the game is being started on a thread
-        // gameController.Resume();
+
         gameController.Vis.setOnTouchListener((View.OnTouchListener)SingleTouch);
 
         setContentView(gameController.Vis);
